@@ -1,0 +1,12 @@
+#chartsContainer {
+    border-radius: 30px;
+    margin-top: 1%;
+    border: 1px solid #e10b1c;
+    margin-left: 200px;
+    width: calc(100% - 200px);
+    display: flex;
+    padding: 2%;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(247, 247, 247);
+  }

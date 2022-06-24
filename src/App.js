@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import "./App.css";
+import { useState } from "react";
+import HomePage from "./components/homePage";
+import { BrowserRouter as Router, Route} from "react-router-dom";
+import Login from "./components/login";
+import ListadoCursos from "./components/TASKS/ListadoCursos";
+import ListadoRamos from "./components/TASKS/ListadoRamos";
+import ListadoRelator from "./components/TASKS/ListadoRelator";
+import ReporteGeneral from "./components/TASKS/ReporteGeneral";
 function App() {
+  const [conectado, setConectado] = useState(false);
+
+  const acceder = (estado) => {
+    setConectado(estado);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+
+
+      <Route path="/home" component={HomePage}></Route>
+      <Route exact path={"/login"} component={Login}></Route>
+      <Route path="/Cursos" component={ListadoCursos}></Route>
+      <Route path="/Ramos" component={ListadoRamos}></Route>
+      <Route path="/Relator" component={ListadoRelator}></Route>
+      <Route path="/reporteGeneral" component={ReporteGeneral}></Route>
+    </Router>
   );
 }
 

@@ -1,0 +1,80 @@
+#btn_delete,
+#btn_delete_cursos,
+#btn_edit,
+#btn_delete_relator,
+#btn_delete_colaborador,
+#btn_edit_cuenta,
+#btn_edit_colaborador,
+#btn_edit_relator {
+  border: none;
+  background: none;
+}
+
+#container_tabla {
+  margin-top: 1%;
+  margin-left: 18%;
+  display: flex;
+  flex-direction: row;
+  padding: 10px 0 0 0;
+}
+#tabla_cuenta,
+#tabla_curso,
+#tabla_orador,
+#tabla_asistencias {
+  margin-top: 4%;
+  width: 100px;
+  border-collapse: collapse;
+  font-size: 13pt;
+  font-family: "Raleway", sans-serif;
+}
+#list_theadCuentas,
+#list_theadCursos,
+#list_theadOrador,
+#list_theadAsistencias {
+  white-space: nowrap;
+  justify-content: center;
+  font-size: 11pt;
+  background: #d1cdcd;
+  color: black;
+  text-align: center;
+  padding: 0px 10px 0px 10px;
+}
+#list_theadAsistencias th {
+  padding: 0px 5px 0px 5px;
+}
+#list_tbodyAsistencias tr td {
+  white-space: nowrap;
+  text-align: center;
+  justify-content: center;
+  padding: 0px 10px 0px 10px;
+}
+
+#list_tbodyCuentas tr td {
+  white-space: nowrap;
+  text-align: left;
+  padding: 0px 7px 0px 7px;
+}
+#tabla_cuenta tr td a {
+  color: black;
+}
+#list_tbodyCursos tr td {
+  white-space: nowrap;
+  text-align: left;
+  padding: 0px 7px 0px 7px;
+}
+#tabla_curso tr td a {
+  color: black;
+}
+#list_tbodyOrador tr td {
+  white-space: nowrap;
+  text-align: left;
+  padding: 0px 7px 0px 7px;
+}
+#tabla_orador tr td a {
+  color: black;
+}
+tr:nth-child(even) {
+  background-color: #ebebeb;
+}
+
+
