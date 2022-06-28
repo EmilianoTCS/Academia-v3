@@ -82,6 +82,8 @@ class ListadoCursos extends Component {
       .then((response) => response.json())
       .then((dataResponse) => {
         console.log(dataResponse);
+        this.loadData();
+
       })
       .catch(console.log());
   }
@@ -100,6 +102,7 @@ class ListadoCursos extends Component {
       .then((response) => response.json())
       .then((dataResponse) => {
         console.log(dataResponse);
+        this.loadData();
       })
       .catch(console.log());
   }
@@ -124,22 +127,21 @@ class ListadoCursos extends Component {
     this.setState({state});
   }
 
-  //   deleteData = (idUsuario) =>{
-  //     console.log(idUsuario);
-  //     fetch(
-  //       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-deleteColaborador.php?idUsuario="+idUsuario)
-  //      .then((response) => response.json())
-  //       .then((dataResponse) => {
-  //         console.log(dataResponse);
-  //         this.loadData();
-  //       })
-  //       .catch(console.log());
-  //  }
+    deleteData = (ID) =>{
+      console.log(ID);
+      fetch(
+        "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-deleteCuentas.php?delete="+ID)
+       .then((response) => response.json())
+        .then((dataResponse) => {
+          console.log(dataResponse);
+          this.loadData();
+        })
+        .catch(console.log());
+   }
 
   render() {
     const { loadedData, cursos, paginador } = this.state;
     const{idCuenta, idRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
-    const{fechaInicio, fechaFin, horaInicio, horaFin} = this.state;
     const toggle_formRamo = this.state.toggle_formRamo;
     const toggle_formCurso = this.state.toggle_formCurso;
 
@@ -159,6 +161,7 @@ class ListadoCursos extends Component {
           <table id="tabla_cuenta">
             <thead id="list_theadCuentas">
               <tr>
+                <th>ID</th>
                 <th>idCuenta</th>
                 <th>Nombre del curso</th>
                 <th>ID del curso</th>
@@ -170,6 +173,7 @@ class ListadoCursos extends Component {
             <tbody id="list_tbodyCuentas">
               {cursos.map((curso) => (
                 <tr key={curso.ID}>
+                  <td>{curso.ID}</td>
                   <td>{curso.idCuenta}</td>
                   <td>{curso.idCurso}</td>
                   <td>{curso.nombreRamo}</td>
@@ -177,7 +181,7 @@ class ListadoCursos extends Component {
                   <td>{curso.fin}</td>
                   <td>{curso.estado}</td>
                   <td>
-                    <button id="btn_delete">
+                    <button id="btn_delete" onClick={()=>this.deleteData(curso.ID)}>
                       <BsTrash />
                     </button>
                     <button id="btn_edit_cuenta">

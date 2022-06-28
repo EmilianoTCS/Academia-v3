@@ -8,6 +8,7 @@ import ListadoCursos from "./components/TASKS/ListadoCursos";
 import ListadoRamos from "./components/TASKS/ListadoRamos";
 import ListadoRelator from "./components/TASKS/ListadoRelator";
 import ReporteGeneral from "./components/TASKS/ReporteGeneral";
+import ListadoColaboradores from "./components/TASKS/ListadoColaboradores";
 function App() {
   const [conectado, setConectado] = useState(false);
 
@@ -25,6 +26,7 @@ function App() {
       <Route path="/Ramos" component={ListadoRamos}></Route>
       <Route path="/Relator" component={ListadoRelator}></Route>
       <Route path="/reporteGeneral" component={ReporteGeneral}></Route>
+      <Route path="/Colaboradores" component={ListadoColaboradores}></Route>
     </Router>
   );
 }
