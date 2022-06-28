@@ -36,7 +36,6 @@ class ListadoRamos extends Component {
         const num_boton = e.target.value;
         this.setState({num_boton : num_boton})
         var sendNum = {num_boton : num_boton}
-    
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listCursos.php?pagina",
           {
@@ -99,7 +98,7 @@ class ListadoRamos extends Component {
                         </thead>
                         <tbody id="list_tbodyCursos">
                         {ramos.map((ramo) => (
-                                <tr key={ramo.idCuenta}>
+                                <tr key={ramo.ID}>
                                     <td>{ramo.idCuenta}</td>
                                     <td>{ramo.idRamo}</td>
                                     <td>{ramo.nombreRamo}</td>
