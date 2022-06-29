@@ -21,6 +21,7 @@ function App() {
 
 
       <Route path="/home" component={HomePage}></Route>
+      <Route exact path="/" component={HomePage}></Route>
       <Route exact path={"/login"} component={Login}></Route>
       <Route path="/Cursos" component={ListadoCursos}></Route>
       <Route path="/Ramos" component={ListadoRamos}></Route>

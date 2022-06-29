@@ -5,9 +5,13 @@ import Header from "./templates/header";
 class HomePage extends Component {
     render() { 
         return (
-           <div>
-         <Header></Header>
-                  </div> 
+        <div>
+             <Header></Header>
+
+
+
+
+        </div> 
           );
     }
 }

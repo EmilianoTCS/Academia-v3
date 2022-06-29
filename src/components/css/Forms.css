@@ -281,3 +281,143 @@
   transition: all 300ms ease;
   font-weight: 800;
 }
+
+/*------------------------- REGISTRAR COLABORADOR -------------------------*/
+#insert_colaborador {
+  background-color: #e10b1c;
+  border-radius: 5px;
+  width: auto;
+  text-align: center;
+  position: absolute;
+  left: 470px;
+  text-decoration: none;
+  color: white;
+  font-family: "Roboto Slab", serif;
+  white-space: nowrap;
+  border: none;
+  padding: 3px 10px 3px 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 300ms ease;
+}
+#insert_colaborador:hover {
+  transform: scale(1.1);
+  color: #e10b1c;
+  font-weight: 600;
+  background: rgb(255, 255, 255);
+  transition: all 300ms ease;
+  border: solid #e10b1c 1px;
+}
+#insert_colaborador.active {
+  opacity: 1;
+  visibility: visible;
+}
+#icon_info {
+  position: absolute;
+  margin-left: 75%;
+}
+#triangulo_der {
+  visibility: hidden;
+  opacity: 0;
+  display: inline-block;
+  width: 0px;
+  height: 0px;
+  border-top: 8px solid transparent;
+  border-right: 15px solid black;
+  border-bottom: 8px solid transparent;
+  transition: all 200ms ease;
+}
+
+#container_info {
+  opacity: 0;
+  visibility: hidden;
+  display: inline-block;
+  background-color: #000;
+  border-radius: 0% 10% 10% 10%;
+  position: absolute;
+  width: 150px;
+  transition: all 200ms ease;
+}
+.info_idColaborador {
+  display: flex;
+  color: rgb(212, 212, 212);
+  text-align: center;
+  justify-content: center;
+  font-style: oblique;
+}
+#icon_info:hover #container_info {
+  visibility: visible;
+  opacity: 1;
+}
+#icon_info:hover #triangulo_der {
+  visibility: visible;
+  opacity: 1;
+}
+
+#form_registrarColaborador {
+  width: 500px;
+  background-color: #e7e7e7;
+  position: absolute;
+  border-radius: 10px;
+  opacity: 0;
+  visibility: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px 50px;
+  box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
+  transition: all 300ms ease;
+}
+#form_registrarColaborador.active {
+  opacity: 1;
+  visibility: visible;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  transition: all 300ms ease;
+}
+
+#form_registrarColaborador .btn_close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 15px;
+  height: 15px;
+  background: #e10b1c;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  line-height: 12px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+#form_registrarColaborador h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: "Roboto Slab", serif;
+  font-weight: 700;
+}
+#form_registrarColaborador form div {
+  padding: 1px;
+}
+#form_registrarColaborador form div input[type="text"],
+#form_registrarColaborador form div select {
+  margin-top: 5px;
+  display: block;
+  width: 100%;
+  padding: 5px;
+  outline: none;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+#form_registrarColaborador #btn_registrar {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  background: #e10b1c;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  top: 10px;
+  padding: 5px;
+}
