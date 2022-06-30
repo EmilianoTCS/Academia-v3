@@ -5,6 +5,7 @@ import "../css/Tables.css";
 import "../css/Paginador.css";
 import "../css/Botones.css";
 import "../css/Forms.css";
+import { Link } from "react-router-dom";
 class Colaboradores extends Component {
   state = {
     loadedData: false,
@@ -42,7 +43,7 @@ class Colaboradores extends Component {
   }
   sendNum = (e) => {
     e.preventDefault();
-    // console.log("Sending data..");
+    console.log("Sending data..");
     const num_boton = e.target.value;
     this.setState({ num_boton: num_boton });
     var sendNum = { num_boton: num_boton };
@@ -148,7 +149,7 @@ class Colaboradores extends Component {
                 <tr key={colaborador.ID}>
                   <td>{colaborador.ID}</td>
                   <td>{colaborador.nombre_completo}</td>
-                  <td>{colaborador.idUsuario}</td>
+                  <td><Link to={"/InfoColaboradores/"+colaborador.idUsuario}>{colaborador.idUsuario}</Link></td>
                   <td>{colaborador.area}</td>
                   <td>{colaborador.idCuenta}</td>
                   <td>{colaborador.subgerencia}</td>

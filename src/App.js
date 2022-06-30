@@ -9,6 +9,7 @@ import ListadoRamos from "./components/TASKS/ListadoRamos";
 import ListadoRelator from "./components/TASKS/ListadoRelator";
 import ReporteGeneral from "./components/TASKS/ReporteGeneral";
 import ListadoColaboradores from "./components/TASKS/ListadoColaboradores";
+import InfoColaboradores from "./components/TASKS/InfoColaboradores";
 function App() {
 
   const [conectado, setConectado] = useState(false);
@@ -17,10 +18,9 @@ function App() {
     setConectado(estado);
   }
   
-  if(conectado){
   return (
     <Router>
-      <Redirect to="/home" />
+      {/* <Redirect to="/home" /> */}
       <Route path="/home" component={HomePage}></Route>
       <Route exact path="/" component={HomePage}></Route>
       <Route path={"/login"} component={Login}></Route>
@@ -29,11 +29,10 @@ function App() {
       <Route path="/Relator" component={ListadoRelator}></Route>
       <Route path="/reporteGeneral" component={ReporteGeneral}></Route>
       <Route path="/Colaboradores" component={ListadoColaboradores}></Route>
+      <Route path="/InfoColaboradores/:idUsuario" component={InfoColaboradores}></Route>
     </Router>
   );
-  } return(
-    <Login acceder={acceder}></Login>
-  );
+  
 }
 
 export default App;

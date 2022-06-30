@@ -185,7 +185,7 @@ class ListadoRelator extends Component {
                         </div>
                 </div>
         <div id="form_registrarOrador" className={ toggle_formRelator ? "active" : "form_registrarOrador"}>
-            <div class="btn_close" onClick={this.SwitchToggleRelator}>&times;</div>
+            <div className="btn_close" onClick={this.SwitchToggleRelator}>&times;</div>
             <h3 id="registrar">Registro de Oradores</h3>
             <form id="form_agregarOrador" onSubmit={this.sendDataRelator} >
             <div>
@@ -199,28 +199,28 @@ class ListadoRelator extends Component {
               </select>
             </div>
               <div>
-                  <label for="input_relator">Relator: </label>
+                  <label htmlFor="input_relator">Relator: </label>
                   <input type="text" name="relator" id="input_relator" onChange={this.cambioValor} value={relator}/>
               </div>
             
               <div>
-                  <label for="input_idRamo">ID del Ramo: </label>
+                  <label htmlFor="input_idRamo">ID del Ramo: </label>
                   <input type="text" name="idRamo" id="input_idRamo" placeholder="Ejemplo: JAV" onChange={this.cambioValor} value={idRamo}/>
               </div>
               <div>
-                  <label for="input_areaRamo">Área: </label>
+                  <label htmlFor="input_areaRamo">Área: </label>
                   <input type="text" name="area" id="input_areaRamo" placeholder="Ejemplo: Automatización"onChange={this.cambioValor} value={area}/>
               </div>
               <div>
-                  <label for="input_nombreCurso">Nombre del Curso: </label>
+                  <label htmlFor="input_nombreCurso">Nombre del Curso: </label>
                   <input type="text" name="nombreRamo" id="input_nombreCurso" placeholder="Ejemplo: JAVA" onChange={this.cambioValor} value={nombreRamo}/>
               </div>
               <div>
-                  <label for="input_hhAcademicas">Horas académicas: </label>
+                  <label htmlFor="input_hhAcademicas">Horas académicas: </label>
                   <input type="text" name="hh_academicas" id="input_hhAcademicas" onChange={this.cambioValor} value={hh_academicas}/>
               </div>
               <div>
-                  <label for="input_preRequisito">Pre-Requisito: </label>
+                  <label htmlFor="input_preRequisito">Pre-Requisito: </label>
                   <input type="text" name="input_preRequisito" id="pre_requisito" placeholder="Ejemplo: JAV-SEL" onChange={this.cambioValor} value={pre_requisito}/>
               </div>
               <div id="button_container">
