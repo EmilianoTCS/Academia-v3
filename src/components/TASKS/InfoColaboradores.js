@@ -37,8 +37,6 @@ class InfoColaboradores extends Component {
      
     render() { 
         const { loadedData, colaboradores, paginador } = this.state;
-        const { idCuenta, nombre_completo, idUsuario, area, subgerencia, correo } =
-      this.state;
         
         if(!loadedData){
             return(

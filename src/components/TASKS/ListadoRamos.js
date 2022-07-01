@@ -3,6 +3,7 @@ import { BsPencilSquare, BsTrash, BsX } from "react-icons/bs";
 import '../css/Tables.css'
 import '../css/Botones.css'
 import Header from "../templates/header";
+import { Link } from "react-router-dom";
 
 
 class ListadoRamos extends Component {
@@ -179,7 +180,7 @@ class ListadoRamos extends Component {
                                     <td>{ramo.relator}</td>
                                     <td>
                                     <button id="btn_delete" onClick={()=> this.deleteData(ramo.ID)}><BsTrash/></button>
-                                    <button id="btn_edit_cuenta"><BsPencilSquare/></button>
+                                    <button id="btn_edit_cuenta"><Link to={"/EditarRamos/"+ramo.ID}><BsPencilSquare /></Link></button>
                                     </td>
                                 </tr>
                 ))}

@@ -107,6 +107,7 @@ class ListadoCursos extends Component {
       })
       .catch(console.log());
   }
+  
   SwitchToggleRamo = () => {
     this.setState({ toggle_formRamo: !this.state.toggle_formRamo });
   };
@@ -186,7 +187,7 @@ class ListadoCursos extends Component {
                       <BsTrash />
                     </button>
                     <button id="btn_edit_cuenta">
-                      <BsPencilSquare />
+                    <Link to={"/EditarCursos/"+curso.ID}><BsPencilSquare /></Link>
                     </button>
                   </td>
                 </tr>
