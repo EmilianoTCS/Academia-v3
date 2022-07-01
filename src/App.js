@@ -10,6 +10,7 @@ import ListadoRelator from "./components/TASKS/ListadoRelator";
 import ReporteGeneral from "./components/TASKS/ReporteGeneral";
 import ListadoColaboradores from "./components/TASKS/ListadoColaboradores";
 import InfoColaboradores from "./components/TASKS/InfoColaboradores";
+import InfoCursos from "./components/TASKS/InfoCursos";
 function App() {
 
   const [conectado, setConectado] = useState(false);
@@ -30,6 +31,7 @@ function App() {
       <Route path="/reporteGeneral" component={ReporteGeneral}></Route>
       <Route path="/Colaboradores" component={ListadoColaboradores}></Route>
       <Route path="/InfoColaboradores/:idUsuario" component={InfoColaboradores}></Route>
+      <Route path="/InfoCursos/:idCurso" component={InfoCursos}></Route>
     </Router>
   );
   

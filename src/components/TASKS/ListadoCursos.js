@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BsPencilSquare, BsTrash, BsX } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import "../css/Tables.css";
 import Header from "../templates/header";
 import "../css/Paginador.css";
@@ -175,8 +176,8 @@ class ListadoCursos extends Component {
                 <tr key={curso.ID}>
                   <td>{curso.ID}</td>
                   <td>{curso.idCuenta}</td>
-                  <td>{curso.idCurso}</td>
                   <td>{curso.nombreRamo}</td>
+                  <td><Link to={"/InfoCursos/"+curso.idCurso}>{curso.idCurso}</Link></td>
                   <td>{curso.inicio}</td>
                   <td>{curso.fin}</td>
                   <td>{curso.estado}</td>
