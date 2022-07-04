@@ -5,8 +5,8 @@ import '../css/Forms.css'
 class EditarRamos extends Component {
     state = { loaderData: false, ramos : [],
     ID : "",
-    idCuenta : "",
-    idRamo : "",
+    codigoCuenta : "",
+    codigoRamo : "",
     area: "",
     hh_academicas: "",
     pre_requisito: "",
@@ -28,9 +28,9 @@ class EditarRamos extends Component {
         const ID = this.props.match.params.ID
         e.preventDefault();
         console.log("Sending data..");
-        const{idCuenta, idRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
+        const{codigoCuenta, codigoRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
 
-        var datosEnviar = {ID: ID, idCuenta: idCuenta, idRamo: idRamo, 
+        var datosEnviar = {ID: ID, codigoCuenta: codigoCuenta, codigoRamo: codigoRamo, 
         nombreCurso:nombreCurso, area:area, hh_academicas:hh_academicas, pre_requisito: pre_requisito, relator: relator}
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editRamo.php?editarRamo",{
@@ -70,7 +70,7 @@ class EditarRamos extends Component {
             <form id="form_agregarRamo" onSubmit={this.sendDataRamo}>
                 <div>
                 <label htmlFor="input_idCuenta">ID de la Cuenta: </label>
-                <select name="idCuenta" onChange={this.cambioValor} value={ramos.idCuenta} id="input_idCuenta">
+                <select name="codigoCuenta" onChange={this.cambioValor} value={ramos.codigoCuenta} id="input_idCuenta">
                     <option value="fondo_esperanza">Fondo Esperanza</option>
                     <option value="Transbank">Transbank</option>
                     <option value="BCI">BCI</option>
@@ -82,11 +82,11 @@ class EditarRamos extends Component {
                 <label htmlFor="input_idRamo">ID del Ramo: </label>
                 <input
                     type="text"
-                    name="idRamo"
+                    name="codigoRamo"
                     id="input_idRamo"
                     placeholder="Ejemplo: JAV"
                     onChange={this.cambioValor}
-                    value={ramos.idRamo}
+                    value={ramos.codigoRamo}
                 />
                 </div>
                 <div>

@@ -12,7 +12,7 @@ class ListadoRamos extends Component {
       toggle_formRamo: false,
       toggle_formCurso: false,
       idCuenta : "",
-      idRamo : "",
+      codigoRamo : "",
       area: "",
       nombreCurso : "",
       hh_academicas: "",
@@ -69,8 +69,8 @@ class ListadoRamos extends Component {
       sendDataRamo = (e) =>{
         e.preventDefault();
         console.log("Sending data..");
-        const{idCuenta, idRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
-        var datosEnviar = {idCuenta: idCuenta, idRamo: idRamo, 
+        const{idCuenta, codigoRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
+        var datosEnviar = {idCuenta: idCuenta, codigoRamo: codigoRamo, 
         nombreCurso:nombreCurso, area:area, hh_academicas:hh_academicas, pre_requisito: pre_requisito, relator: relator}
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarRamo.php?insertarRamo",{
@@ -87,8 +87,8 @@ class ListadoRamos extends Component {
       sendDataCurso = (e) =>{
         e.preventDefault();
         console.log("Sending data..");
-        const{idCuenta, idRamo, nombreCurso, fechaInicio, fechaFin, horaInicio, horaFin} = this.state;
-        var datosEnviar = {idCuenta: idCuenta, idRamo: idRamo, 
+        const{idCuenta, codigoRamo, nombreCurso, fechaInicio, fechaFin, horaInicio, horaFin} = this.state;
+        var datosEnviar = {idCuenta: idCuenta, codigoRamo: codigoRamo, 
         nombreCurso:nombreCurso, fechaInicio:fechaInicio, fechaFin:fechaFin, horaInicio: horaInicio, horaFin: horaFin}
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarCurso.php?insertarCurso",{
@@ -140,7 +140,7 @@ class ListadoRamos extends Component {
 
     render() { 
         const { loadedData, ramos, paginador } = this.state;
-        const{idCuenta, idRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
+        const{idCuenta, codigoRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
         const{fechaInicio, fechaFin, horaInicio, horaFin} = this.state;
         const toggle_formRamo = this.state.toggle_formRamo;
         const toggle_formCurso = this.state.toggle_formCurso;
@@ -173,7 +173,7 @@ class ListadoRamos extends Component {
                                 <tr key={ramo.ID}>
                                     <td>{ramo.ID}</td>
                                     <td>{ramo.idCuenta}</td>
-                                    <td>{ramo.idRamo}</td>
+                                    <td>{ramo.codigoRamo}</td>
                                     <td>{ramo.nombreRamo}</td>
                                     <td>{ramo.hh_academicas}</td>
                                     <td>{ramo.pre_requisito}</td>
@@ -221,11 +221,11 @@ class ListadoRamos extends Component {
               <label htmlFor="input_idRamo">ID del Ramo: </label>
               <input
                 type="text"
-                name="idRamo"
+                name="codigoRamo"
                 id="input_idRamo"
                 placeholder="Ejemplo: JAV"
                 onChange={this.cambioValor}
-                value={idRamo}
+                value={codigoRamo}
               />
             </div>
             <div>

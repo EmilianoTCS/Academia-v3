@@ -13,17 +13,17 @@ class InfoColaboradores extends Component {
         colaboradores: [],
         paginador: [],
         num_boton: "",
-        idUsuario: "",
-        idCuenta: "",
+        usuario: "",
+        codigoCuenta: "",
         nombre_completo: "",
         area: "",
         subgerencia: "",
         correo: ""}
 
     loadData() {
-        const idUsuario = this.props.match.params.idUsuario
+        const usuario = this.props.match.params.usuario
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-list_infoUsuarios.php?idUsuario="+idUsuario
+          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-list_infoUsuarios.php?usuario="+usuario
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -54,8 +54,8 @@ class InfoColaboradores extends Component {
             <thead id="list_theadCuentas">
               <tr>
                 <th>ID</th>
-                <th>idUsuario</th>
-                <th>idRamo</th>
+                <th>usuario</th>
+                <th>codigoRamo</th>
                 <th>idCurso</th>
                 <th>Porcentaje de Aprobación</th>
                 <th>Estado</th>
@@ -65,8 +65,8 @@ class InfoColaboradores extends Component {
               {colaboradores.map((colaborador) => (
                 <tr key={colaborador.ID}>
                   <td>{colaborador.ID}</td>
-                  <td>{colaborador.idUsuario}</td>
-                  <td>{colaborador.idRamo}</td>
+                  <td>{colaborador.usuario}</td>
+                  <td>{colaborador.codigoRamo}</td>
                   <td><Link to={"/InfoCursos/"+colaborador.idCurso}>{colaborador.idCurso}</Link></td>
                   <td>{colaborador.aprobacion}</td>
                   <td>{colaborador.estado}</td>                                

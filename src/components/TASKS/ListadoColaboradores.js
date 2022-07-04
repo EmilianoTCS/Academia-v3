@@ -13,9 +13,9 @@ class Colaboradores extends Component {
     paginador: [],
     num_boton: "",
     toggle_formColaboradores: false,
-    idCuenta: "",
+    codigoCuenta: "",
     nombre_completo: "",
-    idusuario: "",
+    usuario: "",
     area: "",
     subgerencia: "",
     correo: "",
@@ -83,10 +83,10 @@ class Colaboradores extends Component {
   sendData = (e) =>{
     e.preventDefault();
     console.log("Sending data..");
-    const { idCuenta, nombre_completo, idUsuario, area, subgerencia, correo } = this.state;
+    const { codigoCuenta, nombre_completo, usuario, area, subgerencia, correo } = this.state;
 
-    var datosEnviar = {idCuenta: idCuenta, nombre_completo: nombre_completo, 
-    idUsuario:idUsuario, area:area, subgerencia: subgerencia, correo: correo}
+    var datosEnviar = {codigoCuenta: codigoCuenta, nombre_completo: nombre_completo, 
+    usuario:usuario, area:area, subgerencia: subgerencia, correo: correo}
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarColaborador.php?insertarColaborador",{
         method: "POST",
@@ -116,7 +116,7 @@ class Colaboradores extends Component {
   render() {
     const { loadedData, colaboradores, paginador } = this.state;
     const toggle_formColaboradores = this.state.toggle_formColaboradores;
-    const { idCuenta, nombre_completo, idUsuario, area, subgerencia, correo } =
+    const { codigoCuenta, nombre_completo, usuario, area, subgerencia, correo } =
       this.state;
 
     if (!loadedData) {
@@ -137,9 +137,9 @@ class Colaboradores extends Component {
               <tr>
                 <th>ID</th>
                 <th>Nombre Completo</th>
-                <th>idUsuario</th>
+                <th>usuario</th>
                 <th>Área</th>
-                <th>idCuenta</th>
+                <th>codigoCuenta</th>
                 <th>Subgerencia</th>
                 <th>Correo</th>
               </tr>
@@ -149,9 +149,9 @@ class Colaboradores extends Component {
                 <tr key={colaborador.ID}>
                   <td>{colaborador.ID}</td>
                   <td>{colaborador.nombre_completo}</td>
-                  <td><Link to={"/InfoColaboradores/"+colaborador.idUsuario}>{colaborador.idUsuario}</Link></td>
+                  <td><Link to={"/InfoColaboradores/"+colaborador.usuario}>{colaborador.usuario}</Link></td>
                   <td>{colaborador.area}</td>
-                  <td>{colaborador.idCuenta}</td>
+                  <td>{colaborador.codigoCuenta}</td>
                   <td>{colaborador.subgerencia}</td>
                   <td>{colaborador.correo}</td>
                   <td>
@@ -161,9 +161,7 @@ class Colaboradores extends Component {
                     >
                       <BsTrash />
                     </button>
-                    <button id="btn_edit_cuenta">
-                      <BsPencilSquare />
-                    </button>
+                    <button id="btn_edit_cuenta"><Link to={"/EditarColaboradores/"+colaborador.ID}><BsPencilSquare /></Link></button>
                   </td>
                 </tr>
               ))}
@@ -201,8 +199,8 @@ class Colaboradores extends Component {
                 ID de la Cuenta:{" "}
               </label>
               <select
-                name="idCuenta"
-                value={idCuenta}
+                name="codigoCuenta"
+                value={codigoCuenta}
                 onChange={this.cambioValor}
                 id="input_idCuenta_Colaborador"
               >
@@ -238,9 +236,9 @@ class Colaboradores extends Component {
               <label htmlFor="input_idUsuario">ID del Usuario: </label>
               <input
                 type="text"
-                name="idUsuario"
+                name="usuario"
                 onChange={this.cambioValor}
-                value={idUsuario}
+                value={usuario}
                 id="input_idUsuario"
                 placeholder="Primer letra + Apellido"
               />
@@ -274,7 +272,7 @@ class Colaboradores extends Component {
                 <div id="triangulo_der"></div>
                 <div id="container_info">
                   <span className="info_idColaborador">
-                    Tip: El correo está formado por el idUsuario + @dominio.
+                    Tip: El correo está formado por el usuario + @dominio.
                   </span>
                 </div>
               </i>
@@ -285,7 +283,7 @@ class Colaboradores extends Component {
                 value={correo}
                 onChange={this.cambioValor}
                 id="input_correoColaborador"
-                placeholder="IDUSUARIO@DOMINIO.COM"
+                placeholder="usuario@DOMINIO.COM"
               />
             </div>
             <div>

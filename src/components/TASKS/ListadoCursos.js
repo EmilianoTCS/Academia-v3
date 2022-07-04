@@ -14,7 +14,7 @@ class ListadoCursos extends Component {
     num_boton: "",
     toggle_formRamo: false,
     toggle_formCurso: false,
-    idCuenta : "",
+    codigoCuenta : "",
     idRamo : "",
     area: "",
     nombreCurso : "",
@@ -71,8 +71,8 @@ class ListadoCursos extends Component {
   sendDataRamo = (e) =>{
     e.preventDefault();
     console.log("Sending data..");
-    const{idCuenta, idRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
-    var datosEnviar = {idCuenta: idCuenta, idRamo: idRamo, 
+    const{codigoCuenta, idRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
+    var datosEnviar = {codigoCuenta: codigoCuenta, idRamo: idRamo, 
     nombreCurso:nombreCurso, area:area, hh_academicas:hh_academicas, pre_requisito: pre_requisito, relator: relator}
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarRamo.php?insertarRamo",{
@@ -91,8 +91,8 @@ class ListadoCursos extends Component {
   sendDataCurso = (e) =>{
     e.preventDefault();
     console.log("Sending data..");
-    const{idCuenta, idRamo, nombreCurso, fechaInicio, fechaFin, horaInicio, horaFin} = this.state;
-    var datosEnviar = {idCuenta: idCuenta, idRamo: idRamo, 
+    const{codigoCuenta, idRamo, nombreCurso, fechaInicio, fechaFin, horaInicio, horaFin} = this.state;
+    var datosEnviar = {codigoCuenta: codigoCuenta, idRamo: idRamo, 
     nombreCurso:nombreCurso, fechaInicio:fechaInicio, fechaFin:fechaFin, horaInicio: horaInicio, horaFin: horaFin}
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarCurso.php?insertarCurso",{
@@ -143,7 +143,7 @@ class ListadoCursos extends Component {
 
   render() {
     const { loadedData, cursos, paginador } = this.state;
-    const{idCuenta, idRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
+    const{codigoCuenta, idRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
     const toggle_formRamo = this.state.toggle_formRamo;
     const toggle_formCurso = this.state.toggle_formCurso;
 
@@ -164,7 +164,7 @@ class ListadoCursos extends Component {
             <thead id="list_theadCuentas">
               <tr>
                 <th>ID</th>
-                <th>idCuenta</th>
+                <th>codigoCuenta</th>
                 <th>Nombre del curso</th>
                 <th>ID del curso</th>
                 <th>Inicio</th>
@@ -176,9 +176,9 @@ class ListadoCursos extends Component {
               {cursos.map((curso) => (
                 <tr key={curso.ID}>
                   <td>{curso.ID}</td>
-                  <td>{curso.idCuenta}</td>
+                  <td>{curso.codigoCuenta}</td>
                   <td>{curso.nombreRamo}</td>
-                  <td><Link to={"/InfoCursos/"+curso.idCurso}>{curso.idCurso}</Link></td>
+                  <td><Link to={"/InfoCursos/"+curso.codigoCurso}>{curso.codigoCurso}</Link></td>
                   <td>{curso.inicio}</td>
                   <td>{curso.fin}</td>
                   <td>{curso.estado}</td>
@@ -217,7 +217,7 @@ class ListadoCursos extends Component {
           <form id="form_agregarRamo" onSubmit={this.sendDataRamo}>
             <div>
               <label htmlFor="input_idCuenta">ID de la Cuenta: </label>
-              <select name="idCuenta" onChange={this.cambioValor} value={idCuenta} id="input_idCuenta">
+              <select name="codigoCuenta" onChange={this.cambioValor} value={codigoCuenta} id="input_idCuenta">
                 <option value="fondo_esperanza">Fondo Esperanza</option>
                 <option value="Transbank">Transbank</option>
                 <option value="BCI">BCI</option>

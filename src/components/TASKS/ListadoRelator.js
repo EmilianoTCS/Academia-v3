@@ -13,7 +13,7 @@ class ListadoRelator extends Component {
       paginador: [],
       num_boton: "",
       relator: "",
-      idRamo: "",
+      codigoRamo: "",
       area: "",
       nombreRamo:"",
       hh_academicas: "",
@@ -79,8 +79,8 @@ class ListadoRelator extends Component {
       sendDataRelator = (e) =>{
         e.preventDefault();
         console.log("Sending data..");
-        const {relator, idCuenta, idRamo, nombreRamo, hh_academicas, pre_requisito, area} = this.state;
-        var datosEnviar = {idCuenta: idCuenta, idRamo: idRamo, 
+        const {relator, idCuenta, codigoRamo, nombreRamo, hh_academicas, pre_requisito, area} = this.state;
+        var datosEnviar = {idCuenta: idCuenta, codigoRamo: codigoRamo, 
           nombreRamo:nombreRamo, relator:relator, hh_academicas:hh_academicas, pre_requisito: pre_requisito, area: area}
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarRelator.php?insertarRelator",{
@@ -126,7 +126,7 @@ class ListadoRelator extends Component {
     render() { 
         const { loadedData, relatores, paginador } = this.state;
         const toggle_formRelator = this.state.toggle_formRelator;
-        const {relator, idCuenta, idRamo, nombreRamo, hh_academicas, pre_requisito, area} = this.state;
+        const {relator, idCuenta, codigoRamo, nombreRamo, hh_academicas, pre_requisito, area} = this.state;
 
     if (!loadedData) {
       return <div>Loading data...</div>;
@@ -158,7 +158,7 @@ class ListadoRelator extends Component {
                                     <td>{relator.ID}</td>
                                     <td>{relator.relator}</td>
                                     <td>{relator.idCuenta}</td>
-                                    <td>{relator.idRamo}</td>
+                                    <td>{relator.codigoRamo}</td>
                                     <td>{relator.nombreRamo}</td>
                                          <td>{relator.estado}</td>
                                     <td>
@@ -205,7 +205,7 @@ class ListadoRelator extends Component {
             
               <div>
                   <label htmlFor="input_idRamo">ID del Ramo: </label>
-                  <input type="text" name="idRamo" id="input_idRamo" placeholder="Ejemplo: JAV" onChange={this.cambioValor} value={idRamo}/>
+                  <input type="text" name="codigoRamo" id="input_idRamo" placeholder="Ejemplo: JAV" onChange={this.cambioValor} value={codigoRamo}/>
               </div>
               <div>
                   <label htmlFor="input_areaRamo">Área: </label>
