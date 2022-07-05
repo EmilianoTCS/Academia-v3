@@ -1,0 +1,43 @@
+#container-curso{
+    width: 70%;
+    /* position: relative; */
+    margin-left: 15%;
+    margin-top: 2%;
+}
+.card-body{
+    height: 260px;
+    overflow-y: scroll;
+}
+#submit-curso{
+    width: 10%;
+    margin: 1%;
+}
+#th_switch{
+    width: min-content;
+}
+
+.card-body::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.card-body::-webkit-scrollbar:vertical {
+    width:10px;
+}
+
+.card-body::-webkit-scrollbar-button:increment,.card-body::-webkit-scrollbar-button {
+    display: none;
+} 
+
+.card-body::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+}
+
+.card-body::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}

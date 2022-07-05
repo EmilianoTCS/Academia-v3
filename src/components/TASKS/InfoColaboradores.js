@@ -46,60 +46,60 @@ class InfoColaboradores extends Component {
         return (
             <div>
                 <Header></Header>
-                <div id="container_tabla">
-          <div id="btn_container">
-            <input type="text" id="search_cuenta" placeholder="Buscador" />
-          </div>
-          <table id="tabla_cuenta">
-            <thead id="list_theadCuentas">
-              <tr>
-                <th>ID</th>
-                <th>usuario</th>
-                <th>codigoRamo</th>
-                <th>idCurso</th>
-                <th>Porcentaje de Aprobación</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody id="list_tbodyCuentas">
-              {colaboradores.map((colaborador) => (
-                <tr key={colaborador.ID}>
-                  <td>{colaborador.ID}</td>
-                  <td>{colaborador.usuario}</td>
-                  <td>{colaborador.codigoRamo}</td>
-                  <td><Link to={"/InfoCursos/"+colaborador.idCurso}>{colaborador.idCurso}</Link></td>
-                  <td>{colaborador.aprobacion}</td>
-                  <td>{colaborador.estado}</td>                                
-                  <td>
-                    <button
-                      id="btn_delete"
-                      onClick={() => this.deleteData(colaborador.ID)}
-                    >
-                      <BsTrash />
-                    </button>
-                    <button id="btn_edit_cuenta">
-                      <BsPencilSquare />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  <div id="container_tabla">
+                    <div id="btn_container">
+                      <input type="text" id="search_cuenta" placeholder="Buscador" />
+                    </div>
+                  <table id="tabla_cuenta">
+                    <thead id="list_theadCuentas">
+                      <tr>
+                        <th>ID</th>
+                        <th>usuario</th>
+                        <th>codigoRamo</th>
+                        <th>idCurso</th>
+                        <th>Porcentaje de Aprobación</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody id="list_tbodyCuentas">
+                      {colaboradores.map((colaborador) => (
+                        <tr key={colaborador.ID}>
+                          <td>{colaborador.ID}</td>
+                          <td>{colaborador.usuario}</td>
+                          <td>{colaborador.codigoRamo}</td>
+                          <td><Link to={"/InfoCursos/"+colaborador.idCurso}>{colaborador.idCurso}</Link></td>
+                          <td>{colaborador.aprobacion}</td>
+                          <td>{colaborador.estado}</td>                                
+                          <td>
+                            <button
+                              id="btn_delete"
+                              onClick={() => this.deleteData(colaborador.ID)}
+                            >
+                              <BsTrash />
+                            </button>
+                            <button id="btn_edit_cuenta">
+                              <BsPencilSquare />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
 
-          <div id="paginador">
-            {paginador.map((pagina) => (
-              <li>
-                <button
-                  onClick={this.sendNum}
-                  name="paginas"
-                  value={pagina.paginas}
-                >
-                  {pagina.paginas}
-                </button>
-              </li>
-            ))}
-          </div>
-        </div>
+                  <div id="paginador">
+                    {paginador.map((pagina) => (
+                      <li>
+                        <button
+                          onClick={this.sendNum}
+                          name="paginas"
+                          value={pagina.paginas}
+                        >
+                          {pagina.paginas}
+                        </button>
+                      </li>
+                    ))}
+                  </div>
+                </div>
             </div>
         );
     }
