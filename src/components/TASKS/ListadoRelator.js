@@ -147,7 +147,7 @@ class ListadoRelator extends Component {
                                 <th>ID</th>
                                 <th>Relator</th>
                                 <th>Cuenta</th>
-                                <th>ID Ramo</th>
+                                <th>Código Ramo</th>
                                 <th>Nombre del ramo</th>
                                 <th>Estado</th>
                              </tr>
@@ -156,11 +156,11 @@ class ListadoRelator extends Component {
                         {relatores.map((relator) => (
                                 <tr key={relator.ID}>
                                     <td>{relator.ID}</td>
-                                    <td>{relator.relator}</td>
-                                    <td>{relator.idCuenta}</td>
+                                    <td>{relator.nombre}</td>
+                                    <td>{relator.codigoCuenta}</td>
                                     <td>{relator.codigoRamo}</td>
                                     <td>{relator.nombreRamo}</td>
-                                         <td>{relator.estado}</td>
+                                    <td>{relator.estado}</td>
                                     <td>
                                     <button id="btn_delete"><BsTrash/></button>
                                     <button id="btn_edit_cuenta"><BsPencilSquare/></button>

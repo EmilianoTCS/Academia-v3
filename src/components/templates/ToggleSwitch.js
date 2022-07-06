@@ -10,8 +10,8 @@ function SwitchToggle(props){
     }
     
     return(
-        <div className="switch">
-            <label>
+        <div >
+            <label className="switch">
             <input type="checkbox" defaultChecked={isChecked} />
             <span className="slider round"></span>
             </label> 

@@ -166,6 +166,7 @@ class ListadoRamos extends Component {
                                 <th>HH académicas</th>
                                 <th>Pre-requisito</th>
                                 <th>Relator</th>
+                                <th>Área</th>
                              </tr>
                         </thead>
                         <tbody id="list_tbodyCursos">
@@ -177,7 +178,8 @@ class ListadoRamos extends Component {
                                     <td>{ramo.nombreRamo}</td>
                                     <td>{ramo.hh_academicas}</td>
                                     <td>{ramo.pre_requisito}</td>
-                                    <td>{ramo.relator}</td>
+                                    <td>{ramo.nombre}</td>
+                                    <td>{ramo.area}</td>
                                     <td>
                                     <button id="btn_delete" onClick={()=> this.deleteData(ramo.ID)}><BsTrash/></button>
                                     <button id="btn_edit_cuenta"><Link to={"/EditarRamos/"+ramo.ID}><BsPencilSquare /></Link></button>

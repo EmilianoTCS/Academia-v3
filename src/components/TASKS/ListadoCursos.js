@@ -129,17 +129,6 @@ class ListadoCursos extends Component {
     this.setState({state});
   }
 
-    deleteData = (ID) =>{
-      console.log(ID);
-      fetch(
-        "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-deleteCuentas.php?delete="+ID)
-       .then((response) => response.json())
-        .then((dataResponse) => {
-          console.log(dataResponse);
-          this.loadData();
-        })
-        .catch(console.log());
-   }
 
   render() {
     const { loadedData, cursos, paginador } = this.state;
@@ -183,9 +172,6 @@ class ListadoCursos extends Component {
                   <td>{curso.fin}</td>
                   <td>{curso.estado}</td>
                   <td>
-                    <button id="btn_delete" onClick={()=>this.deleteData(curso.ID)}>
-                      <BsTrash />
-                    </button>
                     <button id="btn_edit_cuenta">
                     <Link to={"/EditarCursos/"+curso.ID}><BsPencilSquare /></Link>
                     </button>
