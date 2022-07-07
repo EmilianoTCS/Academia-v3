@@ -149,7 +149,7 @@ class Colaboradores extends Component {
                 <tr key={colaborador.ID}>
                   <td>{colaborador.ID}</td>
                   <td>{colaborador.nombre_completo}</td>
-                  <td><Link to={"/InfoColaboradores/"+colaborador.usuario}>{colaborador.usuario}</Link></td>
+                  <td><Link style={{paddingLeft: 13, textDecoration: 'none'}} to={"/InfoColaboradores/"+colaborador.usuario}>{colaborador.usuario}</Link></td>
                   <td>{colaborador.area}</td>
                   <td>{colaborador.codigoCuenta}</td>
                   <td>{colaborador.subgerencia}</td>

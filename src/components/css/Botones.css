@@ -130,4 +130,25 @@
     border: solid #e10b1c 1px;
   }
 
-  
+  #btn_registrarCliente {
+    background-color: #e10b1c;
+    border-radius: 5px;
+    width: auto;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-family: "Roboto Slab", serif;
+    white-space: nowrap;
+    border: none;
+    padding: 3px 10px 3px 10px;
+    margin-left: 220px;
+    margin-top: 1%;
+  }
+  #btn_registrarCliente:hover {
+    transform: scale(1.1);
+    color: #e10b1c;
+    font-weight: 600;
+    background: rgb(255, 255, 255);
+    transition: all 300ms ease;
+    border: solid #e10b1c 1px;
+  }

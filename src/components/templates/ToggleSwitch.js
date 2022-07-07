@@ -5,7 +5,7 @@ import "../css/ToggleSwitch.css"
 function SwitchToggle(props){
     var isChecked = false;
 
-    if(props.isActive == 1){
+    if(props.isActive === "1"){
        isChecked = true;
     }
     

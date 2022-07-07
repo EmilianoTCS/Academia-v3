@@ -79,4 +79,9 @@ tr:nth-child(even) {
   background-color: #ebebeb;
 }
 
-
+#tablaClientes{
+  margin-left: 220px;
+  margin-top: 1%;
+  width: 75%;
+  
+}
