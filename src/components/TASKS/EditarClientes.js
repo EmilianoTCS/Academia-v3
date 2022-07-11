@@ -30,8 +30,9 @@ class EditarClientes extends Component {
         e.preventDefault();
         console.log("Sending data..");
         const {tipo_cliente,nombreCliente,referente,correoReferente,cargoReferente, telefonoReferente} = this.state
+        const ID = this.props.match.params.ID
     
-        var datosEnviar = {tipo_cliente: tipo_cliente, nombreCliente: nombreCliente, 
+        var datosEnviar = {ID: ID, tipo_cliente: tipo_cliente, nombreCliente: nombreCliente, 
             referente:referente, correoReferente:correoReferente, cargoReferente: cargoReferente, telefonoReferente: telefonoReferente}
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editClientes.php?editarCliente",{
@@ -55,7 +56,7 @@ class EditarClientes extends Component {
     cambioValor = (e) =>{
         const state = this.state;
         state[e.target.name] = e.target.value;
-        this.setState({cursos: state});
+        this.setState({clientes: state});
       }
 
     render() { 
@@ -71,7 +72,7 @@ class EditarClientes extends Component {
             <div id="form_registrarClientes" className="active">
                     <h3>Actualización de Clientes</h3>
                 <form id="form_agregarCliente" onSubmit={this.sendData}>
-                        <input type="hidden" id="input_Usuario" />
+                        <input type="hidden" id="input_Usuario" value={clientes.ID} />
                         <div>
                         <label htmlFor="input_tipo_cliente">Tipo de cliente: </label>
                         <select
@@ -124,7 +125,7 @@ class EditarClientes extends Component {
                         />
                         </div>
                         <div>
-                        <label htmlFor="input_telefonoReferente">Télefono del referente: </label>
+                        <label htmlFor="input_telefonoReferente">Teléfono del referente: </label>
                         <input
                             type="text"
                             name="telefonoReferente"

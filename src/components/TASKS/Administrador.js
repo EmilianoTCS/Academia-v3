@@ -3,7 +3,7 @@ import Header from "../templates/header";
 import '../css/Administrador.css'
 import ToggleSwitch from "../templates/ToggleSwitch";
 class Administrador extends Component {
-    state = {loadedData: false, cursos: [], isActive: true, ramos : [], relatores: [], colaboradores: [] } 
+    state = {loadedData: false, cursos: [], isActive: true, ramos : [], relatores: [], colaboradores: [], clientes: [] } 
 
     loadDataCursos() {        
         fetch(
@@ -50,11 +50,22 @@ class Administrador extends Component {
           })
           .catch(console.log());
       }
+      loadDataClientes() {
+        fetch(
+          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-adminClientes.php?clientes"
+        )
+          .then((response) => response.json())
+          .then((dataResponse) => {
+            this.setState({ loadedData: true, clientes: dataResponse });
+          })
+          .catch(console.log());
+      }
     componentDidMount(){
         this.loadDataCursos();
         this.loadDataRamos();
         this.loadDataRelator();
         this.loadDataColaborador();
+        this.loadDataClientes();
     }
 
     toggleisActiveCursos = (ID) => {
@@ -97,8 +108,18 @@ class Administrador extends Component {
          })
          .catch(console.log());
      }
+     toggleisActiveClientes = (ID) => {
+        fetch(
+         "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStateClientes.php?updateStateClientes="+ID)
+        .then((response) => response.json())
+         .then((dataResponse) => {
+           console.log(dataResponse);
+           this.loadDataClientes();
+         })
+         .catch(console.log());
+     }
     render() { 
-        const {loadedData, cursos, ramos, relatores, colaboradores} = this.state;
+        const {loadedData, cursos, ramos, relatores, colaboradores, clientes} = this.state;
 
         if(!loadedData){
             return(
@@ -215,6 +236,37 @@ class Administrador extends Component {
                                                     <td>{colaborador.area}</td>
                                                     <td>{colaborador.date}</td>
                                                     <td onChange={() => this.toggleisActiveColaborador(colaborador.ID)}><ToggleSwitch isActive={colaborador.isActive}/></td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div className="card" >
+                                    <div className="card-body">
+                                    <h4 className="card-title">Clientes</h4>
+                                    <table id="tabla-cursos" className="table table-striped table-inverse table-responsive">
+                                        <thead className="thead-inverse">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tipo de cliente</th>
+                                                <th>Nombre del cliente</th>                                                
+                                                <th>Teléfono referente</th>                                                
+                                                <th>Correo referente</th>
+                                                <th>Fecha de modificación</th>
+                                                <th id="th_switch">Habilitar o Deshabilitar</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {clientes.map((cliente) => (
+                                                <tr key={cliente.ID}>
+                                                    <td>{cliente.ID}</td>
+                                                    <td>{cliente.tipo_cliente}</td>
+                                                    <td>{cliente.nombreCliente}</td>
+                                                    <td>{cliente.telefonoReferente}</td>
+                                                    <td>{cliente.correoReferente}</td>
+                                                    <td>{cliente.date}</td>
+                                                    <td onChange={() => this.toggleisActiveClientes(cliente.ID)}><ToggleSwitch isActive={cliente.isActive}/></td>
                                                 </tr>
                                             ))}
                                         </tbody>
