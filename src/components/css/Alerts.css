@@ -1,0 +1,9 @@
+#success, #error{
+display none;
+}
+#success.active{
+display: contents;
+}
+#error.active{
+display: contents;
+}

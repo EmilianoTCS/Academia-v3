@@ -508,3 +508,11 @@
   transition: all 300ms ease;
   font-weight: 800;
 }
+/*------------------------- Inscripción Curso -------------------------*/
+
+#form_container{
+  margin-left: 250px;
+  margin-top: 2%;
+  width: 75%;
+  padding: 2%;
+}

@@ -5,6 +5,7 @@
   height: 100%;
   left: -200px;
   transition: all 300ms linear;
+  overflow-y: scroll;
   border-radius: 0% 10px 20% 0%;
 }
 #User_logo {
@@ -94,14 +95,18 @@ ul h4 {
   transition: all 300ms ease;
 }
 
-#li_Academia {
+#li_Academia, #li_Colaboradores {
   cursor: pointer;
 }
 
-#COE_Academia {
+#COE_Academia, #Colaboradores {
   display: none;
 }
 #COE_Academia.active {
+  display: block;
+  transition: all 300ms linear;
+}
+#Colaboradores.active {
   display: block;
   transition: all 300ms linear;
 }

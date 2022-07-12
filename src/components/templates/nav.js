@@ -9,7 +9,7 @@ import {Link, Redirect } from "react-router-dom";
 class Navigator extends Component {
   constructor(props){
     super(props);
-    this.state = { toggleSidebar: false, toggleAcademia : false, isLogged: true } 
+    this.state = { toggleSidebar: false, toggleAcademia : false, toggleColaboradores: false, isLogged: true } 
     
   };
 
@@ -23,7 +23,10 @@ class Navigator extends Component {
         this.setState({toggleAcademia: !this.state.toggleAcademia})
 
     }
+    SwitchToggleColaboradores = () =>{
+      this.setState({toggleColaboradores: !this.state.toggleColaboradores})
 
+  }
 
     logout() {
       console.log("Session is closing..");
@@ -41,6 +44,7 @@ class Navigator extends Component {
     render() { 
         const toggleSidebar = this.state.toggleSidebar;
         const toggleAcademia = this.state.toggleAcademia;
+        const toggleColaboradores = this.state.toggleColaboradores;
         const isLogged = this.state.isLogged;
 
         if(isLogged){
@@ -63,7 +67,12 @@ class Navigator extends Component {
               </ul>
             </li>
             <li>CAPITAL HUMANO</li>
-            <li>COLABORADORES</li>
+            <li id="li_Colaboradores" onClick={this.SwitchToggleColaboradores}>COLABORADORES
+                <ul id="Colaboradores" className={toggleColaboradores ? "active" : " Colaboradores "} >
+                    <li><Link to={"/Colaboradores"}>Listado de Colaboradores</Link></li>
+                    <li><Link to={"/InscripcionCurso"}>Inscribirse a un curso</Link></li>
+                </ul>
+            </li>
             <Link id="logout" to={"/login"}>Logout</Link>
           </ul>
         </section>

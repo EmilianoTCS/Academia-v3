@@ -217,7 +217,7 @@ class Administrador extends Component {
                                     <div className="card-body">
                                     <h4 className="card-title">Colaboradores</h4>
                                     <table id="tabla-cursos" className="table table-striped table-inverse table-responsive">
-                                        <thead className="thead-inverse">
+                                        <thead  style={{position: "sticky", top: "0"}} className="thead-inverse dark">
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Nombre</th>
@@ -231,7 +231,7 @@ class Administrador extends Component {
                                             {colaboradores.map((colaborador) => (
                                                 <tr key={colaborador.ID}>
                                                     <td>{colaborador.ID}</td>
-                                                    <td>{colaborador.nombre}</td>
+                                                    <td>{colaborador.nombre_completo}</td>
                                                     <td>{colaborador.usuario}</td>
                                                     <td>{colaborador.area}</td>
                                                     <td>{colaborador.date}</td>

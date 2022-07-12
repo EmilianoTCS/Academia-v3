@@ -138,7 +138,6 @@ class ListadoRelator extends Component {
                   <div id="btn_container">
                     <Link id="href_asistencias">Asistencias</Link>
                     <button id="insert_orador" onClick={this.SwitchToggleRelator}>Registrar orador</button>
-                    <Link id="action_href_colaboradores" to={"/Colaboradores"}>Colaboradores</Link>
                     <input type="text" id="search_cuenta" placeholder="Buscador"/>
                     </div>
                     <table id="tabla_orador">

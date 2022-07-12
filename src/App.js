@@ -17,6 +17,7 @@ import EditarColaboradores from "./components/TASKS/EditarColaboradores";
 import Administrador from "./components/TASKS/Administrador";
 import ListadoClientes from "./components/TASKS/ListadoClientes";
 import EditarClientes from "./components/TASKS/EditarClientes";
+import InscripcionCurso from "./components/TASKS/InscripcionCurso";
 function App() {
 
   const [conectado, setConectado] = useState(false);
@@ -44,6 +45,7 @@ function App() {
       <Route path="/Administrador" component={Administrador}></Route>
       <Route path="/Clientes" component={ListadoClientes}></Route>
       <Route path="/EditarClientes/:ID" component={EditarClientes}></Route>
+      <Route path="/InscripcionCurso" component={InscripcionCurso}></Route>
     </Router>
   );
   
