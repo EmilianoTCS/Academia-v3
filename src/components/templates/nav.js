@@ -64,6 +64,7 @@ class Navigator extends Component {
                 <li><Link to={"/Relator"}>Relator</Link></li>
                 <li><Link to={"/Clientes"}>Clientes</Link></li>
                 <li><Link to={"/Administrador"}>Administrador</Link></li>
+                <li><Link to={"/Prerequisitos"}>Prerequisitos</Link></li>
               </ul>
             </li>
             <li>CAPITAL HUMANO</li>

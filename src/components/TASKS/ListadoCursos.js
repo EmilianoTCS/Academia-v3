@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BsPencilSquare, BsTrash, BsX } from "react-icons/bs";
+import { BsPencilSquare, BsX } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import "../css/Tables.css";
 import Header from "../templates/header";

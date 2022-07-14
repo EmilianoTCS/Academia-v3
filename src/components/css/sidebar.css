@@ -110,3 +110,28 @@ ul h4 {
   display: block;
   transition: all 300ms linear;
 }
+
+#sidebar::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+#sidebar::-webkit-scrollbar:vertical {
+  width:10px;
+}
+
+#sidebar::-webkit-scrollbar-button:increment,.card-body::-webkit-scrollbar-button {
+  display: none;
+} 
+
+#sidebar::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+  background-color: #797979;
+  border-radius: 20px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+  border-radius: 10px;  
+}

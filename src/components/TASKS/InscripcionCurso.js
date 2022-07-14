@@ -6,27 +6,36 @@ class InscripcionCurso extends Component {
         idCuenta : "",
         usuario: "",
         idCurso: "",
-        porcentaje_aprobacion: "",
-        codigoCuenta: "",
-        codigoCurso: "",
+        porcentaje_aprobacion: "0",
+        codigoCuenta: "null",
+        codigoCurso: "null",
         styles: "",
         success: false,
-        error: false
+        error: false,
+        warning: false
 
     } 
 
+
+
     cambioValor = (e) => {
+        this.setState({
+            warning: false
+        }) 
         const state = this.state;
         state[e.target.name] = e.target.value;
         this.setState({ state });
-      };
+      };    
     
+
       sendData = (e) =>{
-        e.preventDefault();
+       e.preventDefault();
         console.log("Sending data..");
         const {idCuenta,usuario,idCurso,porcentaje_aprobacion,codigoCuenta, codigoCurso} = this.state
-    
         var datosEnviar = {idCuenta: idCuenta, usuario: usuario, idCurso:idCurso, porcentaje_aprobacion:porcentaje_aprobacion, codigoCuenta: codigoCuenta, codigoCurso: codigoCurso}
+
+       
+
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-inscripcionCurso.php?inscripcionCurso",{
             method: "POST",
@@ -37,21 +46,32 @@ class InscripcionCurso extends Component {
           .then((dataResponse) => {
             if(dataResponse.queryAprobacion === true){
                 this.setState({
-                    success: !this.state.success
+                    success: !this.state.success,
+                    warning: false
                 });
             }else{
                 this.setState({
-                    error: !this.state.error
+                    error: !this.state.error,
+                    warning: false
                 });
             }
     
           })
           .catch(console.log());
+      
       }
+
+
+
 
       SwitchToggleError = () => {
         this.setState({
             error: !this.state.error
+        });
+      };
+      SwitchToggleWarning = () => {
+        this.setState({
+            warning: !this.state.warning
         });
       };
       SwitchToggleSuccess = () => {
@@ -63,6 +83,7 @@ class InscripcionCurso extends Component {
 
     render() { 
         const error = this.state.error;
+        const warning = this.state.warning;
         const success = this.state.success
         const styles_error = {transition: "transition: all 300ms ease",display: "block",borderRadius: "5px", width: "100%", color: "#970101", fontWeight: "700",backgroundColor: "#FFD3D3", border: "1px solid #970101", padding: "20px"}
         const styles_btnClose_error = {backgroundColor: "#F5A0A0", float:"right",border: "solid 1px #970101",borderRadius: "100%",padding: "0 7px 0 7px", fontWeight: "700", color: "white"}
@@ -71,7 +92,8 @@ class InscripcionCurso extends Component {
         const styles_success = {transition: "transition: all 300ms ease",display: "block", borderRadius: "5px", width: "100%", color: "#316C2B ", fontWeight: "700",backgroundColor: "#D4FFD0", border: "1px solid #316C2B", padding: "20px"}
         const styles_btnClose_success = {backgroundColor: "#A7EDA0" , float:"right",border: "solid 1px #316C2B",borderRadius: "100%",padding: "0 7px 0 7px", fontWeight: "700", color: "#316C2B"}
         
-        
+        const styles_warning = {transition: "transition: all 300ms ease",display: "block", borderRadius: "5px", width: "100%", color: "#87782d", fontWeight: "700",backgroundColor: "#fff4ba", border: "1px solid #316C2B", padding: "20px"}
+        const styles_btnClose_warning = {backgroundColor: "#fce779" , float:"right",border: "solid 1px #87782d",borderRadius: "100%",padding: "0 7px 0 7px", fontWeight: "700", color: "#87782d"}
         return (
             <div>
             <Header/>
@@ -82,10 +104,15 @@ class InscripcionCurso extends Component {
             <button style={styles_btnClose_error} onClick={this.SwitchToggleError}>X</button>
             </div>
 
+            <div style= {warning ?  styles_warning : {display: "none"} } id="error" role="alert">
+            Completa los datos antes de continuar.
+            <button style={styles_btnClose_warning} onClick={this.SwitchToggleWarning}>X</button>
+            </div>
+
             <div style={success ? styles_success : {display: "none"} }role="alert" id="success">
             Inscripción Exitosa.
             <button style={styles_btnClose_success} onClick={this.SwitchToggleSuccess}>X</button>
-
+            
             </div>
                 <div className="card-header">
                 <h4>Inscripción de cursos</h4>
@@ -135,9 +162,9 @@ class InscripcionCurso extends Component {
 
                                 <br />
                                 <input type="hidden" value="0" className="form-control" name="porcentaje_aprobacion" id="porcentaje_aprobacion"/>                                
-                                <input type="hidden" value="" className="form-control" name="codigoCurso" id="codigoCurso"/>
-                                <input type="hidden" value="" className="form-control" name="codigoCuenta" id="codigoCuenta"/>
-                                <button type="submit" className="btn btn-primary">Submit</button>
+                                <input type="hidden" value="null" className="form-control" name="codigoCurso" id="codigoCurso"/>
+                                <input type="hidden" value="null" className="form-control" name="codigoCuenta" id="codigoCuenta"/>
+                                <button type="submit" disabled={warning} className="btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>

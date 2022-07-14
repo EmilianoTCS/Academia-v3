@@ -31,6 +31,7 @@ class Colaboradores extends Component {
       })
       .catch(console.log());
   }
+  
   loadPaginador() {
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/paginador/botones_Colaboradores.php"

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import Header from "../templates/header";
-import { BsPencilSquare, BsTrash, BsX } from "react-icons/bs";
+import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import "../css/Tables.css";
 import "../css/Paginador.css";
 import "../css/Botones.css";
