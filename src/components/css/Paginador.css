@@ -5,8 +5,8 @@
     flex-direction: row;
     list-style: none;
     justify-content: flex-start;
-    position: absolute;
-    top: 55%;
+    position: fixed;
+    margin-top: 1%;
   }
   #paginador li {
     margin: 2px;

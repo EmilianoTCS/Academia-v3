@@ -5,6 +5,7 @@ import Header from "../templates/header";
 import {Link } from "react-router-dom";
 import '../css/Botones.css';
 import '../css/Forms.css';
+import { BiShowAlt } from "react-icons/bi";
 
 class ListadoRelator extends Component {
     state = { 
@@ -134,24 +135,23 @@ class ListadoRelator extends Component {
         return (
             <div>
                 <Header></Header>
-                <div id="container_tabla">
-                  <div id="btn_container">
-                    <Link id="href_asistencias">Asistencias</Link>
-                    <button id="insert_orador" onClick={this.SwitchToggleRelator}>Registrar orador</button>
-                    <input type="text" id="search_cuenta" placeholder="Buscador"/>
-                    </div>
-                    <table id="tabla_orador">
-                        <thead id="list_theadOrador">
-                            <tr>
+               <h1 id="subtitulo_pagina">Listado de relatores</h1>
+
+                <button id="btn_registrarCliente" onClick={this.SwitchToggleRelator}>Registrar relator</button>
+
+                <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
+                    <thead className="thead-inverse">
+                    <tr>
                                 <th>ID</th>
                                 <th>Relator</th>
                                 <th>Cuenta</th>
                                 <th>Código Ramo</th>
                                 <th>Nombre del ramo</th>
                                 <th>Estado</th>
+                                <th>Operaciones</th>
                              </tr>
                         </thead>
-                        <tbody id="list_tbodyOrador">
+                        <tbody>
                         {relatores.map((relator) => (
                                 <tr key={relator.ID}>
                                     <td>{relator.ID}</td>
@@ -163,26 +163,27 @@ class ListadoRelator extends Component {
                                     <td>
                                     <button id="btn_delete"><BsTrash/></button>
                                     <button id="btn_edit_cuenta"><BsPencilSquare/></button>
+                                    <button id="btn_edit_cuenta"><BiShowAlt /></button>
+
                                     </td>
                                 </tr>
                 ))}
-
-                        </tbody>
-                    </table>
-                    <div id="paginador">
-                          {paginador.map((pagina) => (
+                         </tbody>
+                         <div id="paginador">
+                            {paginador.map((pagina) => (
                             <li>
-                              <button
+                                <button
                                 onClick={this.sendNum}
                                 name="paginas"
                                 value={pagina.paginas}
-                                                >
+                                >
                                 {pagina.paginas}
-                              </button>
+                                </button>
                             </li>
-                          ))}
+                            ))}
                         </div>
-                </div>
+                </table>
+
         <div id="form_registrarOrador" className={ toggle_formRelator ? "active" : "form_registrarOrador"}>
             <div className="btn_close" onClick={this.SwitchToggleRelator}>&times;</div>
             <h3 id="registrar">Registro de Oradores</h3>

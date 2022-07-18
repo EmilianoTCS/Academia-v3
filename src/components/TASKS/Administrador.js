@@ -216,7 +216,7 @@ class Administrador extends Component {
                             <div className="card" >
                                     <div className="card-body">
                                     <h4 className="card-title">Colaboradores</h4>
-                                    <table id="tabla-cursos" className="table table-striped table-inverse table-responsive">
+                                    <table id="tabla-cursos" className="table table-striped table-inverse tale-responsive">
                                         <thead  style={{position: "sticky", top: "0"}} className="thead-inverse dark">
                                             <tr>
                                                 <th>ID</th>

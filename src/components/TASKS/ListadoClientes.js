@@ -6,6 +6,7 @@ import "../css/Paginador.css";
 import "../css/Botones.css";
 import "../css/Forms.css";
 import { Link } from "react-router-dom";
+import { BiShowAlt } from "react-icons/bi";
 
 import '../css/Tables.css';
 class ListadoClientes extends Component {
@@ -105,6 +106,8 @@ class ListadoClientes extends Component {
         return ( 
             <div>
                 <Header />
+              <h1 id="subtitulo_pagina">Listado de clientes</h1>
+
                <div>
                <button id="btn_registrarCliente" onClick={this.SwitchToggleClientes}>Registrar cliente</button>
                 <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
@@ -136,7 +139,8 @@ class ListadoClientes extends Component {
                                                     >
                                                     <BsTrash />
                                                     </button>
-                                                    <button id="btn_edit_cuenta"><Link to={"/EditarClientes/"+cliente.ID}><BsPencilSquare /></Link></button>
+                                                    <button id="btn_edit_cuenta"><Link style={{color: "black"}}to={"/EditarClientes/"+cliente.ID}><BsPencilSquare /></Link></button>
+                                                     <button id="btn_edit_cuenta"><BiShowAlt /></button>
                                                  </td>
                                                 </tr>
                                 ))}                        

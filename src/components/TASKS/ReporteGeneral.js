@@ -31,7 +31,7 @@ class ReporteGeneral extends Component {
     return (
       <div>
         <Header />
-        <h1 id="subtitulo_pagina">Reporte General del estado actual de cursos</h1>
+        <h1 id="subtitulo_pagina">Reporte General de cursos</h1>
         <div id="container_cards">
             {cards.map((card) =>
             <><div id="coe_carta">

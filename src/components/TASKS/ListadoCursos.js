@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { BsPencilSquare, BsX } from "react-icons/bs";
+import { BsPencilSquare, BsX, BsTrash } from "react-icons/bs";
+import { BiShowAlt } from "react-icons/bi";
+
 import { Link } from "react-router-dom";
 import "../css/Tables.css";
 import Header from "../templates/header";
@@ -142,60 +144,58 @@ class ListadoCursos extends Component {
     return (
       <div>
         <Header></Header>
-        <div id="container_tabla">
-        <div id="btn_container">
-          <button id="btn_registrar" onClick={this.SwitchToggleRamo}>
-            Registrar curso
-          </button>
-          <input type="text" id="search_cuenta" placeholder="Buscador" />
-          </div>
-          <table id="tabla_cuenta">
-            <thead id="list_theadCuentas">
-              <tr>
-                <th>ID</th>
-                <th>codigoCuenta</th>
-                <th>Nombre del curso</th>
-                <th>ID del curso</th>
-                <th>Inicio</th>
-                <th>Fin</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody id="list_tbodyCuentas">
-              {cursos.map((curso) => (
-                <tr key={curso.ID}>
-                  <td>{curso.ID}</td>
-                  <td>{curso.codigoCuenta}</td>
-                  <td>{curso.nombreRamo}</td>
-                  <td><Link to={"/InfoCursos/"+curso.codigoCurso}>{curso.codigoCurso}</Link></td>
-                  <td>{curso.inicio}</td>
-                  <td>{curso.fin}</td>
-                  <td>{curso.estado}</td>
-                  <td>
-                    <button id="btn_edit_cuenta">
-                    <Link to={"/EditarCursos/"+curso.ID}><BsPencilSquare /></Link>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <h1 id="subtitulo_pagina">Listado de cursos</h1>
+        <div>
+          <button id="btn_registrarCliente" onClick={this.SwitchToggleCurso}>Registrar curso</button>
+           <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
+                    <thead className="thead-inverse">
+                        <tr>
+                            <th>Código del curso</th>
+                            <th>Código de la Cuenta</th>
+                            <th>Nombre del curso</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Estado</th>
+                            <th>Operaciones</th>
+                      </tr>
+                        </thead>
+                        <tbody>
+                              {cursos.map((curso) => (
+                                <tr key={curso.ID}>
+                                  <td>{curso.codigoCurso}</td>
+                                  <td>{curso.codigoCuenta}</td>
+                                  <td>{curso.nombreRamo}</td>
+                                  <td>{curso.inicio}</td>
+                                  <td>{curso.fin}</td>
+                                  <td>{curso.estado}</td>
+                                  <td>
+                                    <button id="btn_edit_cuenta">
+                                    <Link style={{textDecoration: "none", color: "black"}}to={"/EditarCursos/"+curso.ID}><BsPencilSquare /></Link>
+                                    </button>
+                                    <button id="btn_delete"><BsTrash/></button>
+                                    <button id="btn_edit_cuenta"><Link style={{color: "black"}} to={"/InfoCursos/"+curso.codigoCurso}><BiShowAlt /></Link></button>
 
-          <div id="paginador">
-            {paginador.map((pagina) => (
-              <li>
-                <button
-                  onClick={this.sendNum}
-                  name="paginas"
-                  value={pagina.paginas}
-                                  >
-                  {pagina.paginas}
-                </button>
-              </li>
-            ))}
-          </div>
-        </div>
-        <div id="form_registrarRamo" className={toggle_formRamo ? "active" : "form_registrarRamo"} >
+                                  </td>
+                                </tr>
+                              ))}
+                         </tbody>
+                         <div id="paginador">
+                            {paginador.map((pagina) => (
+                            <li>
+                                <button
+                                onClick={this.sendNum}
+                                name="paginas"
+                                value={pagina.paginas}
+                                >
+                                {pagina.paginas}
+                                </button>
+                            </li>
+                            ))}
+                        </div>
+                </table>
+                
+                </div>
+        {/* <div id="form_registrarRamo" className={toggle_formRamo ? "active" : "form_registrarRamo"} >
           <div className="btn_close" onClick={this.SwitchToggleRamo}>
             <BsX />
           </div>
@@ -276,7 +276,7 @@ class ListadoCursos extends Component {
               <input type="submit" id="btn_sig" value="Siguiente" onClick={this.SwitchToggleCurso} />
             </div>
           </form>
-        </div>
+        </div> */}
         <div id="form_registrarCurso" className={toggle_formCurso ? "active" : "form_registrarCurso"}>
             <div className="btn_close" onClick={this.TurnOffCurso}><BsX /></div>
             <h3>Registro de cursos</h3>

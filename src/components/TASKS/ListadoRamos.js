@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import { BsPencilSquare, BsTrash, BsX } from "react-icons/bs";
+import { BiShowAlt } from "react-icons/bi";
 import '../css/Tables.css'
 import '../css/Botones.css'
 import Header from "../templates/header";
@@ -105,13 +106,7 @@ class ListadoRamos extends Component {
       SwitchToggleRamo = () => {
         this.setState({ toggle_formRamo: !this.state.toggle_formRamo });
       };
-      SwitchToggleCurso = () => {
-        this.setState({ toggle_formCurso: !this.state.toggle_formCurso });
-        this.SwitchToggleRamo();
-      };
-      TurnOffCurso = () => {
-        this.setState({ toggle_formCurso: !this.state.toggle_formCurso });
-      };
+
       componentDidMount() {
         this.loadData();
         this.loadPaginador();
@@ -141,9 +136,7 @@ class ListadoRamos extends Component {
     render() { 
         const { loadedData, ramos, paginador } = this.state;
         const{idCuenta, codigoRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
-        const{fechaInicio, fechaFin, horaInicio, horaFin} = this.state;
         const toggle_formRamo = this.state.toggle_formRamo;
-        const toggle_formCurso = this.state.toggle_formCurso;
 
     if (!loadedData) {
       return <div>Loading data...</div>;
@@ -151,29 +144,25 @@ class ListadoRamos extends Component {
         return (
             <div>
              <Header></Header> 
-                <div id="container_tabla">
-                <div id="btn_container">
-                    <button id="btn_registrar" onClick={this.SwitchToggleRamo}>Registrar ramo</button>
-                    <input type="text" id="search_cuenta" placeholder="Buscador"/>
-                    </div>
-                    <table id="tabla_curso">
-                                              <thead id="list_theadCursos">
-                            <tr>
-                                <th>ID</th>
-                                <th>idCuenta</th>
+            <h1 id="subtitulo_pagina">Listado de ramos</h1>
+
+             <button id="btn_registrarCliente" onClick={this.SwitchToggleRamo}>Registrar ramo</button>
+             <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
+                    <thead className="thead-inverse">
+                    <tr>
+
                                 <th>ID del ramo</th>
                                 <th>Nombre del ramo</th>
                                 <th>HH académicas</th>
                                 <th>Pre-requisito</th>
                                 <th>Relator</th>
                                 <th>Área</th>
+                                <th>Operaciones</th>
                              </tr>
                         </thead>
-                        <tbody id="list_tbodyCursos">
+                        <tbody>
                         {ramos.map((ramo) => (
                                 <tr key={ramo.ID}>
-                                    <td>{ramo.ID}</td>
-                                    <td>{ramo.idCuenta}</td>
                                     <td>{ramo.codigoRamo}</td>
                                     <td>{ramo.nombreRamo}</td>
                                     <td>{ramo.hh_academicas}</td>
@@ -182,27 +171,27 @@ class ListadoRamos extends Component {
                                     <td>{ramo.area}</td>
                                     <td>
                                     <button id="btn_delete" onClick={()=> this.deleteData(ramo.ID)}><BsTrash/></button>
-                                    <button id="btn_edit_cuenta"><Link to={"/EditarRamos/"+ramo.ID}><BsPencilSquare /></Link></button>
+                                    <button id="btn_edit_cuenta"><Link style={{color: "black"}} to={"/EditarRamos/"+ramo.ID}><BsPencilSquare /></Link></button>
+                                    <button id="btn_edit_cuenta"><BiShowAlt /></button>
                                     </td>
                                 </tr>
                 ))}
-
-                        </tbody>
-                    </table>
-                    <div id="paginador">
-                          {paginador.map((pagina) => (
+                         </tbody>
+                         <div id="paginador">
+                            {paginador.map((pagina) => (
                             <li>
-                              <button
+                                <button
                                 onClick={this.sendNum}
                                 name="paginas"
                                 value={pagina.paginas}
-                                                >
+                                >
                                 {pagina.paginas}
-                              </button>
+                                </button>
                             </li>
-                          ))}
+                            ))}
                         </div>
-                </div>
+                </table>
+
                 <div id="form_registrarRamo" className={toggle_formRamo ? "active" : "form_registrarRamo"} >
           <div className="btn_close" onClick={this.SwitchToggleRamo}>
             <BsX />
@@ -285,80 +274,6 @@ class ListadoRamos extends Component {
             </div>
           </form>
         </div>
-        <div id="form_registrarCurso" className={toggle_formCurso ? "active" : "form_registrarCurso"}>
-            <div className="btn_close" onClick={this.TurnOffCurso}><BsX /></div>
-            <h3>Registro de cursos</h3>
-            <form id="form_agregarCurso" onSubmit={this.sendDataCurso}>
-              <input type="hidden" id="input_idCurso" />
-              <div>
-                <label htmlFor="input_idCuenta_Curso">ID de la Cuenta: </label>
-                <select name="input_idCuenta_Curso" onChange={this.cambioValor} id="input_idCuenta_Curso">
-                  <option value="fondo_esperanza">Fondo Esperanza</option>
-                  <option value="Transbank">Transbank</option>
-                  <option value="BCI">BCI</option>
-                  <option value="BCI_agil">BCI Ágil</option>
-                  <option value="BCI_tecnico">BCI Técnico</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="input_idRamo_Curso">ID del Ramo: </label>
-                <select name="input_idRamo_Curso"onChange={this.cambioValor} id="input_idRamo_Curso">
-                  <option>JAV</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="input_fechaInicio">Fecha Inicio: </label>
-                <input
-                  type="text"
-                  name="fechaInicio"
-                  id="input_fechaInicio"
-                  placeholder="yyyy-mm-dd"
-                  onChange={this.cambioValor}
-                  value={fechaInicio}
-                />
-              </div>
-              <div>
-                <label htmlFor="input_fechaFin">Fecha Fin: </label>
-                <input
-                  type="text"
-                  name="fechaFin"
-                  id="input_fechaFin"
-                  placeholder="yyyy-mm-dd"
-                  onChange={this.cambioValor}
-                  value={fechaFin}
-                />
-              </div>
-              <div>
-                <label htmlFor="input_horaInicio">Hora Inicio: </label>
-                <input
-                  type="text"
-                  name="horaInicio"
-                  id="input_horaInicio"
-                  placeholder="HH:mm:ss"
-                  onChange={this.cambioValor}
-                  value={horaInicio}
-                />
-              </div>
-              <div>
-                <label htmlFor="input_horaFin">Hora Fin: </label>
-                <input
-                  type="text"
-                  name="horaFin"
-                  id="input_horaFin"
-                  placeholder="HH:mm:ss"
-                  onChange={this.cambioValor}
-                  value={horaFin}
-                />
-              </div>
-              <div>
-                <input
-                  type="submit"
-                  className="btn_registrar"
-                  value="Registrar"
-                />
-              </div>
-            </form>
-          </div>
             </div>
         );
     }

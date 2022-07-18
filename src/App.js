@@ -23,8 +23,8 @@ function App() {
   
   return (
     <Router>
-      <Route path="/home" component={HomePage}></Route>
-      <Route exact path="/" component={HomePage}></Route>
+      <Route path="/home" component={ReporteGeneral}></Route>
+      <Route exact path="/" component={ReporteGeneral}></Route>
       <Route path={"/login"} component={Login}></Route>
       <Route path="/Cursos" component={ListadoCursos}></Route>
       <Route path="/Ramos" component={ListadoRamos}></Route>
