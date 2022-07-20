@@ -19,6 +19,7 @@ import ListadoClientes from "./components/TASKS/ListadoClientes";
 import EditarClientes from "./components/TASKS/EditarClientes";
 import InscripcionCurso from "./components/TASKS/InscripcionCurso";
 import Prerequisitos from "./components/TASKS/Prerequisitos";
+import InfoRamos from "./components/TASKS/InfoRamos";
 function App() {
   
   return (
@@ -33,7 +34,7 @@ function App() {
       <Route path="/Colaboradores" component={ListadoColaboradores}></Route>
       <Route path="/InfoColaboradores/:usuario" component={InfoColaboradores}></Route>
       <Route path="/InfoCursos/:codigoCurso" component={InfoCursos}></Route>
-      <Route path="/EditarCursos/:ID" component={EditarCursos}></Route>
+      <Route path="/InfoRamos/:codigoRamo" component={InfoRamos}></Route>
       <Route path="/EditarRamos/:ID" component={EditarRamos}></Route>
       <Route path="/EditarColaboradores/:ID" component={EditarColaboradores}></Route>
       <Route path="/Administrador" component={Administrador}></Route>

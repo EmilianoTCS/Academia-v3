@@ -7,23 +7,16 @@ import "../css/Paginador.css";
 import "../css/Botones.css";
 import "../css/Forms.css";
 
-class InfoCursos extends Component {
+class InfoRamos extends Component {
     state = {
         loadedData: false,
-        cursos: [],
-        paginador: [],
-        num_boton: "",
-        codigoCurso: "",
-        horaInicio: "",
-        horaFin: "",
-        usuario: "",
-        aprobacion: "",
-        estado: ""}
+        ramos: [],
+       }
 
     loadData() {
-        const codigoCurso = this.props.match.params.codigoCurso
+        const codigoRamo = this.props.match.params.codigoRamo
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-list_infoidCurso.php?codigoCurso="+codigoCurso
+          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-list_infoidCurso.php?codigoCurso="+codigoRamo
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -140,4 +133,4 @@ class InfoCursos extends Component {
     }
 }
  
-export default InfoCursos;
+export default InfoRamos;

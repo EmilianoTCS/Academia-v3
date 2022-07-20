@@ -9,7 +9,7 @@ class Prerequisitos extends Component {
     idCursos: [],
     CursoaInsertar: "",
     PrerequisitoAInsertar: "",
-    CursoaConsultar: "",
+    CursoaConsultar: "2",
     prerequisitos: []
   };
 
@@ -25,6 +25,7 @@ class Prerequisitos extends Component {
   }
   componentDidMount() {
     this.loadidCursos();
+    this.loadPrerequisitos(this.state.CursoaConsultar);
   }
   loadPrerequisitos = (ID) => {
     fetch(
@@ -43,6 +44,7 @@ class Prerequisitos extends Component {
     .then((response) => response.json())
      .then((dataResponse) => {
        console.log(dataResponse);
+       this.loadPrerequisitos(this.state.CursoaConsultar)
      })
      .catch(console.log());
  }
@@ -84,7 +86,7 @@ class Prerequisitos extends Component {
     const idCurso = this.state.idCursos;
     const prerequisitos = this.state.prerequisitos;
     return (
-      <div>
+      <div className="container">
         <Header></Header>
         <div id="container-prerequisitos">
           <div className="card">
@@ -175,9 +177,8 @@ class Prerequisitos extends Component {
                   <table className="table table-striped table-inverse table-responsive">
                     <thead>
                       <tr>
-                        <th>ID</th>
                         <th>Codigo</th>
-                        <th>ID del curso</th>
+                        <th>Nombre del ramo</th>
                         <th>ID del pre_requisito</th>
                         <th>Fecha de modificación</th>
                         <th>Habilitar o Deshabilitar</th>
@@ -186,9 +187,8 @@ class Prerequisitos extends Component {
                     <tbody>
                         {prerequisitos.map((prerequisito) => (
                             <tr key={prerequisito.ID}>
-                            <td>{prerequisito.ID}</td>
                             <td>{prerequisito.codigoRamo}</td>
-                            <td>{prerequisito.idCurso}</td>
+                            <td>{prerequisito.nombreRamo}</td>
                             <td>{prerequisito.pre_requisito}</td>
                             <td>{prerequisito.fechaActualizacion}</td>
                             <td onChange={() => this.toggleisActivePrerequisito(prerequisito.ID)}><ToggleSwitch isActive={prerequisito.isActive}/></td>

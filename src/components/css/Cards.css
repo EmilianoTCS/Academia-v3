@@ -5,7 +5,7 @@
 
 #container_cards {
     margin-left: 200px;
-    width: calc(100% - 200px);
+    width: calc(100% - 300px);
     display: flex;
     justify-content: space-around;
     align-items: center;

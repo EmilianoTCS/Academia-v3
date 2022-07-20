@@ -29,7 +29,7 @@ class ReporteGeneral extends Component {
     }
 
     return (
-      <div>
+      <div className="container-fluid">
         <Header />
         <h1 id="subtitulo_pagina">Reporte General de cursos</h1>
         <div id="container_cards">

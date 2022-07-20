@@ -121,7 +121,7 @@ class ListadoRamos extends Component {
       deleteData = (ID) =>{
         console.log(ID);
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-deleteCursos.php?delete="+ID)
+          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStateRamos.php?updateStateRamos="+ID)
          .then((response) => response.json())
           .then((dataResponse) => {
             console.log(dataResponse);
@@ -142,7 +142,7 @@ class ListadoRamos extends Component {
       return <div>Loading data...</div>;
     }
         return (
-            <div>
+            <div className="container-fluid">
              <Header></Header> 
             <h1 id="subtitulo_pagina">Listado de ramos</h1>
 
@@ -170,9 +170,9 @@ class ListadoRamos extends Component {
                                     <td>{ramo.nombre}</td>
                                     <td>{ramo.area}</td>
                                     <td>
-                                    <button id="btn_delete" onClick={()=> this.deleteData(ramo.ID)}><BsTrash/></button>
-                                    <button id="btn_edit_cuenta"><Link style={{color: "black"}} to={"/EditarRamos/"+ramo.ID}><BsPencilSquare /></Link></button>
-                                    <button id="btn_edit_cuenta"><BiShowAlt /></button>
+                                    <button title="Editar ramo" id="btn_edit_cuenta"><Link style={{color: "black"}} to={"/EditarRamos/"+ramo.ID}><BsPencilSquare /></Link></button>
+                                    <button title="Examinar ramo" id="btn_edit_cuenta"><BiShowAlt /></button>
+                                    <button title="Eliminar ramo" id="btn_delete" onClick={()=> this.deleteData(ramo.ID)}><BsTrash/></button>
                                     </td>
                                 </tr>
                 ))}
@@ -196,7 +196,7 @@ class ListadoRamos extends Component {
           <div className="btn_close" onClick={this.SwitchToggleRamo}>
             <BsX />
           </div>
-          <h3>Registro de cursos</h3>
+          <h3>Registro de ramos</h3>
           <form id="form_agregarRamo" onSubmit={this.sendDataRamo}>
             <div>
               <label htmlFor="input_idCuenta">ID de la Cuenta: </label>

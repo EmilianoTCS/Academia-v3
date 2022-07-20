@@ -8,7 +8,7 @@ class Header extends Component {
     state = {  } 
     render() { 
         return (
-        <div>
+        <div className="container-fluid">
             <div id="header" className="container">
                 <header>
                     <Link to={"/home"}><img src={tsoft_logo} alt="Logo tsoft" id="logoTsoft" /></Link>

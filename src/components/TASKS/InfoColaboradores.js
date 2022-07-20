@@ -46,12 +46,8 @@ class InfoColaboradores extends Component {
         return (
             <div>
                 <Header></Header>
-                  <div id="container_tabla">
-                    <div id="btn_container">
-                      <input type="text" id="search_cuenta" placeholder="Buscador" />
-                    </div>
-                  <table id="tabla_cuenta">
-                    <thead id="list_theadCuentas">
+                    <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
+                    <thead className="thead-inverse">
                       <tr>
                         <th>ID</th>
                         <th>usuario</th>
@@ -61,7 +57,7 @@ class InfoColaboradores extends Component {
                         <th>Estado</th>
                       </tr>
                     </thead>
-                    <tbody id="list_tbodyCuentas">
+                    <tbody>
                       {colaboradores.map((colaborador) => (
                         <tr key={colaborador.ID}>
                           <td>{colaborador.ID}</td>
@@ -84,7 +80,6 @@ class InfoColaboradores extends Component {
                         </tr>
                       ))}
                     </tbody>
-                  </table>
 
                   <div id="paginador">
                     {paginador.map((pagina) => (
@@ -99,8 +94,9 @@ class InfoColaboradores extends Component {
                       </li>
                     ))}
                   </div>
+                  </table>
                 </div>
-            </div>
+
         );
     }
 }

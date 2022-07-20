@@ -49,7 +49,7 @@ class Navigator extends Component {
 
         if(isLogged){
         return (
-        <div className="container">
+        <div className="container-fluid">
         <section id="sidebar" className={toggleSidebar ? "active" : "sidebar"}>
           <ul>
             <li><img id="User_logo" src={user_logo} alt="User Logo"/></li>

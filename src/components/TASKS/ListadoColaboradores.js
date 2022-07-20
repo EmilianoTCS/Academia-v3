@@ -4,6 +4,8 @@ import { BsPencilSquare, BsTrash, BsX } from "react-icons/bs";
 import "../css/Tables.css";
 import "../css/Paginador.css";
 import "../css/Botones.css";
+import { BiShowAlt } from "react-icons/bi";
+
 import "../css/Forms.css";
 import { Link } from "react-router-dom";
 class Colaboradores extends Component {
@@ -124,17 +126,13 @@ class Colaboradores extends Component {
       return <div>Loading data...</div>;
     }
     return (
-      <div>
+      <div className="container-fluid">
         <Header />
-        <div id="container_tabla">
-          <div id="btn_container">
-            <button id="btn_registrar" onClick={this.SwitchToggleColaboradores}>
-              Registrar colaborador
-            </button>
-            <input type="text" id="search_cuenta" placeholder="Buscador" />
-          </div>
-          <table id="tabla_cuenta">
-            <thead id="list_theadCuentas">
+        <h1 id="subtitulo_pagina">Listado de colaboradores</h1>
+        <div>
+          <button id="btn_registrarCliente" onClick={this.SwitchToggleColaboradores}>Registrar curso</button>
+           <table style={{whiteSpace: "nowrap"}}id="tablaClientes" className="table table-striped table-inverse table-responsive">
+            <thead className="thead-inverse">
               <tr>
                 <th>ID</th>
                 <th>Nombre Completo</th>
@@ -145,7 +143,7 @@ class Colaboradores extends Component {
                 <th>Correo</th>
               </tr>
             </thead>
-            <tbody id="list_tbodyCuentas">
+            <tbody>
               {colaboradores.map((colaborador) => (
                 <tr key={colaborador.ID}>
                   <td>{colaborador.ID}</td>
@@ -156,20 +154,20 @@ class Colaboradores extends Component {
                   <td>{colaborador.subgerencia}</td>
                   <td>{colaborador.correo}</td>
                   <td>
+                  <button title="Editar colaborador" id="btn_edit_cuenta"><Link to={"/EditarColaboradores/"+colaborador.ID}><BsPencilSquare /></Link></button>
+                  <button title="Examinar colaborador"id="btn_edit_cuenta"><BiShowAlt /></button>
                     <button
+                    title="Eliminar colaborador"
                       id="btn_delete"
                       onClick={() => this.deleteData(colaborador.ID)}
                     >
                       <BsTrash />
                     </button>
-                    <button id="btn_edit_cuenta"><Link to={"/EditarColaboradores/"+colaborador.ID}><BsPencilSquare /></Link></button>
                   </td>
                 </tr>
               ))}
             </tbody>
-          </table>
-
-          <div id="paginador">
+            <div id="paginador">
             {paginador.map((pagina) => (
               <li>
                 <button
@@ -182,6 +180,7 @@ class Colaboradores extends Component {
               </li>
             ))}
           </div>
+          </table>
         </div>
         <div
           id="form_registrarColaborador"

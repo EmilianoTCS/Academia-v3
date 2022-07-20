@@ -95,7 +95,7 @@ class InscripcionCurso extends Component {
         const styles_warning = {transition: "transition: all 300ms ease",display: "block", borderRadius: "5px", width: "100%", color: "#87782d", fontWeight: "700",backgroundColor: "#fff4ba", border: "1px solid #316C2B", padding: "20px"}
         const styles_btnClose_warning = {backgroundColor: "#fce779" , float:"right",border: "solid 1px #87782d",borderRadius: "100%",padding: "0 7px 0 7px", fontWeight: "700", color: "#87782d"}
         return (
-            <div>
+            <div className="container-fluid">
             <Header/>
             <div id="form_container" className="card">
 

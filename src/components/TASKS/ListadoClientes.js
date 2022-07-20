@@ -104,7 +104,7 @@ class ListadoClientes extends Component {
             )
         }
         return ( 
-            <div>
+            <div className="container-fluid">
                 <Header />
               <h1 id="subtitulo_pagina">Listado de clientes</h1>
 
@@ -133,14 +133,15 @@ class ListadoClientes extends Component {
                                                 <td>{cliente.cargoReferente}</td>
                                                 <td>{cliente.telefonoReferente}</td>
                                                 <td>
+                                                <button title="Editar cliente"id="btn_edit_cuenta"><Link style={{color: "black"}}to={"/EditarClientes/"+cliente.ID}><BsPencilSquare /></Link></button>
+                                                <button title="Examinar cliente"id="btn_edit_cuenta"><BiShowAlt /></button>
                                                     <button
                                                     id="btn_delete"
+                                                    title="Eliminar cliente"
                                                     onClick={() => this.deleteData(cliente.ID)}
                                                     >
                                                     <BsTrash />
                                                     </button>
-                                                    <button id="btn_edit_cuenta"><Link style={{color: "black"}}to={"/EditarClientes/"+cliente.ID}><BsPencilSquare /></Link></button>
-                                                     <button id="btn_edit_cuenta"><BiShowAlt /></button>
                                                  </td>
                                                 </tr>
                                 ))}                        

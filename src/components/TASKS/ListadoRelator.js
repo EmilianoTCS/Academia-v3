@@ -133,7 +133,7 @@ class ListadoRelator extends Component {
       return <div>Loading data...</div>;
     }
         return (
-            <div>
+            <div className="container-fluid">
                 <Header></Header>
                <h1 id="subtitulo_pagina">Listado de relatores</h1>
 
@@ -161,9 +161,9 @@ class ListadoRelator extends Component {
                                     <td>{relator.nombreRamo}</td>
                                     <td>{relator.estado}</td>
                                     <td>
-                                    <button id="btn_delete"><BsTrash/></button>
-                                    <button id="btn_edit_cuenta"><BsPencilSquare/></button>
-                                    <button id="btn_edit_cuenta"><BiShowAlt /></button>
+                                    <button title="Editar relator" id="btn_edit_cuenta"><BsPencilSquare/></button>
+                                    <button title="Examinar relator"id="btn_edit_cuenta"><BiShowAlt /></button>
+                                    <button title="Eliminar relator" id="btn_delete"><BsTrash/></button>
 
                                     </td>
                                 </tr>
