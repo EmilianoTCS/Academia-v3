@@ -1,7 +1,5 @@
 import React from "react";
 import "./App.css";
-
-import HomePage from "./components/homePage";
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import Login from "./components/login";
 import ListadoCursos from "./components/TASKS/ListadoCursos";
@@ -11,7 +9,6 @@ import ReporteGeneral from "./components/TASKS/ReporteGeneral";
 import ListadoColaboradores from "./components/TASKS/ListadoColaboradores";
 import InfoColaboradores from "./components/TASKS/InfoColaboradores";
 import InfoCursos from "./components/TASKS/InfoCursos";
-import EditarCursos from "./components/TASKS/EditarCursos";
 import EditarRamos from "./components/TASKS/EditarRamos";
 import EditarColaboradores from "./components/TASKS/EditarColaboradores";
 import Administrador from "./components/TASKS/Administrador";

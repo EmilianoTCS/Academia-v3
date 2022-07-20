@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import '../css/Tables.css';
 import Header from "../templates/header";
-import {Link } from "react-router-dom";
+
 import '../css/Botones.css';
 import '../css/Forms.css';
 import { BiShowAlt } from "react-icons/bi";
@@ -19,7 +19,12 @@ class ListadoRelator extends Component {
       nombreRamo:"",
       hh_academicas: "",
       pre_requisito: "",
-      toggle_formRelator: false 
+      toggle_formRelator: false,
+      toggle_formEdit: false,
+      relatoresEdit: [],
+      IDEdit: "",
+      nombreEdit: "",
+      areaEdit: ""
 } 
 
     loadData() {
@@ -75,6 +80,7 @@ class ListadoRelator extends Component {
         const state = this.state;
         state[e.target.name] = e.target.value;
         this.setState({state});
+        this.setState({relatoresEdit: state});
       }
 
       sendDataRelator = (e) =>{
@@ -95,21 +101,11 @@ class ListadoRelator extends Component {
           })
           .catch(console.log());
       }
-    
-    //   deleteData = (idUsuario) =>{
-    //     console.log(idUsuario);
-    //     fetch(
-    //       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-deleteColaborador.php?idUsuario="+idUsuario)
-    //      .then((response) => response.json())
-    //       .then((dataResponse) => {
-    //         console.log(dataResponse);
-    //         this.loadData();
-    //       })
-    //       .catch(console.log());
-    //  } 
-
     SwitchToggleRelator = () => {
       this.setState({ toggle_formRelator: !this.state.toggle_formRelator });
+    };
+    SwitchToggleFormEdit = () => {
+      this.setState({ toggle_formEdit: false });
     };
     
     deleteData = (ID) =>{
@@ -124,10 +120,50 @@ class ListadoRelator extends Component {
         .catch(console.log());
    }
 
+   loadDataEdit(ID) {
+    console.log(ID);
+    fetch(
+      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-selectRelatores.php?ID="+ID
+    )
+      .then((response) => response.json())
+      .then((dataResponse) => {
+        this.setState({ loadedData: true, relatoresEdit: dataResponse[0] });  
+        this.setState({toggle_formEdit: true});
+        console.log(dataResponse);
+      })
+      .catch(console.log());
+  }
+  sendDataRelatorEdit = (e) =>{
+    e.preventDefault();
+    console.log("Sending data..");
+    console.log(this.state.relatoresEdit.IDEdit);
+    const{ nombreEdit, areaEdit, IDEdit} = this.state;
+
+    var datosEnviar = {IDEdit: IDEdit, nombre: nombreEdit, area:areaEdit}
+    console.log(datosEnviar);
+    fetch(
+      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editRelatores.php?editarRelatores",{
+        method: "POST",
+        body: JSON.stringify(datosEnviar)
+      }
+    )
+      .then((response) => response.json())
+      .then((dataResponse) => {
+        this.setState({loadedData : true})
+        console.log(dataResponse);
+      })
+      .catch(console.log());
+  }
+
+
+
+
     render() { 
         const { loadedData, relatores, paginador } = this.state;
         const toggle_formRelator = this.state.toggle_formRelator;
+        const toggle_formEdit = this.state.toggle_formEdit;
         const {relator, idCuenta, codigoRamo, nombreRamo, hh_academicas, pre_requisito, area} = this.state;
+        const relatoresEdit = this.state.relatoresEdit;
 
     if (!loadedData) {
       return <div>Loading data...</div>;
@@ -136,32 +172,30 @@ class ListadoRelator extends Component {
             <div className="container-fluid">
                 <Header></Header>
                <h1 id="subtitulo_pagina">Listado de relatores</h1>
-
                 <button id="btn_registrarCliente" onClick={this.SwitchToggleRelator}>Registrar relator</button>
-
                 <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
                     <thead className="thead-inverse">
                     <tr>
                                 <th>ID</th>
                                 <th>Relator</th>
+                                <th>Área</th>
                                 <th>Cuenta</th>
                                 <th>Código Ramo</th>
                                 <th>Nombre del ramo</th>
-                                <th>Estado</th>
                                 <th>Operaciones</th>
                              </tr>
                         </thead>
                         <tbody>
                         {relatores.map((relator) => (
-                                <tr key={relator.ID}>
+                                <tr>
                                     <td>{relator.ID}</td>
                                     <td>{relator.nombre}</td>
+                                    <td>{relator.area}</td>
                                     <td>{relator.codigoCuenta}</td>
                                     <td>{relator.codigoRamo}</td>
                                     <td>{relator.nombreRamo}</td>
-                                    <td>{relator.estado}</td>
                                     <td>
-                                    <button title="Editar relator" id="btn_edit_cuenta"><BsPencilSquare/></button>
+                                    <button onClick={() => this.loadDataEdit(relator.ID)} title="Editar relator" id="btn_edit_cuenta"><BsPencilSquare/></button>
                                     <button title="Examinar relator"id="btn_edit_cuenta"><BiShowAlt /></button>
                                     <button title="Eliminar relator" id="btn_delete"><BsTrash/></button>
 
@@ -228,6 +262,27 @@ class ListadoRelator extends Component {
               </div>
           </form>
     </div>
+
+    <div id="form_registrarOrador" className={ toggle_formEdit ? "active" : "form_registrarOrador"}>
+            <div className="btn_close" onClick={this.SwitchToggleFormEdit}>&times;</div>
+            <h3 id="registrar">Actualizar Oradores</h3>
+            <form id="form_agregarOrador" onSubmit={this.sendDataRelatorEdit} >
+              <input type="text" name="IDEdit" value={relatoresEdit.IDEdit}/>
+              <div>
+                  <label htmlFor="input_relator">Nombre: </label>
+                  <input type="text" onChange={this.cambioValor} name="nombreEdit" id="input_relator"  value={relatoresEdit.nombre}/>
+              </div>
+              <div>
+                  <label htmlFor="input_areaRamo">Área: </label>
+                  <input type="text" name="areaEdit" id="input_areaRamo" placeholder="Ejemplo: Automatización"value={relatoresEdit.area}/>
+              </div>
+              <div id="button_container">
+                  <input type="submit" onChange={this.cambioValor} id="btn_registrar" value="Actualizar"/>
+              </div>
+          </form>
+    </div>
+
+
             </div>
         );
     }

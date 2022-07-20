@@ -8,7 +8,6 @@ import Header from "../templates/header";
 import "../css/Paginador.css";
 import '../css/Botones.css'
 import "../css/Forms.css";
-import EditarCursos from "./EditarCursos";
 class ListadoCursos extends Component {
   state = {
     loadedData: false,
@@ -183,10 +182,6 @@ sendDataCursoEdit = (e) =>{
     })
     .catch(console.log());
 }
-
-
-
-
 
 
   render() {

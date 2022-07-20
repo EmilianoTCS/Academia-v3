@@ -65,7 +65,7 @@ class EditarRamos extends Component {
         return (
         <div>
                 <Header/>
-                <div id="form_registrarRamo" className="active" >
+            <div id="form_registrarRamo" className="active" >
             <h3>Actualización de ramos</h3>
             <form id="form_agregarRamo" onSubmit={this.sendDataRamo}>
                 <div>
@@ -100,8 +100,12 @@ class EditarRamos extends Component {
                 />
                 </div>
                 <div>
-                <input type="submit" id="btn_sig" value="Siguiente" onClick={this.SwitchToggleCurso} />
-                </div>
+                <input
+                  type="submit"
+                  className="btn_registrar"
+                  value="Actualizar"
+                />
+              </div>
             </form>
             </div>
         </div>);
