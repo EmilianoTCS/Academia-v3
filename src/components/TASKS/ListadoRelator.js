@@ -148,21 +148,22 @@ class ListadoRelator extends Component {
       .catch(console.log());
       }
 
+      validateChanges(){
+        const changed = this.state.changed;
+        if(!changed){
+          this.setState({nombreEdit : this.state.relatoresEdit.nombreEdit})
+          this.setState({areaEdit : this.state.relatoresEdit.areaEdit})
+        }
+      }
       // Envía los datos del formulario de actualización a la sentencia SQL
       sendDataRelatorEdit = (e) =>{
+        this.validateChanges();
         e.preventDefault();
         console.log("Sending data..");
         const IDEdit = this.state.relatoresEdit.IDEdit;
-        if(!this.state.changed){
-          this.setState({nombreEdit : this.state.relatoresEdit.nombreEdit})
-          this.setState({areaEdit : this.state.relatoresEdit.areaEdit})
-          this.setState({changed: true});
-
-        }
-
         const nombreEdit = this.state.nombreEdit;
         const areaEdit = this.state.areaEdit;
-        var datosEnviar = {IDEdit: IDEdit, nombre: nombreEdit, area:areaEdit}
+        var datosEnviar = {IDEdit: IDEdit, nombreEdit: nombreEdit, areaEdit:areaEdit}
         console.log(datosEnviar);
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editRelatores.php?editarRelatores",{
@@ -171,9 +172,8 @@ class ListadoRelator extends Component {
           }
         )
           .then((response) => response.json())
-          .then((dataResponse) => {
+          .then(() => {
             this.setState({loadedData : true})
-            this.setState({changed: false});
 
           })
           .catch(console.log());
