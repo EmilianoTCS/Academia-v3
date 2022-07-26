@@ -129,6 +129,8 @@ class Administrador extends Component {
         return (
            <div>
             <Header />
+        <h1 id="subtitulo_pagina">Administrar cursos</h1>
+
                     <div className="container" id="container-curso">
                             <div className="card" >
                                     <div className="card-body">

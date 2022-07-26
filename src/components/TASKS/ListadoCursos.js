@@ -16,6 +16,7 @@ class ListadoCursos extends Component {
     num_boton: "",
     toggle_formEdit: false,
     toggle_formCurso: false,
+    toggle_formRamo: false,
     codigoCuenta : "",
     idRamo : "",
     area: "",
@@ -28,13 +29,6 @@ class ListadoCursos extends Component {
     horaInicio: "",
     horaFin: "",
     cursosEdit: [],
-    codigoCuentaEdit : "",
-    codigoRamoEdit : "",
-    fechaFinEdit: "",
-    fechaInicioEdit: "",
-    horaInicioEdit: "",
-    horaFinEdit: "",
-    IDEdit : ""
   };
   loadData() {
     fetch(
@@ -123,6 +117,9 @@ class ListadoCursos extends Component {
   SwitchToggleCurso = () => {
     this.setState({ toggle_formCurso: !this.state.toggle_formCurso });
   };
+  SwitchToggleRamo = () => {
+    this.setState({ toggle_formRamo: !this.state.toggle_formRamo });
+  };
   TurnOffCurso = () => {
     this.setState({ toggle_formCurso: !this.state.toggle_formCurso });
   };
@@ -132,9 +129,11 @@ class ListadoCursos extends Component {
   }
   cambioValor = (e) =>{
     const state = this.state;
+    const stateEdit = this.state.cursosEdit;
     state[e.target.name] = e.target.value;
+    stateEdit[e.target.name] = e.target.value;
     this.setState({state});
-    this.setState({cursosEdit: state});
+    this.setState({cursosEdit: stateEdit});
   }
   deleteData = (ID) =>{
     console.log(ID);
@@ -160,7 +159,24 @@ class ListadoCursos extends Component {
     })
     .catch(console.log());
 }
-
+sendDataRamo = (e) =>{
+  e.preventDefault();
+  console.log("Sending data..");
+  const{idCuenta, codigoRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
+  var datosEnviar = {idCuenta: idCuenta, codigoRamo: codigoRamo, 
+  nombreCurso:nombreCurso, area:area, hh_academicas:hh_academicas, pre_requisito: pre_requisito, relator: relator}
+  fetch(
+    "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarRamo.php?insertarRamo",{
+      method: "POST",
+      body: JSON.stringify(datosEnviar)
+    }
+  )
+    .then((response) => response.json())
+    .then((dataResponse) => {
+      console.log(dataResponse);
+    })
+    .catch(console.log());
+}
 sendDataCursoEdit = (e) =>{
   e.preventDefault();
   console.log("Sending data..");
@@ -182,13 +198,14 @@ sendDataCursoEdit = (e) =>{
     })
     .catch(console.log());
 }
-
-
   render() {
     const { loadedData, cursos, paginador } = this.state;
     const toggle_formCurso = this.state.toggle_formCurso;
+    const toggle_formRamo = this.state.toggle_formRamo;
     const toggle_formEdit = this.state.toggle_formEdit;
     const cursosEdit = this.state.cursosEdit;
+    const{idCuenta, codigoRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
+
 
     if (!loadedData) {
       return <div>Loading data...</div>;
@@ -197,8 +214,13 @@ sendDataCursoEdit = (e) =>{
       <div className="container-fluid">
         <Header></Header>
         <h1 id="subtitulo_pagina">Listado de cursos</h1>
+
+        {/* LISTADO DE CURSOS */}
         <div>
+          <div className="row">
           <button id="btn_registrarCliente" onClick={this.SwitchToggleCurso}>Registrar curso</button>
+          <button id="btn_registrarCliente" style={{marginLeft : "1%"}} onClick={this.SwitchToggleRamo}>Registrar ramo</button>
+          </div>
            <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
                     <thead className="thead-inverse">
                         <tr>
@@ -244,10 +266,9 @@ sendDataCursoEdit = (e) =>{
                             </li>
                             ))}
                         </div>
-                </table>
-                
-                </div>
-
+                </table>               
+           </div>
+        {/* FORM REGISTRAR CURSO */}
         <div id="form_registrarCurso" className={toggle_formCurso ? "active" : "form_registrarCurso"}>
             <div className="btn_close" onClick={this.TurnOffCurso}><BsX /></div>
             <h3>Registro de cursos</h3>
@@ -317,10 +338,9 @@ sendDataCursoEdit = (e) =>{
                 />
               </div>
             </form>
-          </div>
-                              
-        
-          <div id="form_registrarCurso" className={toggle_formEdit ? "active" : "form_registrarCurso"}>    
+           </div>               
+        {/* FORM ACTUALIZAR CURSO */}
+        <div id="form_registrarCurso" className={toggle_formEdit ? "active" : "form_registrarCurso"}>    
           <div className="btn_close" onClick={this.SwitchToggleEdit}><BsX /></div>
             <h3>Actualización de cursos</h3>
             <form id="form_agregarCurso" onSubmit={this.sendDataCursoEdit}>
@@ -409,8 +429,94 @@ sendDataCursoEdit = (e) =>{
                 />
               </div>
             </form>
+           </div>
+        {/* FORM REGISTRAR RAMO */}
+          <div id="form_registrarRamo" className={toggle_formRamo ? "active" : "form_registrarRamo"} >
+          <div className="btn_close" onClick={this.SwitchToggleRamo}>
+            <BsX />
           </div>
-
+          <h3>Registro de ramos</h3>
+          <form id="form_agregarRamo" onSubmit={this.sendDataRamo}>
+            <div>
+              <label htmlFor="input_idCuenta">ID de la Cuenta: </label>
+              <select name="idCuenta" onChange={this.cambioValor} value={idCuenta} id="input_idCuenta">
+                <option value="fondo_esperanza">Fondo Esperanza</option>
+                <option value="Transbank">Transbank</option>
+                <option value="BCI">BCI</option>
+                <option value="BCI_agil">BCI Ágil</option>
+                <option value="BCI_tecnico">BCI Técnico</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="input_idRamo">ID del Ramo: </label>
+              <input
+                type="text"
+                name="codigoRamo"
+                id="input_idRamo"
+                placeholder="Ejemplo: JAV"
+                onChange={this.cambioValor}
+                value={codigoRamo}
+              />
+            </div>
+            <div>
+              <label htmlFor="input_areaRamo">Área: </label>
+              <input
+                type="text"
+                name="area"
+                id="input_areaRamo"
+                placeholder="Ejemplo: Automatización"
+                onChange={this.cambioValor}
+                value={area}
+              />
+            </div>
+            <div>
+              <label htmlFor="input_nombreCurso">Nombre del Curso: </label>
+              <input
+                type="text"
+                name="nombreCurso"
+                id="input_nombreCurso"
+                placeholder="Ejemplo: JAVA"
+                onChange={this.cambioValor}
+                value={nombreCurso}
+              />
+            </div>
+            <div>
+              <label htmlFor="input_hhAcademicas">Horas académicas: </label>
+              <input
+                type="text"
+                name="hh_academicas"
+                id="input_hhAcademicas"
+                onChange={this.cambioValor}
+                value={hh_academicas}
+              />
+            </div>
+            <div>
+              <label htmlFor="input_preRequisito">Pre-Requisito: </label>
+              <input
+                type="text"
+                name="pre_requisito"
+                id="input_preRequisito"
+                placeholder="Ejemplo: JAV-SEL"
+                onChange={this.cambioValor}
+                value={pre_requisito}
+              />
+            </div>
+            <div>
+              <label htmlFor="input_relator">Relator: </label>
+              <input type="text" name="relator" id="input_relator"
+               onChange={this.cambioValor}
+               value={relator}
+               />
+            </div>
+            <div>
+                <input
+                  type="submit"
+                  className="btn_registrar"
+                  value="Registrar"
+                />
+              </div>
+          </form>
+           </div>
       </div>
     );
   }

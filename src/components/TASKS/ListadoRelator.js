@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import '../css/Tables.css';
 import Header from "../templates/header";
-
 import '../css/Botones.css';
 import '../css/Forms.css';
 import { BiShowAlt } from "react-icons/bi";
@@ -24,9 +23,11 @@ class ListadoRelator extends Component {
       relatoresEdit: [],
       IDEdit: "",
       nombreEdit: "",
-      areaEdit: ""
+      areaEdit: "",
+      changed: false
+      // Recolecta los datos del registro de clientes
 } 
-
+      // Recolecta los datos del registro de relatores
     loadData() {
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listOrador.php"
@@ -38,6 +39,7 @@ class ListadoRelator extends Component {
           .catch(console.log());
       }
 
+      // Recolecta los datos del paginador
       loadPaginador() {
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/paginador/botones_Relator.php"
@@ -48,7 +50,8 @@ class ListadoRelator extends Component {
           })
           .catch(console.log());
       }
-    
+
+      // Envía el número seleccionado del paginador a la sentencia SQL para poder cambiar de página
       sendNum = (e) => {
         e.preventDefault();
         const num_boton = e.target.value;
@@ -71,18 +74,24 @@ class ListadoRelator extends Component {
           .catch(console.log());
       };
 
+      // Realiza la carga automática de funciones en el instante que se ingresó a la pantalla
      componentDidMount() {
         this.loadData();
         this.loadPaginador();
       }
 
+      // Se activa con la función OnChange cambiando el estado inicial de vacío por el ingresado en los inputs
       cambioValor = (e) =>{
         const state = this.state;
+        const stateEdit = this.state.relatoresEdit;
         state[e.target.name] = e.target.value;
+        stateEdit[e.target.name] = e.target.value;
         this.setState({state});
-        this.setState({relatoresEdit: state});
+        this.setState({relatoresEdit: stateEdit});
+        this.setState({changed: !this.state.changed});
       }
 
+      // Envía los datos del formulario de creación a la sentencia SQL
       sendDataRelator = (e) =>{
         e.preventDefault();
         console.log("Sending data..");
@@ -101,27 +110,32 @@ class ListadoRelator extends Component {
           })
           .catch(console.log());
       }
-    SwitchToggleRelator = () => {
+      
+      // Permite alternar la visibilidad del formulario de creación de datos
+      SwitchToggleRelator = () => {
       this.setState({ toggle_formRelator: !this.state.toggle_formRelator });
-    };
-    SwitchToggleFormEdit = () => {
+      };
+
+      // Permite alternar la visibilidad del formulario de actualización de datos
+      SwitchToggleFormEdit = () => {
       this.setState({ toggle_formEdit: false });
-    };
+      };
     
-    deleteData = (ID) =>{
+      // Función para "eliminar", solamente deshabilita su visibilidad en los registros y puede ser rehabilitada en la página Administrador
+      deleteData = (ID) =>{
       console.log(ID);
       fetch(
-        "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-deleteCuentas.php?delete="+ID)
+        "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStateRelator.php?updateStateRelator="+ID)
        .then((response) => response.json())
         .then((dataResponse) => {
           console.log(dataResponse);
           this.loadData();
         })
         .catch(console.log());
-   }
+      }
 
-   loadDataEdit(ID) {
-    console.log(ID);
+      // Recolecta los datos de un registro en específico utilizando el ID como referencia, se activa el botón de editar
+       loadDataEdit(ID) {
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-selectRelatores.php?ID="+ID
     )
@@ -132,33 +146,44 @@ class ListadoRelator extends Component {
         console.log(dataResponse);
       })
       .catch(console.log());
-  }
-  sendDataRelatorEdit = (e) =>{
-    e.preventDefault();
-    console.log("Sending data..");
-    console.log(this.state.relatoresEdit.IDEdit);
-    const{ nombreEdit, areaEdit, IDEdit} = this.state;
-
-    var datosEnviar = {IDEdit: IDEdit, nombre: nombreEdit, area:areaEdit}
-    console.log(datosEnviar);
-    fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editRelatores.php?editarRelatores",{
-        method: "POST",
-        body: JSON.stringify(datosEnviar)
       }
-    )
-      .then((response) => response.json())
-      .then((dataResponse) => {
-        this.setState({loadedData : true})
-        console.log(dataResponse);
-      })
-      .catch(console.log());
-  }
+
+      // Envía los datos del formulario de actualización a la sentencia SQL
+      sendDataRelatorEdit = (e) =>{
+        e.preventDefault();
+        console.log("Sending data..");
+        const IDEdit = this.state.relatoresEdit.IDEdit;
+        if(!this.state.changed){
+          this.setState({nombreEdit : this.state.relatoresEdit.nombreEdit})
+          this.setState({areaEdit : this.state.relatoresEdit.areaEdit})
+          this.setState({changed: true});
+
+        }
+
+        const nombreEdit = this.state.nombreEdit;
+        const areaEdit = this.state.areaEdit;
+        var datosEnviar = {IDEdit: IDEdit, nombre: nombreEdit, area:areaEdit}
+        console.log(datosEnviar);
+        fetch(
+          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editRelatores.php?editarRelatores",{
+            method: "POST",
+            body: JSON.stringify(datosEnviar)
+          }
+        )
+          .then((response) => response.json())
+          .then((dataResponse) => {
+            this.setState({loadedData : true})
+            this.setState({changed: false});
+
+          })
+          .catch(console.log());
+      }
 
 
 
 
     render() { 
+        // Definición de constantes referenciando a this.state
         const { loadedData, relatores, paginador } = this.state;
         const toggle_formRelator = this.state.toggle_formRelator;
         const toggle_formEdit = this.state.toggle_formEdit;
@@ -173,6 +198,8 @@ class ListadoRelator extends Component {
                 <Header></Header>
                <h1 id="subtitulo_pagina">Listado de relatores</h1>
                 <button id="btn_registrarCliente" onClick={this.SwitchToggleRelator}>Registrar relator</button>
+
+                {/* LISTADO DE RELATORES */}
                 <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
                     <thead className="thead-inverse">
                     <tr>
@@ -197,7 +224,7 @@ class ListadoRelator extends Component {
                                     <td>
                                     <button onClick={() => this.loadDataEdit(relator.ID)} title="Editar relator" id="btn_edit_cuenta"><BsPencilSquare/></button>
                                     <button title="Examinar relator"id="btn_edit_cuenta"><BiShowAlt /></button>
-                                    <button title="Eliminar relator" id="btn_delete"><BsTrash/></button>
+                                    <button onClick={() => this.deleteData(relator.ID)} title="Eliminar relator" id="btn_delete"><BsTrash/></button>
 
                                     </td>
                                 </tr>
@@ -218,69 +245,70 @@ class ListadoRelator extends Component {
                         </div>
                 </table>
 
-        <div id="form_registrarOrador" className={ toggle_formRelator ? "active" : "form_registrarOrador"}>
-            <div className="btn_close" onClick={this.SwitchToggleRelator}>&times;</div>
-            <h3 id="registrar">Registro de Oradores</h3>
-            <form id="form_agregarOrador" onSubmit={this.sendDataRelator} >
-            <div>
-              <label htmlFor="input_idCuenta">ID de la Cuenta: </label>
-              <select name="idCuenta" onChange={this.cambioValor} value={idCuenta} id="input_idCuenta">
-                <option value="fondo_esperanza">Fondo Esperanza</option>
-                <option value="Transbank">Transbank</option>
-                <option value="BCI">BCI</option>
-                <option value="BCI_agil">BCI Ágil</option>
-                <option value="BCI_tecnico">BCI Técnico</option>
-              </select>
-            </div>
-              <div>
-                  <label htmlFor="input_relator">Relator: </label>
-                  <input type="text" name="relator" id="input_relator" onChange={this.cambioValor} value={relator}/>
-              </div>
-            
-              <div>
-                  <label htmlFor="input_idRamo">ID del Ramo: </label>
-                  <input type="text" name="codigoRamo" id="input_idRamo" placeholder="Ejemplo: JAV" onChange={this.cambioValor} value={codigoRamo}/>
-              </div>
-              <div>
-                  <label htmlFor="input_areaRamo">Área: </label>
-                  <input type="text" name="area" id="input_areaRamo" placeholder="Ejemplo: Automatización"onChange={this.cambioValor} value={area}/>
-              </div>
-              <div>
-                  <label htmlFor="input_nombreCurso">Nombre del Curso: </label>
-                  <input type="text" name="nombreRamo" id="input_nombreCurso" placeholder="Ejemplo: JAVA" onChange={this.cambioValor} value={nombreRamo}/>
-              </div>
-              <div>
-                  <label htmlFor="input_hhAcademicas">Horas académicas: </label>
-                  <input type="text" name="hh_academicas" id="input_hhAcademicas" onChange={this.cambioValor} value={hh_academicas}/>
-              </div>
-              <div>
-                  <label htmlFor="input_preRequisito">Pre-Requisito: </label>
-                  <input type="text" name="input_preRequisito" id="pre_requisito" placeholder="Ejemplo: JAV-SEL" onChange={this.cambioValor} value={pre_requisito}/>
-              </div>
-              <div id="button_container">
-                  <input type="submit" id="btn_registrar" value="Registrar"/>
-              </div>
-          </form>
-    </div>
+                {/* FORM REGISTRAR RELATOR */}
+                <div id="form_registrarOrador" className={ toggle_formRelator ? "active" : "form_registrarOrador"}>
+                        <div className="btn_close" onClick={this.SwitchToggleRelator}>&times;</div>
+                        <h3 id="registrar">Registro de Oradores</h3>
+                        <form id="form_agregarOrador" onSubmit={this.sendDataRelator} >
+                        <div>
+                          <label htmlFor="input_idCuenta">ID de la Cuenta: </label>
+                          <select name="idCuenta" onChange={this.cambioValor} value={idCuenta} id="input_idCuenta">
+                            <option value="fondo_esperanza">Fondo Esperanza</option>
+                            <option value="Transbank">Transbank</option>
+                            <option value="BCI">BCI</option>
+                            <option value="BCI_agil">BCI Ágil</option>
+                            <option value="BCI_tecnico">BCI Técnico</option>
+                          </select>
+                        </div>
+                          <div>
+                              <label htmlFor="input_relator">Relator: </label>
+                              <input type="text" name="relator" id="input_relator" onChange={this.cambioValor} value={relator}/>
+                          </div>
+                        
+                          <div>
+                              <label htmlFor="input_idRamo">ID del Ramo: </label>
+                              <input type="text" name="codigoRamo" id="input_idRamo" placeholder="Ejemplo: JAV" onChange={this.cambioValor} value={codigoRamo}/>
+                          </div>
+                          <div>
+                              <label htmlFor="input_areaRamo">Área: </label>
+                              <input type="text" name="area" id="input_areaRamo" placeholder="Ejemplo: Automatización"onChange={this.cambioValor} value={area}/>
+                          </div>
+                          <div>
+                              <label htmlFor="input_nombreCurso">Nombre del Curso: </label>
+                              <input type="text" name="nombreRamo" id="input_nombreCurso" placeholder="Ejemplo: JAVA" onChange={this.cambioValor} value={nombreRamo}/>
+                          </div>
+                          <div>
+                              <label htmlFor="input_hhAcademicas">Horas académicas: </label>
+                              <input type="text" name="hh_academicas" id="input_hhAcademicas" onChange={this.cambioValor} value={hh_academicas}/>
+                          </div>
+                          <div>
+                              <label htmlFor="input_preRequisito">Pre-Requisito: </label>
+                              <input type="text" name="input_preRequisito" id="pre_requisito" placeholder="Ejemplo: JAV-SEL" onChange={this.cambioValor} value={pre_requisito}/>
+                          </div>
+                          <div id="button_container">
+                              <input type="submit" id="btn_registrar" value="Registrar"/>
+                          </div>
+                      </form>
+                </div>
 
-    <div id="form_registrarOrador" className={ toggle_formEdit ? "active" : "form_registrarOrador"}>
-            <div className="btn_close" onClick={this.SwitchToggleFormEdit}>&times;</div>
-            <h3 id="registrar">Actualizar Oradores</h3>
-            <form id="form_agregarOrador" onSubmit={this.sendDataRelatorEdit} >
-              <input type="text" name="IDEdit" value={relatoresEdit.IDEdit}/>
-              <div>
-                  <label htmlFor="input_relator">Nombre: </label>
-                  <input type="text" onChange={this.cambioValor} name="nombreEdit" id="input_relator"  value={relatoresEdit.nombre}/>
-              </div>
-              <div>
-                  <label htmlFor="input_areaRamo">Área: </label>
-                  <input type="text" name="areaEdit" id="input_areaRamo" placeholder="Ejemplo: Automatización"value={relatoresEdit.area}/>
-              </div>
-              <div id="button_container">
-                  <input type="submit" onChange={this.cambioValor} id="btn_registrar" value="Actualizar"/>
-              </div>
-          </form>
-    </div>
+              {/* FORM ACTUALIZAR RELATOR  */}
+              <div id="form_registrarOrador" className={ toggle_formEdit ? "active" : "form_registrarOrador"}>
+                        <div className="btn_close" onClick={this.SwitchToggleFormEdit}>&times;</div>
+                        <h3 id="registrar">Actualización de relatores</h3>
+                        <form id="form_agregarOrador" onSubmit={this.sendDataRelatorEdit} >
+                          <div>
+                              <label htmlFor="input_relator">Nombre: </label>
+                              <input type="text" onChange={this.cambioValor} name="nombreEdit" id="input_relator"  value={relatoresEdit.nombreEdit}/>
+                          </div>
+                          <div>
+                              <label htmlFor="input_areaRamo">Área: </label>
+                              <input type="text" name="areaEdit" onChange={this.cambioValor} id="input_areaRamo" placeholder="Ejemplo: Automatización"value={relatoresEdit.areaEdit}/>
+                          </div>
+                          <div id="button_container">
+                              <input type="submit"  id="btn_registrar" value="Actualizar"/>
+                          </div>
+                      </form>
+                </div>
 
 
             </div>

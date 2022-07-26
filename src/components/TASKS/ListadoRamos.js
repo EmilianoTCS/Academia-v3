@@ -12,6 +12,7 @@ class ListadoRamos extends Component {
       num_boton: "",
       toggle_formRamo: false,
       toggle_formEdit: false,
+      toggle_formCurso: false,
       idCuenta : "",
       codigoRamo : "",
       area: "",
@@ -90,6 +91,28 @@ class ListadoRamos extends Component {
           })
           .catch(console.log());
       }
+      sendDataCurso = (e) =>{
+        e.preventDefault();
+        console.log("Sending data..");
+        const{codigoCuenta, idRamo, nombreCurso, fechaInicio, fechaFin, horaInicio, horaFin} = this.state;
+        var datosEnviar = {codigoCuenta: codigoCuenta, idRamo: idRamo, 
+        nombreCurso:nombreCurso, fechaInicio:fechaInicio, fechaFin:fechaFin, horaInicio: horaInicio, horaFin: horaFin}
+        fetch(
+          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarCurso.php?insertarCurso",{
+            method: "POST",
+            body: JSON.stringify(datosEnviar)
+          }
+        )
+          .then((response) => response.json())
+          .then((dataResponse) => {
+            console.log(dataResponse);
+            this.loadData();
+          })
+          .catch(console.log());
+      }
+      SwitchToggleCurso = () => {
+        this.setState({ toggle_formCurso: !this.state.toggle_formCurso });
+      };
       SwitchToggleRamo = () => {
         this.setState({ toggle_formRamo: !this.state.toggle_formRamo });
       };
@@ -102,9 +125,11 @@ class ListadoRamos extends Component {
       }
       cambioValor = (e) =>{
         const state = this.state;
+        const stateEdit = this.state.ramosEdit;
         state[e.target.name] = e.target.value;
+        stateEdit[e.target.name] = e.target.value;
         this.setState({state});
-        this.setState({ramosEdit: state});
+        this.setState({ramosEdit: stateEdit});
       }
       deleteData = (ID) =>{
         console.log(ID);
@@ -151,12 +176,12 @@ class ListadoRamos extends Component {
     }
 
 
-
     render() { 
-        const { loadedData, ramos, paginador } = this.state;
+        const { loadedData, ramos, cursos, paginador } = this.state;
         const{idCuenta, codigoRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
         const toggle_formRamo = this.state.toggle_formRamo;
         const toggle_formEdit = this.state.toggle_formEdit;
+        const toggle_formCurso = this.state.toggle_formCurso;
         const ramosEdit = this.state.ramosEdit;
 
     if (!loadedData) {
@@ -167,6 +192,9 @@ class ListadoRamos extends Component {
              <Header></Header> 
             <h1 id="subtitulo_pagina">Listado de ramos</h1>
              <button id="btn_registrarCliente" onClick={this.SwitchToggleRamo}>Registrar ramo</button>
+             <button id="btn_registrarCliente" style={{marginLeft : "1%"}} onClick={this.SwitchToggleCurso}>Registrar curso</button>
+
+            {/* LISTADO DE RAMOS */}
              <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
                     <thead className="thead-inverse">
                     <tr>
@@ -211,7 +239,7 @@ class ListadoRamos extends Component {
                             ))}
                         </div>
                 </table>
-
+            {/* FORM REGISTRAR RAMOS */}
                 <div id="form_registrarRamo" className={toggle_formRamo ? "active" : "form_registrarRamo"} >
           <div className="btn_close" onClick={this.SwitchToggleRamo}>
             <BsX />
@@ -297,9 +325,9 @@ class ListadoRamos extends Component {
                 />
               </div>
           </form>
-        </div>
-
-        <div id="form_registrarRamo" className={toggle_formEdit ? "active" : "form_registrarRamo"}>
+                </div>
+            {/* FORM ACTUALIZAR RAMOS */}
+            <div id="form_registrarRamo" className={toggle_formEdit ? "active" : "form_registrarRamo"}>
         <div className="btn_close" onClick={this.SwitchToggleRamoEdit}>
             <BsX />
           </div>
@@ -345,6 +373,77 @@ class ListadoRamos extends Component {
               </div>
             </form>
             </div>
+            {/* FORM REGISTRAR CURSO */}
+            <div id="form_registrarCurso" className={toggle_formCurso ? "active" : "form_registrarCurso"}>
+            <div className="btn_close" onClick={this.SwitchToggleCurso}><BsX /></div>
+            <h3>Registro de cursos</h3>
+            <form id="form_agregarCurso" onSubmit={this.sendDataCurso}>
+              <input type="hidden" id="input_idCurso" />
+              <div>
+                <label htmlFor="input_idCuenta_Curso">ID de la Cuenta: </label>
+                <select name="input_idCuenta_Curso" onChange={this.cambioValor} id="input_idCuenta_Curso">
+                  <option value="fondo_esperanza">Fondo Esperanza</option>
+                  <option value="Transbank">Transbank</option>
+                  <option value="BCI">BCI</option>
+                  <option value="BCI_agil">BCI Ágil</option>
+                  <option value="BCI_tecnico">BCI Técnico</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="input_idRamo_Curso">ID del Ramo: </label>
+                <select name="input_idRamo_Curso"onChange={this.cambioValor} id="input_idRamo_Curso">
+                  <option>JAV</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="input_fechaInicio">Fecha Inicio: </label>
+                <input
+                  type="text"
+                  name="input_fechaInicio"
+                  id="input_fechaInicio"
+                  placeholder="yyyy-mm-dd"
+                  onChange={this.cambioValor}
+                />
+              </div>
+              <div>
+                <label htmlFor="input_fechaFin">Fecha Fin: </label>
+                <input
+                  type="text"
+                  name="input_fechaFin"
+                  id="input_fechaFin"
+                  placeholder="yyyy-mm-dd"
+                  onChange={this.cambioValor}
+                />
+              </div>
+              <div>
+                <label htmlFor="input_horaInicio">Hora Inicio: </label>
+                <input
+                  type="text"
+                  name="input_horaInicio"
+                  id="input_horaInicio"
+                  placeholder="HH:mm:ss"
+                  onChange={this.cambioValor}
+                />
+              </div>
+              <div>
+                <label htmlFor="input_horaFin">Hora Fin: </label>
+                <input
+                  type="text"
+                  name="input_horaFin"
+                  id="input_horaFin"
+                  placeholder="HH:mm:ss"
+                  onChange={this.cambioValor}
+                />
+              </div>
+              <div>
+                <input
+                  type="submit"
+                  className="btn_registrar"
+                  value="Registrar"
+                />
+              </div>
+            </form>
+           </div> 
             </div>
         );
     }

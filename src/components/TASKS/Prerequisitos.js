@@ -7,9 +7,9 @@ import ToggleSwitch from "../templates/ToggleSwitch";
 class Prerequisitos extends Component {
   state = {
     idCursos: [],
-    CursoaInsertar: "",
+    idCursosInsert: [],
     PrerequisitoAInsertar: "",
-    CursoaConsultar: "2",
+    CursoaConsultar: "",
     prerequisitos: []
   };
 
@@ -23,6 +23,18 @@ class Prerequisitos extends Component {
       })
       .catch(console.log());
   }
+
+  loadidCursosInsert = (ID) =>{
+    fetch(
+      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/idCursoInsert.php?idCurso="+ID
+    )
+      .then((response) => response.json())
+      .then((dataResponse) => {
+        this.setState({ loadedData: true, idCursosInsert: dataResponse });
+      })
+      .catch(console.log());
+  }
+  
   componentDidMount() {
     this.loadidCursos();
     this.loadPrerequisitos(this.state.CursoaConsultar);
@@ -42,8 +54,7 @@ class Prerequisitos extends Component {
     fetch(
      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStatePrerequisito.php?updateStatePrerequisito="+ID)
     .then((response) => response.json())
-     .then((dataResponse) => {
-       console.log(dataResponse);
+     .then(() => {
        this.loadPrerequisitos(this.state.CursoaConsultar)
      })
      .catch(console.log());
@@ -54,16 +65,19 @@ class Prerequisitos extends Component {
     state[e.target.name] = e.target.value;
     this.setState({ state });
     this.loadPrerequisitos(this.state.CursoaConsultar)
+    this.loadidCursosInsert(this.state.CursoaConsultar)
   };
 
   insertPrerequisito = (e) => {
     e.preventDefault();
     console.log("Sending data..");
-    const { CursoaInsertar, PrerequisitoAInsertar } = this.state;
+    const { CursoaConsultar, PrerequisitoAInsertar } = this.state;
     var datosEnviar = {
-      CursoaInsertar: CursoaInsertar,
+      
+      CursoaConsultar: CursoaConsultar,
       PrerequisitoAInsertar: PrerequisitoAInsertar,
     };
+    console.log(datosEnviar);
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarPrerequisito.php?insertarPrerequisito",
       {
@@ -74,6 +88,7 @@ class Prerequisitos extends Component {
       .then((response) => response.json())
       .then((dataResponse) => {
         console.log(dataResponse);
+        this.loadPrerequisitos(CursoaConsultar);
       })
       .catch(console.log());
   };
@@ -84,10 +99,13 @@ class Prerequisitos extends Component {
 
   render() {
     const idCurso = this.state.idCursos;
+    const idCursoInsert = this.state.idCursosInsert;
     const prerequisitos = this.state.prerequisitos;
     return (
       <div className="container">
         <Header></Header>
+        <h1 id="subtitulo_pagina">Administración de pre requisitos</h1>
+
         <div id="container-prerequisitos">
           <div className="card">
             <div className="card-body">
@@ -96,16 +114,16 @@ class Prerequisitos extends Component {
               <div className="container">
                 <div className="form-group">
                   <form onSubmit={this.insertPrerequisito}>
-                    <label htmlFor="CursoaInsertar">Seleccione un curso</label>
+                    <label htmlFor="CursoaConsultar">Seleccione un curso</label>
                     <select
                       className="form-control"
-                      name="CursoaInsertar"
-                      id="CursoaInsertar"
+                      name="CursoaConsultar"
+                      id="CursoaConsultar"
                       onChange={this.cambioValor}
                     >
+                      <option defaultValue={"Seleccione un curso"}></option>
                       {idCurso.map((idCurso) => (
                         <option
-                          onChange={() => this.loadPrerequisitos(idCurso.ID)}
                           key={idCurso.ID}
                           value={idCurso.ID}
                         >
@@ -124,57 +142,29 @@ class Prerequisitos extends Component {
                       id="PrerequisitoAInsertar"
                       onChange={this.cambioValor}
                     >
-                      {idCurso.map((idCurso) => (
+                      <option defaultValue={"Seleccione un curso"}></option>
+                      {idCursoInsert.map((idCursoInsert) => (
                         <option
-                          key={idCurso.ID}
-                          value={idCurso.ID}
+                          key={idCursoInsert.ID}
+                          value={idCursoInsert.ID}
                         >
-                          {idCurso.codigoRamo + " -- " + idCurso.nombreRamo}
+                          {idCursoInsert.codigoRamo + " -- " + idCursoInsert.nombreRamo}
                         </option>
                       ))}
                     </select>
                     <br />
                     <input
                       className="btn btn-primary"
+                      style={{float:"left"}}
                       type="submit"
                       value="Guardar"
                     />
                   </form>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-
-
-        <div id="container-prerequisitos">
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">
-                Habilitar o deshabiltar prerequisitos
-              </h4>
               <br />
-              <div className="container">
-                <div className="form-group">
-                <label htmlFor="CursoaInsertar">Seleccione un curso</label>
-                    <select
-                    onChange={this.cambioValor}
-                      className="form-control"
-                      name="CursoaConsultar"
-                      id="CursoaConsultar"
-                    >
-                      {idCurso.map((idCurso) => (
-                        <option
-                          key={idCurso.ID}
-                          value={idCurso.ID}
-                        >
-                          {idCurso.codigoRamo + " -- " + idCurso.nombreRamo}
-                        </option>
-                      ))}
-                    </select>
-                    <br />
-                  <table className="table table-striped table-inverse table-responsive">
+              <br />
+              <table className="table table-striped table-inverse table-responsive">
                     <thead>
                       <tr>
                         <th>Codigo</th>
@@ -196,8 +186,6 @@ class Prerequisitos extends Component {
                         ))}
                     </tbody>
                   </table>
-                </div>
-              </div>
             </div>
           </div>
         </div>

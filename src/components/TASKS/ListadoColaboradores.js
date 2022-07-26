@@ -130,7 +130,7 @@ class Colaboradores extends Component {
         <Header />
         <h1 id="subtitulo_pagina">Listado de colaboradores</h1>
         <div>
-          <button id="btn_registrarCliente" onClick={this.SwitchToggleColaboradores}>Registrar curso</button>
+          <button id="btn_registrarCliente" onClick={this.SwitchToggleColaboradores}>Registrar colaborador</button>
            <table style={{whiteSpace: "nowrap"}}id="tablaClientes" className="table table-striped table-inverse table-responsive">
             <thead className="thead-inverse">
               <tr>
