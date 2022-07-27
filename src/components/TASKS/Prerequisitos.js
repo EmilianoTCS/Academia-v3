@@ -13,6 +13,7 @@ class Prerequisitos extends Component {
     prerequisitos: []
   };
 
+  // Carga el listado de cursos
   loadidCursos() {
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/idCurso.php?idCurso"
@@ -24,6 +25,7 @@ class Prerequisitos extends Component {
       .catch(console.log());
   }
 
+  // Carga el listado de cursos EXCEPTUANDO el seleccionado antes
   loadidCursosInsert = (ID) =>{
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/idCursoInsert.php?idCurso="+ID
@@ -35,10 +37,13 @@ class Prerequisitos extends Component {
       .catch(console.log());
   }
   
+  // Carga las funciones de forma automática
   componentDidMount() {
     this.loadidCursos();
     this.loadPrerequisitos(this.state.CursoaConsultar);
   }
+
+  // Carga el listado de pre requisitos para el curso seleccionado
   loadPrerequisitos = (ID) => {
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/prerequisitos.php?ID="+ID
@@ -50,6 +55,7 @@ class Prerequisitos extends Component {
       .catch(console.log());
   };
 
+  // Permite habilitar o deshabilitar un pre requisito
   toggleisActivePrerequisito = (ID) => {
     fetch(
      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStatePrerequisito.php?updateStatePrerequisito="+ID)
@@ -60,6 +66,7 @@ class Prerequisitos extends Component {
      .catch(console.log());
  }
 
+//  Detecta cambios en el estado
   cambioValor = (e) => {
     const state = this.state;
     state[e.target.name] = e.target.value;
@@ -68,6 +75,7 @@ class Prerequisitos extends Component {
     this.loadidCursosInsert(this.state.CursoaConsultar)
   };
 
+  // Realiza la inserción del pre requisito seleccionado
   insertPrerequisito = (e) => {
     e.preventDefault();
     console.log("Sending data..");
@@ -94,13 +102,12 @@ class Prerequisitos extends Component {
   };
 
   
-
-
-
   render() {
     const idCurso = this.state.idCursos;
     const idCursoInsert = this.state.idCursosInsert;
     const prerequisitos = this.state.prerequisitos;
+
+    
     return (
       <div className="container">
         <Header></Header>

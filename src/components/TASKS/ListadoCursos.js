@@ -10,14 +10,15 @@ import '../css/Botones.css'
 import "../css/Forms.css";
 class ListadoCursos extends Component {
   state = {
-    loadedData: false,
-    cursos: [],
-    paginador: [],
-    num_boton: "",
-    toggle_formEdit: false,
-    toggle_formCurso: false,
-    toggle_formRamo: false,
-    codigoCuenta : "",
+    loadedData: false, //Se activa cuando recibe la carga de datos
+    cursos: [], //Array que recibe los datos desde el backend
+    paginador: [], //Recibe la cantidad de páginas totales desde el backend
+    num_boton: "", //Botón seleccionado del paginador
+    toggle_formEdit: false, //Activa la visibilidad del formulario de edición
+    toggle_formCurso: false, // Activa la visibilidad del formulario de creación de curso
+    toggle_formRamo: false, // Activa la visibilidad del formulario de creación de ramos
+    // Strings vacíós donde serán insertados los valores obtenidos desde los input{
+    codigoCuenta : "", 
     idRamo : "",
     area: "",
     nombreCurso : "",
@@ -28,8 +29,12 @@ class ListadoCursos extends Component {
     fechaInicio: "",
     horaInicio: "",
     horaFin: "",
-    cursosEdit: [],
+    //}
+    cursosEdit: [], //Array que recibe los datos desde el backend del curso seleccionado
+    changed: false //Valida la edición de los datos
   };
+
+  //Carga los datos de los cursos para introducirlos en la tabla
   loadData() {
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listCuentas.php"
@@ -40,6 +45,7 @@ class ListadoCursos extends Component {
       })
       .catch(console.log());
   }
+  //Carga los datos del paginador
   loadPaginador() {
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/paginador/botones_Cuenta.php"
@@ -50,6 +56,7 @@ class ListadoCursos extends Component {
       })
       .catch(console.log());
   }
+  //Envía el número seleccionado para cambiar de página
   sendNum = (e) => {
     e.preventDefault();
     // console.log("Sending data..");
@@ -72,6 +79,7 @@ class ListadoCursos extends Component {
       })
       .catch(console.log());
   };
+  //Envía los datos del formulario de creación de ramos
   sendDataRamo = (e) =>{
     e.preventDefault();
     console.log("Sending data..");
@@ -92,6 +100,7 @@ class ListadoCursos extends Component {
       })
       .catch(console.log());
   }
+  //Envía los datos del formulario de creación de cursos
   sendDataCurso = (e) =>{
     e.preventDefault();
     console.log("Sending data..");
@@ -111,22 +120,24 @@ class ListadoCursos extends Component {
       })
       .catch(console.log());
   }
+  //Habilita / deshabilita la visibilidad del formulario de edición de registros
   SwitchToggleEdit = () => {
     this.setState({ toggle_formEdit: !this.state.toggle_formEdit });
   };
+  //Habilita / deshabilita la visibilidad del formulario de creación de cursos
   SwitchToggleCurso = () => {
     this.setState({ toggle_formCurso: !this.state.toggle_formCurso });
   };
+  //Habilita / deshabilita la visibilidad del formulario de creación de ramos
   SwitchToggleRamo = () => {
     this.setState({ toggle_formRamo: !this.state.toggle_formRamo });
   };
-  TurnOffCurso = () => {
-    this.setState({ toggle_formCurso: !this.state.toggle_formCurso });
-  };
+  //Realiza la carga automática de funciones al ingresar a la página
   componentDidMount() {
     this.loadData();
     this.loadPaginador();
   }
+  // Detecta cambios de los valores ingresados en el input
   cambioValor = (e) =>{
     const state = this.state;
     const stateEdit = this.state.cursosEdit;
@@ -135,6 +146,7 @@ class ListadoCursos extends Component {
     this.setState({state});
     this.setState({cursosEdit: stateEdit});
   }
+  // "Elimina" el registro seleccionado, pero puede volver a habilitarse en la página Administrador
   deleteData = (ID) =>{
     console.log(ID);
     fetch(
@@ -145,9 +157,9 @@ class ListadoCursos extends Component {
         this.loadData();
       })
       .catch(console.log());
- }
-
- loadDataEdit(ID) {
+  }
+  //Carga los datos del curso seleccionado
+  loadDataEdit(ID) {
   fetch(
     "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-selectCuentas.php?ID="+ID
   )
@@ -158,8 +170,9 @@ class ListadoCursos extends Component {
       
     })
     .catch(console.log());
-}
-sendDataRamo = (e) =>{
+  }
+  //Envía los datos del formulario de creación de ramos
+  sendDataRamo = (e) =>{
   e.preventDefault();
   console.log("Sending data..");
   const{idCuenta, codigoRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
@@ -176,14 +189,19 @@ sendDataRamo = (e) =>{
       console.log(dataResponse);
     })
     .catch(console.log());
-}
-sendDataCursoEdit = (e) =>{
+  }
+  //Envía los datos del formulario de edición de cursos
+  sendDataCursoEdit = (e) =>{
   e.preventDefault();
-  console.log("Sending data..");
   const ID = (this.state.cursosEdit.IDEdit);
-  const{codigoCuentaEdit, codigoRamoEdit,fechaInicioEdit, fechaFinEdit, horaInicioEdit, horaFinEdit} = this.state;
-  var datosEnviar = {ID:ID ,codigoCuentaEdit: codigoCuentaEdit, codigoRamoEdit: codigoRamoEdit, fechaInicioEdit:fechaInicioEdit, fechaFinEdit:fechaFinEdit, horaInicioEdit: horaInicioEdit, horaFinEdit: horaFinEdit}
-
+  const changed = this.state.changed;
+  if(!changed){
+    const{codigoCuentaEdit, codigoRamoEdit,fechaInicioEdit, fechaFinEdit, horaInicioEdit, horaFinEdit} = this.state.cursosEdit;
+    var datosEnviar = {ID:ID ,codigoCuentaEdit: codigoCuentaEdit, codigoRamoEdit: codigoRamoEdit, fechaInicioEdit:fechaInicioEdit, fechaFinEdit:fechaFinEdit, horaInicioEdit: horaInicioEdit, horaFinEdit: horaFinEdit}
+  }else{
+    const{codigoCuentaEdit, codigoRamoEdit,fechaInicioEdit, fechaFinEdit, horaInicioEdit, horaFinEdit} = this.state;
+    var datosEnviar = {ID:ID ,codigoCuentaEdit: codigoCuentaEdit, codigoRamoEdit: codigoRamoEdit, fechaInicioEdit:fechaInicioEdit, fechaFinEdit:fechaFinEdit, horaInicioEdit: horaInicioEdit, horaFinEdit: horaFinEdit}
+  }
   fetch(
     "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editCurso.php?editarCurso",{
       method: "POST",
@@ -197,7 +215,9 @@ sendDataCursoEdit = (e) =>{
       this.loadData();
     })
     .catch(console.log());
-}
+  }
+
+  
   render() {
     const { loadedData, cursos, paginador } = this.state;
     const toggle_formCurso = this.state.toggle_formCurso;
@@ -270,7 +290,7 @@ sendDataCursoEdit = (e) =>{
            </div>
         {/* FORM REGISTRAR CURSO */}
         <div id="form_registrarCurso" className={toggle_formCurso ? "active" : "form_registrarCurso"}>
-            <div className="btn_close" onClick={this.TurnOffCurso}><BsX /></div>
+            <div className="btn_close" onClick={this.SwitchToggleCurso}><BsX /></div>
             <h3>Registro de cursos</h3>
             <form id="form_agregarCurso" onSubmit={this.sendDataCurso}>
               <input type="hidden" id="input_idCurso" />

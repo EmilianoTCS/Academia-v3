@@ -5,28 +5,31 @@ import "../css/Tables.css";
 import "../css/Paginador.css";
 import "../css/Botones.css";
 import "../css/Forms.css";
-import { Link } from "react-router-dom";
 import { BiShowAlt } from "react-icons/bi";
 
 import '../css/Tables.css';
 class ListadoClientes extends Component {
     state = { 
-      loadedData: false, 
-      clientes: [], 
-      paginador: [],
-      num_boton: "", 
+      loadedData: false, //Se activa cuando recibe la carga de datos
+      clientes: [],  //Array que recibe los datos desde el backend
+      paginador: [], //Recibe la cantidad de páginas totales desde el backend
+      num_boton: "", //Botón seleccionado del paginador
+      // Strings vacíós donde serán insertados los valores obtenidos desde los input{
       tipo_cliente: "", 
       nombreCliente: "", 
       referente: "", 
       correoReferente: "", 
       cargoReferente: "", 
       telefonoReferente: "", 
+      // }
       isActive: true, 
-      toggle_formClientes: false,
-      clientesEdit: [] }
+      toggle_formClientes: false, // Activa la visibilidad del formulario de creación de clientes
+      clientesEdit: [], //Array que recibe los datos desde el backend del cliente seleccionado
+      changed: false //Valida la edición de los datos
+    }
     
       // Recolecta los datos del registro de clientes
-    loadData() {
+      loadData() {
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listClientes.php"
         )
@@ -92,6 +95,7 @@ class ListadoClientes extends Component {
         stateEdit[e.target.name] = e.target.value;
         this.setState({ state });
         this.setState({ clientesEdit: stateEdit });
+        this.setState({changed: true});
       };
 
       // Envía los datos del formulario de creación a la sentencia SQL
@@ -133,14 +137,18 @@ class ListadoClientes extends Component {
       // Envía los datos del formulario de actualización a la sentencia SQL
       sendDataClientesEdit = (e) =>{
         e.preventDefault();
-        console.log("Sending data..");
-        const IDEdit = this.state.relatoresEdit.IDEdit;
-        const{ nombreEdit, areaEdit} = this.state;
-    
-        var datosEnviar = {IDEdit: IDEdit, nombre: nombreEdit, area:areaEdit}
+        const ID = this.state.clientesEdit.ID;
+        const changed = this.state.changed;
+        if(!changed){
+          const{ tipo_cliente, nombreCliente, referente, correoReferente, cargoReferente, telefonoReferente} = this.state.clientesEdit;
+          var datosEnviar = {ID: ID, tipo_cliente : tipo_cliente, nombreCliente: nombreCliente, referente: referente, correoReferente: correoReferente, cargoReferente: cargoReferente, telefonoReferente: telefonoReferente}
+        }else{
+          const{ tipo_cliente, nombreCliente, referente, correoReferente, cargoReferente, telefonoReferente} = this.state;
+          var datosEnviar = {ID: ID, tipo_cliente : tipo_cliente, nombreCliente: nombreCliente, referente: referente, correoReferente: correoReferente, cargoReferente: cargoReferente, telefonoReferente: telefonoReferente}
+        }
         console.log(datosEnviar);
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editRelatores.php?editarRelatores",{
+          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editClientes.php?editarCliente",{
             method: "POST",
             body: JSON.stringify(datosEnviar)
           }

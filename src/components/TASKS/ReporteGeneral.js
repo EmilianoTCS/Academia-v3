@@ -32,6 +32,8 @@ class ReporteGeneral extends Component {
       <div className="container-fluid">
         <Header />
         <h1 id="subtitulo_pagina">Reporte General de cursos</h1>
+
+      {/* CONTENEDOR DE CARTAS */}
         <div id="container_cards">
             {cards.map((card) =>
             <><div id="coe_carta">
@@ -73,6 +75,7 @@ class ReporteGeneral extends Component {
                     </div></>
                               )}                             
         </div>
+        {/* CONTENEDOR DE GRÁFICOS  */}
         <div id="chartsContainer">
             <BarChart />
             <PieChart />

@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import { BsPencilSquare, BsTrash, BsX } from "react-icons/bs";
-import { BiShowAlt } from "react-icons/bi";
 import '../css/Tables.css'
 import '../css/Botones.css'
 import Header from "../templates/header";
@@ -8,12 +7,17 @@ import "../css/Forms.css";
 
 
 class ListadoRamos extends Component {
-    state = { loadedData: false, ramos: [], paginador: [],
-      num_boton: "",
-      toggle_formRamo: false,
-      toggle_formEdit: false,
-      toggle_formCurso: false,
-      idCuenta : "",
+    state = { 
+      loadedData: false, // Booleano que se activa cuando es recibida la carga de datos
+      ramos: [], //Array donde serán almacenados los registros del JSON que vienen del backend
+      paginador: [], //Recibe la cantidad de páginas totales desde el backend
+      num_boton: "", //Es el botón seleccionado del paginador
+      toggle_formRamo: false, //Booleano para la visibilidad del formulario crear ramo
+      toggle_formEdit: false, //Booleano para la visibilidad del formulario editar ramo
+      toggle_formCurso: false, //Booleano para la visibilidad del formulario editar curso
+
+      //Strings vacíos donde se introducen los valores de los inputs a la hora de insertar registros{
+      idCuenta : "", 
       codigoRamo : "",
       area: "",
       nombreCurso : "",
@@ -23,15 +27,21 @@ class ListadoRamos extends Component {
       fechaFin: "",
       fechaInicio: "",
       horaInicio: "",
-      horaFin: "",
-      ramosEdit : [],
+      horaFin: "", 
+      //}
+      ramosEdit : [], //Array donde serán almacenados los registros del JSON que vienen del backend
+      //Strings vacíos donde se introducen los valores de los inputs a la hora de insertar registros{
       codigoRamoEdit : "",
       nombreRamoEdit : "",
       hh_academicasEdit : "",
       pre_requisitoEdit : "",
-      nombreRelatorEdit: ""} 
+      nombreRelatorEdit: "",
+      //}
+      changed: false //Booleano que valida la edición de los datos
+    }
 
-    loadData() {
+      // Recolecta los datos del registro de ramos
+      loadData() {
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listCursos.php"
         )
@@ -41,6 +51,7 @@ class ListadoRamos extends Component {
           })
           .catch(console.log());
       }
+      // Recolecta los datos del paginador
       loadPaginador() {
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/paginador/botones_Cursos.php"
@@ -51,6 +62,7 @@ class ListadoRamos extends Component {
           })
           .catch(console.log());
       }
+      // Envía el número seleccionado del paginador a la sentencia SQL para poder cambiar de página
       sendNum = (e) => {
         e.preventDefault();
         // console.log("Sending data..");
@@ -73,6 +85,7 @@ class ListadoRamos extends Component {
           })
           .catch(console.log());
       };
+      // Envía los datos para insertar un nuevo ramo
       sendDataRamo = (e) =>{
         e.preventDefault();
         console.log("Sending data..");
@@ -91,6 +104,7 @@ class ListadoRamos extends Component {
           })
           .catch(console.log());
       }
+      // Envía los datos para insertar un nuevo curso
       sendDataCurso = (e) =>{
         e.preventDefault();
         console.log("Sending data..");
@@ -110,19 +124,25 @@ class ListadoRamos extends Component {
           })
           .catch(console.log());
       }
+      // Habilita o deshabilita la visibilidad del formulario para la inserción de cursos
       SwitchToggleCurso = () => {
         this.setState({ toggle_formCurso: !this.state.toggle_formCurso });
+      // Habilita o deshabilita la visibilidad del formulario para la inserción de cursos
       };
+      // Habilita o deshabilita la visibilidad del formulario para la inserción de ramos
       SwitchToggleRamo = () => {
         this.setState({ toggle_formRamo: !this.state.toggle_formRamo });
       };
+      // Habilita o deshabilita la visibilidad del formulario para la edición de ramos
       SwitchToggleRamoEdit = () => {
         this.setState({ toggle_formEdit: false });
       };
+      // Carga automáticamente las funciones al ingresar a la página
       componentDidMount() {
         this.loadData();
         this.loadPaginador();
       }
+      // Detecta cambios en el estado
       cambioValor = (e) =>{
         const state = this.state;
         const stateEdit = this.state.ramosEdit;
@@ -130,7 +150,9 @@ class ListadoRamos extends Component {
         stateEdit[e.target.name] = e.target.value;
         this.setState({state});
         this.setState({ramosEdit: stateEdit});
+        this.setState({changed: true})
       }
+      // "Elimina" los datos seleccionados, pero pueden volver a habiltarse en la pantalla de Administrador
       deleteData = (ID) =>{
         console.log(ID);
         fetch(
@@ -142,25 +164,33 @@ class ListadoRamos extends Component {
           })
           .catch(console.log());
      }
-     loadDataEdit(ID) {
-      fetch(
-        "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-selectCursos.php?ID="+ID
-      )
-        .then((response) => response.json())
-        .then((dataResponse) => {
-          this.setState({ loadedData: true, ramosEdit: dataResponse[0] });  
-          this.setState({toggle_formEdit: true});
-        })
-        .catch(console.log());
-    }
+      //  Carga los datos del curso a editar
+      loadDataEdit(ID) {
+        fetch(
+          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-selectCursos.php?ID="+ID
+        )
+          .then((response) => response.json())
+          .then((dataResponse) => {
+            this.setState({ loadedData: true, ramosEdit: dataResponse[0] });  
+            this.setState({toggle_formEdit: true});
+          })
+          .catch(console.log());
+      }
+    // Envía los datos del formulario edición
     sendDataRamoEdit = (e) =>{
       const ID = this.state.ramosEdit.ID
+      const changed = this.state.changed;
       e.preventDefault();
-      console.log("Sending data..");
-      const{codigoRamo, nombreRamo, hh_academicas, pre_requisito, nombreRelator} = this.state;
 
+      if(!changed){
+      const{codigoRamo, nombreRamo, hh_academicas, pre_requisito, nombreRelator} = this.state.ramosEdit;
+      var datosEnviar = {ID: ID, codigoRamo: codigoRamo, nombreRamo:nombreRamo, hh_academicas:hh_academicas, pre_requisito: pre_requisito, nombreRelator: nombreRelator}
+      }else{
+      const{codigoRamo, nombreRamo, hh_academicas, pre_requisito, nombreRelator} = this.state;
       var datosEnviar = {ID: ID, codigoRamo: codigoRamo, 
-      nombreRamo:nombreRamo, hh_academicas:hh_academicas, pre_requisito: pre_requisito, nombreRelator: nombreRelator}
+        nombreRamo:nombreRamo, hh_academicas:hh_academicas, pre_requisito: pre_requisito, nombreRelator: nombreRelator}
+      }
+
       fetch(
         "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editRamo.php?editarRamo",{
           method: "POST",
@@ -177,7 +207,7 @@ class ListadoRamos extends Component {
 
 
     render() { 
-        const { loadedData, ramos, cursos, paginador } = this.state;
+        const { loadedData, ramos, paginador } = this.state;
         const{idCuenta, codigoRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
         const toggle_formRamo = this.state.toggle_formRamo;
         const toggle_formEdit = this.state.toggle_formEdit;
@@ -198,16 +228,15 @@ class ListadoRamos extends Component {
              <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
                     <thead className="thead-inverse">
                     <tr>
-
-                                <th>ID del ramo</th>
-                                <th>Nombre del ramo</th>
-                                <th>HH académicas</th>
-                                <th>Pre-requisito</th>
-                                <th>Relator</th>
-                                <th>Área</th>
-                                <th>Operaciones</th>
-                             </tr>
-                        </thead>
+                        <th>ID del ramo</th>
+                        <th>Nombre del ramo</th>
+                        <th>HH académicas</th>
+                        <th>Pre-requisito</th>
+                        <th>Relator</th>
+                        <th>Área</th>
+                        <th>Operaciones</th>
+                     </tr>
+                    </thead>
                         <tbody>
                         {ramos.map((ramo) => (
                                 <tr key={ramo.ID}>
@@ -219,7 +248,6 @@ class ListadoRamos extends Component {
                                     <td>{ramo.area}</td>
                                     <td>
                                     <button onClick={() => this.loadDataEdit(ramo.ID)} title="Editar ramo" id="btn_edit_cuenta"><BsPencilSquare /></button>
-                                    <button title="Examinar ramo" id="btn_edit_cuenta"><BiShowAlt /></button>
                                     <button title="Eliminar ramo" id="btn_delete" onClick={()=> this.deleteData(ramo.ID)}><BsTrash/></button>
                                     </td>
                                 </tr>

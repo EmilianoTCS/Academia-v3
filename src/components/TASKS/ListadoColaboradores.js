@@ -9,21 +9,24 @@ import { BiShowAlt } from "react-icons/bi";
 import "../css/Forms.css";
 import { Link } from "react-router-dom";
 class Colaboradores extends Component {
-  state = {
+    state = {
     loadedData: false,
     colaboradores: [],
     paginador: [],
     num_boton: "",
     toggle_formColaboradores: false,
+    toggle_formEdit: false,
     codigoCuenta: "",
     nombre_completo: "",
     usuario: "",
     area: "",
     subgerencia: "",
     correo: "",
-  };
-
-  loadData() {
+    colaboradoresEdit: [],
+    changed: false
+    };
+    // Recolecta los datos del registro de clientes
+    loadData() {
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listColaboradores.php"
     )
@@ -32,9 +35,9 @@ class Colaboradores extends Component {
         this.setState({ loadedData: true, colaboradores: dataResponse });
       })
       .catch(console.log());
-  }
-  
-  loadPaginador() {
+    }
+    // Recolecta los datos del paginador
+    loadPaginador() {
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/paginador/botones_Colaboradores.php"
     )
@@ -43,8 +46,9 @@ class Colaboradores extends Component {
         this.setState({ paginador: dataResponse });
       })
       .catch(console.log());
-  }
-  sendNum = (e) => {
+    }
+    // Envía el número seleccionado del paginador a la sentencia SQL para poder cambiar de página
+    sendNum = (e) => {
     e.preventDefault();
     console.log("Sending data..");
     const num_boton = e.target.value;
@@ -65,25 +69,30 @@ class Colaboradores extends Component {
         this.setState({ colaboradores: dataResponse });
       })
       .catch(console.log());
-  };
-  componentDidMount() {
+    };
+    // Realiza la carga automática de funciones en el instante que se ingresó a la pantalla
+    componentDidMount() {
     this.loadData();
     this.loadPaginador();
-  }
-
-  SwitchToggleColaboradores = () => {
+    };
+    // Permite alternar la visibilidad del formulario de creación de datos
+    SwitchToggleColaboradores = () => {
     this.setState({
       toggle_formColaboradores: !this.state.toggle_formColaboradores,
     });
-  };
-
-  cambioValor = (e) => {
+    };
+    // Se activa con la función OnChange cambiando el estado inicial de vacío por el ingresado en los inputs
+    cambioValor = (e) => {
     const state = this.state;
+    const stateEdit = this.state;
+    stateEdit[e.target.name] = e.target.value;
     state[e.target.name] = e.target.value;
     this.setState({ state });
-  };
-
-  sendData = (e) =>{
+    this.setState({ colaboradoresEdit: stateEdit });
+    this.setState({ changed: true});
+    };
+    // Envía los datos del formulario de creación a la sentencia SQL
+    sendData = (e) =>{
     e.preventDefault();
     console.log("Sending data..");
     const { codigoCuenta, nombre_completo, usuario, area, subgerencia, correo } = this.state;
@@ -103,9 +112,9 @@ class Colaboradores extends Component {
 
       })
       .catch(console.log());
-  }
-
-  deleteData = (ID) =>{
+    };
+    // Función para "eliminar", solamente deshabilita su visibilidad en los registros y puede ser rehabilitada en la página Administrador
+    deleteData = (ID) =>{
     console.log(ID);
     fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-deleteColaborador.php?delete="+ID)
@@ -115,12 +124,57 @@ class Colaboradores extends Component {
         this.loadData();
       })
       .catch(console.log());
- }
+    };
+    // Permite alternar la visibilidad del formulario de actualización de datos
+    SwitchToggleFormEdit = () => {
+this.setState({ toggle_formEdit: false });
+    };
+    // Recolecta los datos de un registro en específico utilizando el ID como referencia
+    loadDataEdit(ID) {
+  fetch(
+  "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-selectColaborador.php?ID="+ID )
+   .then((response) => response.json())
+   .then((dataResponse) => {
+    this.setState({ loadedData: true, colaboradoresEdit: dataResponse[0]});
+    this.setState({toggle_formEdit : true})
+    })
+    .catch(console.log());
+    };
+    // Envía los datos del formulario de actualización a la sentencia SQL
+    sendDataColaboradoresEdit = (e) =>{
+      e.preventDefault();
+      const ID = this.state.colaboradoresEdit.ID;
+      const changed = this.state.changed;
+          if(!changed){
+          const{ nombre_completo, usuario, area, codigoCuenta, subgerencia, correo} = this.state.colaboradoresEdit;
+          var datosEnviar = {ID: ID, nombre_completo : nombre_completo, usuario: usuario, area: area, codigoCuenta: codigoCuenta, subgerencia: subgerencia, correo: correo}
+          }else{
+          const{ nombre_completo, usuario, area, codigoCuenta, subgerencia, correo} = this.state;
+          var datosEnviar = {ID: ID, nombre_completo : nombre_completo, usuario: usuario, area: area, codigoCuenta: codigoCuenta, subgerencia: subgerencia, correo: correo}
+        }
+      console.log(datosEnviar);
+      fetch(
+      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editColaborador.php?editarColaborador",{
+      method: "POST",
+      body: JSON.stringify(datosEnviar)
+      })
+      .then((response) => response.json())
+      .then((dataResponse) => {
+      this.setState({loadedData : true})
+      this.setState({changed : false})
+      console.log(dataResponse);
+      })
+      .catch(console.log());
+    };  
+                
+
+
   render() {
     const { loadedData, colaboradores, paginador } = this.state;
     const toggle_formColaboradores = this.state.toggle_formColaboradores;
-    const { codigoCuenta, nombre_completo, usuario, area, subgerencia, correo } =
-      this.state;
+    const { codigoCuenta, nombre_completo, usuario, area, subgerencia, correo } = this.state;
+    const toggle_formEdit = this.state.toggle_formEdit
+    const colaboradoresEdit = this.state.colaboradoresEdit
 
     if (!loadedData) {
       return <div>Loading data...</div>;
@@ -129,6 +183,7 @@ class Colaboradores extends Component {
       <div className="container-fluid">
         <Header />
         <h1 id="subtitulo_pagina">Listado de colaboradores</h1>
+        {/* LISTADO DE COLABORADORES */}
         <div>
           <button id="btn_registrarCliente" onClick={this.SwitchToggleColaboradores}>Registrar colaborador</button>
            <table style={{whiteSpace: "nowrap"}}id="tablaClientes" className="table table-striped table-inverse table-responsive">
@@ -148,14 +203,14 @@ class Colaboradores extends Component {
                 <tr key={colaborador.ID}>
                   <td>{colaborador.ID}</td>
                   <td>{colaborador.nombre_completo}</td>
-                  <td><Link style={{paddingLeft: 13, textDecoration: 'none'}} to={"/InfoColaboradores/"+colaborador.usuario}>{colaborador.usuario}</Link></td>
+                  <td>{colaborador.usuario}</td>
                   <td>{colaborador.area}</td>
                   <td>{colaborador.codigoCuenta}</td>
                   <td>{colaborador.subgerencia}</td>
                   <td>{colaborador.correo}</td>
                   <td>
-                  <button title="Editar colaborador" id="btn_edit_cuenta"><Link to={"/EditarColaboradores/"+colaborador.ID}><BsPencilSquare /></Link></button>
-                  <button title="Examinar colaborador"id="btn_edit_cuenta"><BiShowAlt /></button>
+                  <button onClick={() => this.loadDataEdit(colaborador.ID)} title="Editar colaborador" id="btn_edit_cuenta"><BsPencilSquare /></button>
+                  <button title="Examinar colaborador"id="btn_edit_cuenta"><Link style={{textDecoration: 'none', color: "black"}} to={"/InfoColaboradores/"+colaborador.usuario}><BiShowAlt /></Link></button>
                     <button
                     title="Eliminar colaborador"
                       id="btn_delete"
@@ -182,6 +237,7 @@ class Colaboradores extends Component {
           </div>
           </table>
         </div>
+        {/* FORMULARIO DE CREACIÓN DE COLABORADORES */}
         <div
           id="form_registrarColaborador"
           className={
@@ -291,6 +347,78 @@ class Colaboradores extends Component {
             </div>
           </form>
         </div>
+        {/* FORMULARIO EDICIÓN DE COLABORADORES */}
+        <div id="form_registrarColaborador" className={ toggle_formEdit ? "active" : "form_registrarColaborador"}>
+          <div onClick={this.SwitchToggleFormEdit} className="btn_close"> <BsX /></div>
+          <h3>Actualización de colaboradores</h3>
+          <form id="form_agregarColaborador" onSubmit={this.sendDataColaboradoresEdit}>
+            <input type="hidden" id="input_Usuario" />
+            <div>
+              <label htmlFor="input_idCuenta_Colaborador"> ID de la Cuenta:</label>
+              <select name="codigoCuenta" value={colaboradoresEdit.codigoCuenta} onChange={this.cambioValor} id="input_idCuenta_Colaborador" >
+                <option value="fondo_esperanza">Fondo Esperanza</option>
+                <option value="Transbank">Transbank</option>
+                <option value="BCI">BCI</option>
+                <option value="BCI_agil">BCI Ágil</option>
+                <option value="BCI_tecnico">BCI Técnico</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="input_nombreCompleto">Nombre Completo: </label>
+              <input type="text" value={colaboradoresEdit.nombre_completo} name="nombre_completo" onChange={this.cambioValor} id="input_nombreCompleto" />
+            </div>
+            <div id="container_idUsuario">
+              <label htmlFor="input_idUsuario">ID del Usuario: </label>
+              <input
+                type="text"
+                name="usuario"
+                onChange={this.cambioValor}
+                value={colaboradoresEdit.usuario}
+                id="input_idUsuario"
+                placeholder="Primer letra + Apellido"
+              />
+            </div>
+            <div>
+              <label htmlFor="input_areaColaborador">Área: </label>
+              <input
+                type="text"
+                value={colaboradoresEdit.area}
+                name="area"
+                onChange={this.cambioValor}
+                id="input_areaColaborador"
+                placeholder="Seguridad"
+              />
+            </div>
+            <div>
+              <label htmlFor="input_subgerenciaColaborador">
+                Subgerencia:{" "}
+              </label>
+              <input
+                type="text"
+                value={colaboradoresEdit.subgerencia}
+                name="subgerencia"
+                onChange={this.cambioValor}
+                id="input_subgerenciaColaborador"
+                placeholder="Infraestructura y producción TI"
+              />
+            </div>
+            <div>
+              <label htmlFor="input_correoColaborador">Correo: </label>
+              <input
+                type="text"
+                name="correo"
+                value={colaboradoresEdit.correo}
+                onChange={this.cambioValor}
+                id="input_correoColaborador"
+                placeholder="usuario@DOMINIO.COM"
+              />
+            </div>
+            <div>
+              <input type="submit" id="btn_registrar" value="Actualizar" />
+            </div>
+          </form>
+        </div>
+
       </div>
     );
   }

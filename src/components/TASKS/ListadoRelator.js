@@ -4,31 +4,31 @@ import '../css/Tables.css';
 import Header from "../templates/header";
 import '../css/Botones.css';
 import '../css/Forms.css';
-import { BiShowAlt } from "react-icons/bi";
 
 class ListadoRelator extends Component {
+
+    // Declaración de variables iniciales
     state = { 
-      loadedData: false, 
-      relatores: [], 
-      paginador: [],
-      num_boton: "",
-      relator: "",
+      loadedData: false, //Booleano que se activa cuando es recibida la carga de datos
+      relatores: [], //Array donde serán almacenados los registros del JSON que vienen del backend
+      paginador: [], //Recibe la cantidad de páginas totales desde el backend
+      num_boton: "", //Es el botón seleccionado del paginador
+      relator: "", // {Strings vacíos donde serán almacenados los valores de los inputs para introducir registros
       codigoRamo: "",
       area: "",
       nombreRamo:"",
       hh_academicas: "",
-      pre_requisito: "",
-      toggle_formRelator: false,
-      toggle_formEdit: false,
-      relatoresEdit: [],
-      IDEdit: "",
+      pre_requisito: "", // }
+      toggle_formRelator: false, //Booleano para la visibilidad del formulario
+      toggle_formEdit: false, //Booleano para la visibilidad del formulario
+      relatoresEdit: [],  //Array donde serán almacenados los registros del JSON que vienen del backend
+      IDEdit: "", // {Strings vacíos donde se introducen los valores del input para la edición de datos
       nombreEdit: "",
-      areaEdit: "",
-      changed: false
-      // Recolecta los datos del registro de clientes
+      areaEdit: "", // }
+      changed: false //Booleano que valida la edición de los datos
 } 
       // Recolecta los datos del registro de relatores
-    loadData() {
+      loadData() {
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listOrador.php"
         )
@@ -68,8 +68,6 @@ class ListadoRelator extends Component {
           .then((response) => response.json())
           .then((dataResponse) => {
             this.setState({ relatores: dataResponse });
-            console.log(dataResponse);
-            console.log(sendNum);
           })
           .catch(console.log());
       };
@@ -88,7 +86,7 @@ class ListadoRelator extends Component {
         stateEdit[e.target.name] = e.target.value;
         this.setState({state});
         this.setState({relatoresEdit: stateEdit});
-        this.setState({changed: !this.state.changed});
+        this.setState({changed: true});
       }
 
       // Envía los datos del formulario de creación a la sentencia SQL
@@ -147,23 +145,22 @@ class ListadoRelator extends Component {
       })
       .catch(console.log());
       }
-
-      validateChanges(){
-        const changed = this.state.changed;
-        if(!changed){
-          this.setState({nombreEdit : this.state.relatoresEdit.nombreEdit})
-          this.setState({areaEdit : this.state.relatoresEdit.areaEdit})
-        }
-      }
+      
       // Envía los datos del formulario de actualización a la sentencia SQL
       sendDataRelatorEdit = (e) =>{
-        this.validateChanges();
-        e.preventDefault();
-        console.log("Sending data..");
+        const changed = this.state.changed;
         const IDEdit = this.state.relatoresEdit.IDEdit;
-        const nombreEdit = this.state.nombreEdit;
-        const areaEdit = this.state.areaEdit;
-        var datosEnviar = {IDEdit: IDEdit, nombreEdit: nombreEdit, areaEdit:areaEdit}
+
+        if(!changed){ //Valida si hubo cambios de estado y establece un valor predeterminado en caso de que sea false
+          const nombreEdit = this.state.relatoresEdit.nombreEdit
+          const areaEdit = this.state.relatoresEdit.areaEdit
+          var datosEnviar = {IDEdit: IDEdit, nombreEdit: nombreEdit, areaEdit:areaEdit}
+        }else{
+          const nombreEdit = this.state.nombreEdit
+          const areaEdit = this.state.areaEdit
+          var datosEnviar = {IDEdit: IDEdit, nombreEdit: nombreEdit, areaEdit:areaEdit}
+        }
+        e.preventDefault();
         console.log(datosEnviar);
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editRelatores.php?editarRelatores",{
@@ -174,6 +171,7 @@ class ListadoRelator extends Component {
           .then((response) => response.json())
           .then(() => {
             this.setState({loadedData : true})
+            this.setState({changed : false}) //Reestablece el estado inicial del booleano
 
           })
           .catch(console.log());
@@ -223,7 +221,6 @@ class ListadoRelator extends Component {
                                     <td>{relator.nombreRamo}</td>
                                     <td>
                                     <button onClick={() => this.loadDataEdit(relator.ID)} title="Editar relator" id="btn_edit_cuenta"><BsPencilSquare/></button>
-                                    <button title="Examinar relator"id="btn_edit_cuenta"><BiShowAlt /></button>
                                     <button onClick={() => this.deleteData(relator.ID)} title="Eliminar relator" id="btn_delete"><BsTrash/></button>
 
                                     </td>
@@ -309,8 +306,6 @@ class ListadoRelator extends Component {
                           </div>
                       </form>
                 </div>
-
-
             </div>
         );
     }

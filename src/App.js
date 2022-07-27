@@ -9,14 +9,10 @@ import ReporteGeneral from "./components/TASKS/ReporteGeneral";
 import ListadoColaboradores from "./components/TASKS/ListadoColaboradores";
 import InfoColaboradores from "./components/TASKS/InfoColaboradores";
 import InfoCursos from "./components/TASKS/InfoCursos";
-import EditarRamos from "./components/TASKS/EditarRamos";
-import EditarColaboradores from "./components/TASKS/EditarColaboradores";
 import Administrador from "./components/TASKS/Administrador";
 import ListadoClientes from "./components/TASKS/ListadoClientes";
-import EditarClientes from "./components/TASKS/EditarClientes";
 import InscripcionCurso from "./components/TASKS/InscripcionCurso";
 import Prerequisitos from "./components/TASKS/Prerequisitos";
-import InfoRamos from "./components/TASKS/InfoRamos";
 function App() {
   
   return (
@@ -31,12 +27,8 @@ function App() {
       <Route path="/Colaboradores" component={ListadoColaboradores}></Route>
       <Route path="/InfoColaboradores/:usuario" component={InfoColaboradores}></Route>
       <Route path="/InfoCursos/:codigoCurso" component={InfoCursos}></Route>
-      <Route path="/InfoRamos/:codigoRamo" component={InfoRamos}></Route>
-      <Route path="/EditarRamos/:ID" component={EditarRamos}></Route>
-      <Route path="/EditarColaboradores/:ID" component={EditarColaboradores}></Route>
       <Route path="/Administrador" component={Administrador}></Route>
       <Route path="/Clientes" component={ListadoClientes}></Route>
-      <Route path="/EditarClientes/:ID" component={EditarClientes}></Route>
       <Route path="/InscripcionCurso" component={InscripcionCurso}></Route>
       <Route path="/Prerequisitos" component={Prerequisitos}></Route>
     </Router>
