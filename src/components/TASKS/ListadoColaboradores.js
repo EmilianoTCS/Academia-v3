@@ -84,12 +84,11 @@ class Colaboradores extends Component {
     // Se activa con la función OnChange cambiando el estado inicial de vacío por el ingresado en los inputs
     cambioValor = (e) => {
     const state = this.state;
-    const stateEdit = this.state;
+    const stateEdit = this.state.colaboradoresEdit;
     stateEdit[e.target.name] = e.target.value;
     state[e.target.name] = e.target.value;
     this.setState({ state });
     this.setState({ colaboradoresEdit: stateEdit });
-    this.setState({ changed: true});
     };
     // Envía los datos del formulario de creación a la sentencia SQL
     sendData = (e) =>{
@@ -144,14 +143,10 @@ this.setState({ toggle_formEdit: false });
     sendDataColaboradoresEdit = (e) =>{
       e.preventDefault();
       const ID = this.state.colaboradoresEdit.ID;
-      const changed = this.state.changed;
-          if(!changed){
-          const{ nombre_completo, usuario, area, codigoCuenta, subgerencia, correo} = this.state.colaboradoresEdit;
-          var datosEnviar = {ID: ID, nombre_completo : nombre_completo, usuario: usuario, area: area, codigoCuenta: codigoCuenta, subgerencia: subgerencia, correo: correo}
-          }else{
-          const{ nombre_completo, usuario, area, codigoCuenta, subgerencia, correo} = this.state;
-          var datosEnviar = {ID: ID, nombre_completo : nombre_completo, usuario: usuario, area: area, codigoCuenta: codigoCuenta, subgerencia: subgerencia, correo: correo}
-        }
+ 
+      const{ nombre_completo, usuario, area, codigoCuenta, subgerencia, correo} = this.state.colaboradoresEdit;
+      var datosEnviar = {ID: ID, nombre_completo : nombre_completo, usuario: usuario, area: area, codigoCuenta: codigoCuenta, subgerencia: subgerencia, correo: correo}
+
       console.log(datosEnviar);
       fetch(
       "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editColaborador.php?editarColaborador",{

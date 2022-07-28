@@ -90,12 +90,12 @@ class ListadoClientes extends Component {
       // Se activa con la función OnChange cambiando el estado inicial de vacío por el ingresado en los inputs
       cambioValor = (e) => {
         const state = this.state;
-        const stateEdit = this.state;
+        const stateEdit = this.state.clientesEdit;
         state[e.target.name] = e.target.value;
         stateEdit[e.target.name] = e.target.value;
         this.setState({ state });
         this.setState({ clientesEdit: stateEdit });
-        this.setState({changed: true});
+        
       };
 
       // Envía los datos del formulario de creación a la sentencia SQL
@@ -137,16 +137,10 @@ class ListadoClientes extends Component {
       // Envía los datos del formulario de actualización a la sentencia SQL
       sendDataClientesEdit = (e) =>{
         e.preventDefault();
-        const ID = this.state.clientesEdit.ID;
-        const changed = this.state.changed;
-        if(!changed){
+          const ID = this.state.clientesEdit.ID;
           const{ tipo_cliente, nombreCliente, referente, correoReferente, cargoReferente, telefonoReferente} = this.state.clientesEdit;
           var datosEnviar = {ID: ID, tipo_cliente : tipo_cliente, nombreCliente: nombreCliente, referente: referente, correoReferente: correoReferente, cargoReferente: cargoReferente, telefonoReferente: telefonoReferente}
-        }else{
-          const{ tipo_cliente, nombreCliente, referente, correoReferente, cargoReferente, telefonoReferente} = this.state;
-          var datosEnviar = {ID: ID, tipo_cliente : tipo_cliente, nombreCliente: nombreCliente, referente: referente, correoReferente: correoReferente, cargoReferente: cargoReferente, telefonoReferente: telefonoReferente}
-        }
-        console.log(datosEnviar);
+          console.log(datosEnviar);
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editClientes.php?editarCliente",{
             method: "POST",
@@ -157,6 +151,7 @@ class ListadoClientes extends Component {
           .then((dataResponse) => {
             this.setState({loadedData : true})
             console.log(dataResponse);
+            this.loadData();
           })
           .catch(console.log());
       }

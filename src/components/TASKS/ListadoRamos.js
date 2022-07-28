@@ -150,7 +150,6 @@ class ListadoRamos extends Component {
         stateEdit[e.target.name] = e.target.value;
         this.setState({state});
         this.setState({ramosEdit: stateEdit});
-        this.setState({changed: true})
       }
       // "Elimina" los datos seleccionados, pero pueden volver a habiltarse en la pantalla de Administrador
       deleteData = (ID) =>{
@@ -179,18 +178,11 @@ class ListadoRamos extends Component {
     // Envía los datos del formulario edición
     sendDataRamoEdit = (e) =>{
       const ID = this.state.ramosEdit.ID
-      const changed = this.state.changed;
       e.preventDefault();
 
-      if(!changed){
-      const{codigoRamo, nombreRamo, hh_academicas, pre_requisito, nombreRelator} = this.state.ramosEdit;
-      var datosEnviar = {ID: ID, codigoRamo: codigoRamo, nombreRamo:nombreRamo, hh_academicas:hh_academicas, pre_requisito: pre_requisito, nombreRelator: nombreRelator}
-      }else{
-      const{codigoRamo, nombreRamo, hh_academicas, pre_requisito, nombreRelator} = this.state;
-      var datosEnviar = {ID: ID, codigoRamo: codigoRamo, 
-        nombreRamo:nombreRamo, hh_academicas:hh_academicas, pre_requisito: pre_requisito, nombreRelator: nombreRelator}
-      }
-
+      const{codigoRamo, nombreRamo, hh_academicas} = this.state.ramosEdit;
+      var datosEnviar = {ID: ID, codigoRamo: codigoRamo, nombreRamo:nombreRamo, hh_academicas:hh_academicas}
+      console.log(datosEnviar);
       fetch(
         "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editRamo.php?editarRamo",{
           method: "POST",

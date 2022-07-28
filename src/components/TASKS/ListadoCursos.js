@@ -194,14 +194,10 @@ class ListadoCursos extends Component {
   sendDataCursoEdit = (e) =>{
   e.preventDefault();
   const ID = (this.state.cursosEdit.IDEdit);
-  const changed = this.state.changed;
-  if(!changed){
     const{codigoCuentaEdit, codigoRamoEdit,fechaInicioEdit, fechaFinEdit, horaInicioEdit, horaFinEdit} = this.state.cursosEdit;
     var datosEnviar = {ID:ID ,codigoCuentaEdit: codigoCuentaEdit, codigoRamoEdit: codigoRamoEdit, fechaInicioEdit:fechaInicioEdit, fechaFinEdit:fechaFinEdit, horaInicioEdit: horaInicioEdit, horaFinEdit: horaFinEdit}
-  }else{
-    const{codigoCuentaEdit, codigoRamoEdit,fechaInicioEdit, fechaFinEdit, horaInicioEdit, horaFinEdit} = this.state;
-    var datosEnviar = {ID:ID ,codigoCuentaEdit: codigoCuentaEdit, codigoRamoEdit: codigoRamoEdit, fechaInicioEdit:fechaInicioEdit, fechaFinEdit:fechaFinEdit, horaInicioEdit: horaInicioEdit, horaFinEdit: horaFinEdit}
-  }
+
+    console.log(datosEnviar);
   fetch(
     "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editCurso.php?editarCurso",{
       method: "POST",
@@ -368,11 +364,11 @@ class ListadoCursos extends Component {
               <div>
                 <label htmlFor="input_idCuenta_Curso">ID de la Cuenta: </label>
                 <select name="codigoCuentaEdit" onChange={this.cambioValor} value={cursosEdit.codigoCuentaEdit} id="input_idCuenta_Curso">
-                  <option value="fondo_esperanza">Fondo Esperanza</option>
-                  <option value="Transbank">Transbank</option>
-                  <option value="BCI">BCI</option>
-                  <option value="BCI_agil">BCI Ágil</option>
-                  <option value="BCI_tecnico">BCI Técnico</option>
+                  <option value="4">Fondo Esperanza</option>
+                  <option value="5">Transbank</option>
+                  <option value="1">BCI</option>
+                  <option value="2">BCI Ágil</option>
+                  <option value="3">BCI Técnico</option>
                 </select>
               </div>
               <div>
