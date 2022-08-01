@@ -182,7 +182,8 @@ class ListadoRamos extends Component {
 
       const{codigoRamo, nombreRamo, hh_academicas} = this.state.ramosEdit;
       var datosEnviar = {ID: ID, codigoRamo: codigoRamo, nombreRamo:nombreRamo, hh_academicas:hh_academicas}
-      console.log(datosEnviar);
+      console.log(datosEnviar
+        );
       fetch(
         "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editRamo.php?editarRamo",{
           method: "POST",
