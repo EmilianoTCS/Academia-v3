@@ -4,6 +4,7 @@ import '../css/Tables.css'
 import '../css/Botones.css'
 import Header from "../templates/header";
 import "../css/Forms.css";
+import 'react-datepicker/dist/react-datepicker.css'; 
 
 
 class ListadoRamos extends Component {
@@ -37,9 +38,45 @@ class ListadoRamos extends Component {
       pre_requisitoEdit : "",
       nombreRelatorEdit: "",
       //}
-      changed: false //Booleano que valida la edición de los datos
+      changed: false, //Booleano que valida la edición de los datos
+      listadoRamos : [], //Se utiliza en el formulario de inserción de cursos
+      listadoCuentas: [], //Se utiliza en el formulario de inserción de cursos
+      listadoRelatores: [] //Se utiliza en el formulario de inserción de ramos
     }
-
+ 
+      //Recoleta SOLAMENTE LOS NOMBRES de los ramos - Se utiliza para cargar información en los SELECT  
+      loadListadoRamos(){
+        fetch(
+          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/ListadoNombreRamos.php?listadoRamos"
+        )
+        .then((response) => response.json())
+        .then((dataResponse) => {
+          this.setState({listadoRamos : dataResponse})
+        })
+        .catch(console.log())
+      }
+      //Recoleta SOLAMENTE LOS NOMBRES de los relatores - Se utiliza para cargar información en los SELECT  
+      loadListadoRelatores(){
+        fetch(
+          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/ListadoRelatores.php?listadoRelatores"
+        )
+        .then((response) => response.json())
+        .then((dataResponse) => {
+          this.setState({listadoRelatores : dataResponse})
+        })
+        .catch(console.log())
+      }
+      //Recolecta SOLAMENTE LOS NOMBRES de las cuentas - Se utiliza para cargar información en los SELECT  
+      loadListadoCuentas(){
+        fetch(
+          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/ListadoCuentas.php?listadoCuentas"
+        )
+        .then((response) => response.json())
+        .then((dataResponse) => {
+          this.setState({listadoCuentas : dataResponse})
+        })
+        .catch(console.log())
+      }
       // Recolecta los datos del registro de ramos
       loadData() {
         fetch(
@@ -141,6 +178,9 @@ class ListadoRamos extends Component {
       componentDidMount() {
         this.loadData();
         this.loadPaginador();
+        this.loadListadoRamos();
+        this.loadListadoCuentas();
+        this.loadListadoRelatores();
       }
       // Detecta cambios en el estado
       cambioValor = (e) =>{
@@ -206,6 +246,9 @@ class ListadoRamos extends Component {
         const toggle_formEdit = this.state.toggle_formEdit;
         const toggle_formCurso = this.state.toggle_formCurso;
         const ramosEdit = this.state.ramosEdit;
+        const listadoRamos = this.state.listadoRamos;
+        const listadoCuentas = this.state.listadoCuentas;
+        const listadoRelatores = this.state.listadoRelatores;
 
     if (!loadedData) {
       return <div>Loading data...</div>;
@@ -260,6 +303,7 @@ class ListadoRamos extends Component {
                             ))}
                         </div>
                 </table>
+
             {/* FORM REGISTRAR RAMOS */}
                 <div id="form_registrarRamo" className={toggle_formRamo ? "active" : "form_registrarRamo"} >
           <div className="btn_close" onClick={this.SwitchToggleRamo}>
@@ -268,7 +312,7 @@ class ListadoRamos extends Component {
           <h3>Registro de ramos</h3>
           <form id="form_agregarRamo" onSubmit={this.sendDataRamo}>
             <div>
-              <label htmlFor="input_idCuenta">ID de la Cuenta: </label>
+              <label htmlFor="input_idCuenta">Cuenta: </label>
               <select name="idCuenta" onChange={this.cambioValor} value={idCuenta} id="input_idCuenta">
                 <option value="fondo_esperanza">Fondo Esperanza</option>
                 <option value="Transbank">Transbank</option>
@@ -278,7 +322,7 @@ class ListadoRamos extends Component {
               </select>
             </div>
             <div>
-              <label htmlFor="input_idRamo">ID del Ramo: </label>
+              <label htmlFor="input_idRamo">Código del Ramo: </label>
               <input
                 type="text"
                 name="codigoRamo"
@@ -321,32 +365,41 @@ class ListadoRamos extends Component {
               />
             </div>
             <div>
-              <label htmlFor="input_preRequisito">Pre-Requisito: </label>
-              <input
-                type="text"
-                name="pre_requisito"
-                id="input_preRequisito"
-                placeholder="Ejemplo: JAV-SEL"
-                onChange={this.cambioValor}
-                value={pre_requisito}
-              />
-            </div>
+                <select name="pre_requisito" value={pre_requisito} onChange={this.cambioValor} id="input_preRequisito">
+                <option defaultValue={"Seleccione un prerequisito"}>Seleccione un prerequisito</option>
+                {listadoRamos.map((ramo) => (
+                        <option
+                          key={ramo.ID}
+                          value={ramo.codigoRamo}
+                        >
+                          {ramo.nombreRamo}
+                        </option>
+                      ))}
+                </select>
+              </div>           
             <div>
-              <label htmlFor="input_relator">Relator: </label>
-              <input type="text" name="relator" id="input_relator"
-               onChange={this.cambioValor}
-               value={relator}
-               />
-            </div>
+                <select name="relator" value={relator} onChange={this.cambioValor} id="input_relator">
+                  <option defaultValue={"Seleccione una cuenta"}>Seleccione un relator</option>
+                       {listadoRelatores.map((relator) => (
+                        <option
+                          key={relator.ID}
+                          value={relator.nombre}
+                        >
+                          {relator.nombre}
+                        </option>
+                      ))}
+                </select>
+              </div>
             <div>
                 <input
                   type="submit"
                   className="btn_registrar"
-                  value="Actualizar"
+                  value="Registrar"
                 />
               </div>
           </form>
                 </div>
+
             {/* FORM ACTUALIZAR RAMOS */}
             <div id="form_registrarRamo" className={toggle_formEdit ? "active" : "form_registrarRamo"}>
         <div className="btn_close" onClick={this.SwitchToggleRamoEdit}>
@@ -394,6 +447,7 @@ class ListadoRamos extends Component {
               </div>
             </form>
             </div>
+
             {/* FORM REGISTRAR CURSO */}
             <div id="form_registrarCurso" className={toggle_formCurso ? "active" : "form_registrarCurso"}>
             <div className="btn_close" onClick={this.SwitchToggleCurso}><BsX /></div>
@@ -401,61 +455,74 @@ class ListadoRamos extends Component {
             <form id="form_agregarCurso" onSubmit={this.sendDataCurso}>
               <input type="hidden" id="input_idCurso" />
               <div>
-                <label htmlFor="input_idCuenta_Curso">ID de la Cuenta: </label>
-                <select name="input_idCuenta_Curso" onChange={this.cambioValor} id="input_idCuenta_Curso">
-                  <option value="fondo_esperanza">Fondo Esperanza</option>
-                  <option value="Transbank">Transbank</option>
-                  <option value="BCI">BCI</option>
-                  <option value="BCI_agil">BCI Ágil</option>
-                  <option value="BCI_tecnico">BCI Técnico</option>
+                <select name="input_idCuenta_Curso" value={idCuenta} onChange={this.cambioValor} id="input_idCuenta_Curso">
+                  <option defaultValue={"Seleccione una cuenta"}>Seleccione una cuenta</option>
+                  {listadoCuentas.map((cuenta) => (
+                        <option
+                          key={cuenta.ID}
+                          value={cuenta.codigoCuenta}
+                        >
+                          {cuenta.codigoCuenta}
+                        </option>
+                      ))}
                 </select>
               </div>
               <div>
-                <label htmlFor="input_idRamo_Curso">ID del Ramo: </label>
-                <select name="input_idRamo_Curso"onChange={this.cambioValor} id="input_idRamo_Curso">
-                  <option>JAV</option>
+                <select name="input_idRamo_Curso" value={codigoRamo} onChange={this.cambioValor} id="input_idRamo_Curso">
+                <option defaultValue={"Seleccione un ramo"}>Seleccione un ramo</option>
+                {listadoRamos.map((ramo) => (
+                        <option
+                          key={ramo.ID}
+                          value={ramo.codigoRamo}
+                        >
+                          {ramo.nombreRamo}
+                        </option>
+                      ))}
                 </select>
               </div>
-              <div>
+              <div class="md-form md-outline input-with-post-icon datepicker">
                 <label htmlFor="input_fechaInicio">Fecha Inicio: </label>
-                <input
-                  type="text"
-                  name="input_fechaInicio"
-                  id="input_fechaInicio"
-                  placeholder="yyyy-mm-dd"
-                  onChange={this.cambioValor}
+                <input 
+                type="date" 
+                id="input_fechaInicio" 
+                name="input_fechaInicio"
+                className="form-control"
+                onChange={this.cambioValor}
                 />
               </div>
-              <div>
+
+              <div className="md-form md-outline input-with-post-icon datepicker">
                 <label htmlFor="input_fechaFin">Fecha Fin: </label>
                 <input
-                  type="text"
+                  className="form-control"
+                  type="date"
                   name="input_fechaFin"
                   id="input_fechaFin"
                   placeholder="yyyy-mm-dd"
                   onChange={this.cambioValor}
                 />
-              </div>
-              <div>
-                <label htmlFor="input_horaInicio">Hora Inicio: </label>
-                <input
-                  type="text"
+              </div>  
+
+              <div className="md-form md-outline">
+                  <label htmlFor="input_horaInicio">Hora Inicio: </label>
+                  <input 
+                  type="time" 
                   name="input_horaInicio"
+                  className="form-control" 
                   id="input_horaInicio"
-                  placeholder="HH:mm:ss"
-                  onChange={this.cambioValor}
-                />
+                  onChange={this.cambioValor} />
               </div>
-              <div>
-                <label htmlFor="input_horaFin">Hora Fin: </label>
-                <input
-                  type="text"
+
+              <div className="md-form md-outline">
+                  <label htmlFor="input_horaFin">Hora Fin: </label>
+                  <input 
+                  type="time" 
                   name="input_horaFin"
+                  className="form-control" 
                   id="input_horaFin"
-                  placeholder="HH:mm:ss"
-                  onChange={this.cambioValor}
-                />
+                  onChange={this.cambioValor} />
               </div>
+
               <div>
                 <input
                   type="submit"

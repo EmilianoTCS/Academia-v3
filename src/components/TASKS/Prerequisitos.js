@@ -121,14 +121,13 @@ class Prerequisitos extends Component {
               <div className="container">
                 <div className="form-group">
                   <form onSubmit={this.insertPrerequisito}>
-                    <label htmlFor="CursoaConsultar">Seleccione un curso</label>
                     <select
                       className="form-control"
                       name="CursoaConsultar"
                       id="CursoaConsultar"
                       onChange={this.cambioValor}
                     >
-                      <option defaultValue={"Seleccione un curso"}></option>
+                      <option defaultValue={"Seleccione un curso"}>Seleccione un curso</option>
                       {idCurso.map((idCurso) => (
                         <option
                           key={idCurso.ID}
@@ -139,17 +138,13 @@ class Prerequisitos extends Component {
                       ))}
                     </select>
                     <br />
-                    <label htmlFor="PrerequisitoAInsertar">
-                      Seleccione el pre requisito a insertar
-                    </label>
-
                     <select
                       className="form-control"
                       name="PrerequisitoAInsertar"
                       id="PrerequisitoAInsertar"
                       onChange={this.cambioValor}
                     >
-                      <option defaultValue={"Seleccione un curso"}></option>
+                      <option defaultValue={"Seleccione un curso"}>Seleccione el pre requisito a insertar</option>
                       {idCursoInsert.map((idCursoInsert) => (
                         <option
                           key={idCursoInsert.ID}

@@ -51,10 +51,10 @@ class Navigator extends Component {
         return (
         <div className="container-fluid">
         <section id="sidebar" className={toggleSidebar ? "active" : "sidebar"}>
-          <ul>
+          <ul >
             <li><img id="User_logo" src={user_logo} alt="User Logo"/></li>
             <h4>{this.userName}</h4>
-            <li><Link to={"/home"}>Home</Link></li>
+            <li><Link to={"/home"}>HOME</Link></li>
       
             <li id="li_Academia" onClick={this.SwitchToggleAcademia} >COE - ACADEMIA
               <ul id="COE_Academia" className={toggleAcademia ? "active" : " COE_Academia "}>
