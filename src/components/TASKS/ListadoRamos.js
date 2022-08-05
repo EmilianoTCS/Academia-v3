@@ -5,6 +5,9 @@ import '../css/Botones.css'
 import Header from "../templates/header";
 import "../css/Forms.css";
 import 'react-datepicker/dist/react-datepicker.css'; 
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import Select from 'react-select';
 
 
 class ListadoRamos extends Component {
@@ -18,7 +21,7 @@ class ListadoRamos extends Component {
       toggle_formCurso: false, //Booleano para la visibilidad del formulario editar curso
 
       //Strings vacíos donde se introducen los valores de los inputs a la hora de insertar registros{
-      idCuenta : "", 
+      codigoCuenta : "", 
       codigoRamo : "",
       area: "",
       nombreCurso : "",
@@ -43,8 +46,7 @@ class ListadoRamos extends Component {
       listadoCuentas: [], //Se utiliza en el formulario de inserción de cursos
       listadoRelatores: [] //Se utiliza en el formulario de inserción de ramos
     }
- 
-      //Recoleta SOLAMENTE LOS NOMBRES de los ramos - Se utiliza para cargar información en los SELECT  
+      // Recoleta SOLAMENTE LOS NOMBRES de los ramos - Se utiliza para cargar información en los SELECT  
       loadListadoRamos(){
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/ListadoNombreRamos.php?listadoRamos"
@@ -55,7 +57,7 @@ class ListadoRamos extends Component {
         })
         .catch(console.log())
       }
-      //Recoleta SOLAMENTE LOS NOMBRES de los relatores - Se utiliza para cargar información en los SELECT  
+      // Recoleta SOLAMENTE LOS NOMBRES de los relatores - Se utiliza para cargar información en los SELECT  
       loadListadoRelatores(){
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/ListadoRelatores.php?listadoRelatores"
@@ -66,7 +68,7 @@ class ListadoRamos extends Component {
         })
         .catch(console.log())
       }
-      //Recolecta SOLAMENTE LOS NOMBRES de las cuentas - Se utiliza para cargar información en los SELECT  
+      // Recolecta SOLAMENTE LOS NOMBRES de las cuentas - Se utiliza para cargar información en los SELECT  
       loadListadoCuentas(){
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/ListadoCuentas.php?listadoCuentas"
@@ -126,9 +128,10 @@ class ListadoRamos extends Component {
       sendDataRamo = (e) =>{
         e.preventDefault();
         console.log("Sending data..");
-        const{idCuenta, codigoRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
-        var datosEnviar = {idCuenta: idCuenta, codigoRamo: codigoRamo, 
+        const{codigoCuenta, codigoRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
+        var datosEnviar = {codigoCuenta: codigoCuenta, codigoRamo: codigoRamo, 
         nombreCurso:nombreCurso, area:area, hh_academicas:hh_academicas, pre_requisito: pre_requisito, relator: relator}
+        console.log(datosEnviar);
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarRamo.php?insertarRamo",{
             method: "POST",
@@ -138,6 +141,27 @@ class ListadoRamos extends Component {
           .then((response) => response.json())
           .then((dataResponse) => {
             console.log(dataResponse);
+            this.loadData();
+            const MySwal = withReactContent(Swal);
+            if(dataResponse === "success"){
+              MySwal.fire({
+                title: "Se ha actualizado el registro",
+                icon: "success",
+                position: "top-right",
+                timer: 2500,
+                toast: true,
+                showConfirmButton: false,
+              })
+            }else{
+              MySwal.fire({
+                title: "Se ha producido un error",
+                icon: "error",
+                position: "top-right",
+                timer: 2500,
+                toast: true,
+                showConfirmButton: false,
+              })
+            }
           })
           .catch(console.log());
       }
@@ -145,9 +169,9 @@ class ListadoRamos extends Component {
       sendDataCurso = (e) =>{
         e.preventDefault();
         console.log("Sending data..");
-        const{codigoCuenta, idRamo, nombreCurso, fechaInicio, fechaFin, horaInicio, horaFin} = this.state;
-        var datosEnviar = {codigoCuenta: codigoCuenta, idRamo: idRamo, 
-        nombreCurso:nombreCurso, fechaInicio:fechaInicio, fechaFin:fechaFin, horaInicio: horaInicio, horaFin: horaFin}
+        const{codigoCuenta, codigoRamo, fechaInicio, fechaFin, horaInicio, horaFin} = this.state;
+        var datosEnviar = {codigoCuenta: codigoCuenta, codigoRamo: codigoRamo, fechaInicio:fechaInicio, fechaFin:fechaFin, horaInicio: horaInicio, horaFin: horaFin}
+        console.log(datosEnviar);
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarCurso.php?insertarCurso",{
             method: "POST",
@@ -158,6 +182,26 @@ class ListadoRamos extends Component {
           .then((dataResponse) => {
             console.log(dataResponse);
             this.loadData();
+            const MySwal = withReactContent(Swal);
+            if(dataResponse === "success"){
+              MySwal.fire({
+                title: "Se ha creado el registro",
+                icon: "success",
+                position: "top-right",
+                timer: 2500,
+                toast: true,
+                showConfirmButton: false,
+              })
+            }else{
+              MySwal.fire({
+                title: "Se ha producido un error",
+                icon: "error",
+                position: "top-right",
+                timer: 2500,
+                toast: true,
+                showConfirmButton: false,
+              })
+            }
           })
           .catch(console.log());
       }
@@ -191,6 +235,42 @@ class ListadoRamos extends Component {
         this.setState({state});
         this.setState({ramosEdit: stateEdit});
       }
+      // Detecta cambios en el estado de los Select
+      cambioValorSelect= (e) =>{
+        const state = this.state;
+        state[e.name] = e.value
+        this.setState({state});
+      }
+      // Muestra un mensaje de confirmación para eliminar
+      alertDelete = (ID) => {
+              const MySwal = withReactContent(Swal)
+              MySwal.fire({
+                title: "¿Deseas eliminar este ramo?",
+                text: "Puedes volver a habilitarlo en la página Administrador",
+                icon: 'warning',
+                iconColor: "#e10b1c",
+                dangerMode: true,
+                showConfirmButton: true,
+                confirmButtonText: "Eliminar",
+                confirmButtonColor: "red",
+                showCancelButton: true,
+                cancelButtonColor: "dark-gray",
+                cancelButtonText: "Cancelar"
+              })
+              .then(response => {
+                if(response.isConfirmed){
+                  MySwal.fire({
+                    title: "Se ha eliminado el registro",
+                    icon: "success",
+                    position: "top-right",
+                    timer: 2500,
+                    toast: true,
+                    showConfirmButton: false,
+                  })
+                  this.deleteData(ID);
+                }
+              })
+      }
       // "Elimina" los datos seleccionados, pero pueden volver a habiltarse en la pantalla de Administrador
       deleteData = (ID) =>{
         console.log(ID);
@@ -202,8 +282,30 @@ class ListadoRamos extends Component {
             this.loadData();
           })
           .catch(console.log());
-     }
-      //  Carga los datos del curso a editar
+      }
+      // Muestra un mensaje de confirmación para editar
+      alertEdit = (ID) => {
+              const MySwal = withReactContent(Swal)
+              MySwal.fire({
+                title: "¿Deseas editar este ramo?",
+                icon: 'info',
+                iconColor: "#427eff",
+                dangerMode: true,
+                showConfirmButton: true,
+                confirmButtonText: "Editar",
+                confirmButtonColor: "#427eff",
+                showCancelButton: true,
+                cancelButtonColor: "dark-gray",
+                cancelButtonText: "Cancelar"
+              })
+              .then(response => {
+                if(response.isConfirmed){
+                  this.loadDataEdit(ID);
+                }
+              })
+      
+      }
+      // Carga los datos del curso a editar
       loadDataEdit(ID) {
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-selectCursos.php?ID="+ID
@@ -215,8 +317,8 @@ class ListadoRamos extends Component {
           })
           .catch(console.log());
       }
-    // Envía los datos del formulario edición
-    sendDataRamoEdit = (e) =>{
+      // Envía los datos del formulario edición
+      sendDataRamoEdit = (e) =>{
       const ID = this.state.ramosEdit.ID
       e.preventDefault();
 
@@ -234,21 +336,59 @@ class ListadoRamos extends Component {
         .then((dataResponse) => {
           this.setState({loadedData : true})
           console.log(dataResponse);
+          this.loadData();
+          const MySwal = withReactContent(Swal);
+          if(dataResponse === "success"){
+            MySwal.fire({
+              title: "Se ha creado el registro",
+              icon: "success",
+              position: "top-right",
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+            })
+          }else{
+            MySwal.fire({
+              title: "Se ha producido un error",
+              icon: "error",
+              position: "top-right",
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+            })
+          }
         })
         .catch(console.log());
-    }
+      }
 
 
     render() { 
         const { loadedData, ramos, paginador } = this.state;
-        const{idCuenta, codigoRamo, nombreCurso, area, hh_academicas, pre_requisito, relator} = this.state;
+        const{ codigoRamo, nombreCurso, area, hh_academicas} = this.state;
         const toggle_formRamo = this.state.toggle_formRamo;
         const toggle_formEdit = this.state.toggle_formEdit;
         const toggle_formCurso = this.state.toggle_formCurso;
         const ramosEdit = this.state.ramosEdit;
-        const listadoRamos = this.state.listadoRamos;
-        const listadoCuentas = this.state.listadoCuentas;
-        const listadoRelatores = this.state.listadoRelatores;
+        const listadoRelatores= this.state.listadoRelatores.map((label => (
+          {label: label.nombre,
+            value: label.nombre,
+            name: "relator"
+        })))
+        const listadoPrerequisitos = this.state.listadoRamos.map((label => (
+            {label: label.nombreRamo,
+             value: label.codigoRamo,
+             name: "pre_requisito"
+        })))
+        const listadoRamos = this.state.listadoRamos.map((label => (
+          {label: label.nombreRamo,
+           value: label.codigoRamo,
+           name: "codigoRamo"
+      })))
+        const listadoCuentas = this.state.listadoCuentas.map((label => (
+              {label: label.codigoCuenta,
+               value: label.ID,
+               name : "codigoCuenta"
+        })))
 
     if (!loadedData) {
       return <div>Loading data...</div>;
@@ -283,8 +423,8 @@ class ListadoRamos extends Component {
                                     <td>{ramo.nombre}</td>
                                     <td>{ramo.area}</td>
                                     <td>
-                                    <button onClick={() => this.loadDataEdit(ramo.ID)} title="Editar ramo" id="btn_edit_cuenta"><BsPencilSquare /></button>
-                                    <button title="Eliminar ramo" id="btn_delete" onClick={()=> this.deleteData(ramo.ID)}><BsTrash/></button>
+                                    <button onClick={() => this.alertEdit(ramo.ID)} title="Editar ramo" id="btn_edit_cuenta"><BsPencilSquare /></button>
+                                    <button title="Eliminar ramo" id="btn_delete" onClick={()=> this.alertDelete(ramo.ID)}><BsTrash/></button>
                                     </td>
                                 </tr>
                 ))}
@@ -312,14 +452,12 @@ class ListadoRamos extends Component {
           <h3>Registro de ramos</h3>
           <form id="form_agregarRamo" onSubmit={this.sendDataRamo}>
             <div>
-              <label htmlFor="input_idCuenta">Cuenta: </label>
-              <select name="idCuenta" onChange={this.cambioValor} value={idCuenta} id="input_idCuenta">
-                <option value="fondo_esperanza">Fondo Esperanza</option>
-                <option value="Transbank">Transbank</option>
-                <option value="BCI">BCI</option>
-                <option value="BCI_agil">BCI Ágil</option>
-                <option value="BCI_tecnico">BCI Técnico</option>
-              </select>
+              <Select 
+              options={listadoCuentas}
+              placeholder="Elige una cuenta"
+              onChange={this.cambioValorSelect}
+              name="idCuenta"
+              />
             </div>
             <div>
               <label htmlFor="input_idRamo">Código del Ramo: </label>
@@ -365,30 +503,21 @@ class ListadoRamos extends Component {
               />
             </div>
             <div>
-                <select name="pre_requisito" value={pre_requisito} onChange={this.cambioValor} id="input_preRequisito">
-                <option defaultValue={"Seleccione un prerequisito"}>Seleccione un prerequisito</option>
-                {listadoRamos.map((ramo) => (
-                        <option
-                          key={ramo.ID}
-                          value={ramo.codigoRamo}
-                        >
-                          {ramo.nombreRamo}
-                        </option>
-                      ))}
-                </select>
+                <Select 
+                placeholder="Elige un prerequisito"
+                options={listadoPrerequisitos}
+                onChange={this.cambioValorSelect}
+                name="pre_requisito"
+                isMulti= {true}
+                />
               </div>           
             <div>
-                <select name="relator" value={relator} onChange={this.cambioValor} id="input_relator">
-                  <option defaultValue={"Seleccione una cuenta"}>Seleccione un relator</option>
-                       {listadoRelatores.map((relator) => (
-                        <option
-                          key={relator.ID}
-                          value={relator.nombre}
-                        >
-                          {relator.nombre}
-                        </option>
-                      ))}
-                </select>
+               <Select
+               placeholder={"Elige un relator"}
+               options={listadoRelatores}
+               onChange={this.cambioValorSelect}
+               name= "relator"
+               />
               </div>
             <div>
                 <input
@@ -455,32 +584,22 @@ class ListadoRamos extends Component {
             <form id="form_agregarCurso" onSubmit={this.sendDataCurso}>
               <input type="hidden" id="input_idCurso" />
               <div>
-                <select name="input_idCuenta_Curso" value={idCuenta} onChange={this.cambioValor} id="input_idCuenta_Curso">
-                  <option defaultValue={"Seleccione una cuenta"}>Seleccione una cuenta</option>
-                  {listadoCuentas.map((cuenta) => (
-                        <option
-                          key={cuenta.ID}
-                          value={cuenta.codigoCuenta}
-                        >
-                          {cuenta.codigoCuenta}
-                        </option>
-                      ))}
-                </select>
-              </div>
+              <Select 
+              options={listadoCuentas}
+              placeholder="Elige una cuenta"
+              onChange={this.cambioValorSelect}
+              name="idCuenta"
+              />
+            </div>
               <div>
-                <select name="input_idRamo_Curso" value={codigoRamo} onChange={this.cambioValor} id="input_idRamo_Curso">
-                <option defaultValue={"Seleccione un ramo"}>Seleccione un ramo</option>
-                {listadoRamos.map((ramo) => (
-                        <option
-                          key={ramo.ID}
-                          value={ramo.codigoRamo}
-                        >
-                          {ramo.nombreRamo}
-                        </option>
-                      ))}
-                </select>
-              </div>
-              <div class="md-form md-outline input-with-post-icon datepicker">
+                <Select 
+                placeholder="Elige un ramo"
+                options={listadoRamos}
+                onChange={this.cambioValorSelect}
+                name="codigoRamo"
+                />
+              </div>  
+              <div className="md-form md-outline input-with-post-icon datepicker">
                 <label htmlFor="input_fechaInicio">Fecha Inicio: </label>
                 <input 
                 type="date" 

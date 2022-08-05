@@ -48,7 +48,6 @@ class ListadoRelator extends Component {
           })
           .catch(console.log());
       }
-
       // Recolecta los datos del paginador
       loadPaginador() {
         fetch(
@@ -60,7 +59,6 @@ class ListadoRelator extends Component {
           })
           .catch(console.log());
       }
-
       // Envía el número seleccionado del paginador a la sentencia SQL para poder cambiar de página
       sendNum = (e) => {
         e.preventDefault();
@@ -81,14 +79,12 @@ class ListadoRelator extends Component {
           })
           .catch(console.log());
       };
-
       // Realiza la carga automática de funciones en el instante que se ingresó a la pantalla
       componentDidMount() {
         this.loadData();
         this.loadPaginador();
         this.loadListadoRamos();
       }
-
       // Se activa con la función OnChange cambiando el estado inicial de vacío por el ingresado en los inputs
       cambioValor = (e) =>{
         const state = this.state;
@@ -98,7 +94,6 @@ class ListadoRelator extends Component {
         this.setState({state});
         this.setState({relatoresEdit: stateEdit});
       }
-
       // Envía los datos del formulario de creación a la sentencia SQL
       sendDataRelator = (e) =>{
         e.preventDefault();
@@ -138,12 +133,10 @@ class ListadoRelator extends Component {
           })
           .catch(console.log());
       }
-      
       // Permite alternar la visibilidad del formulario de creación de datos
       SwitchToggleRelator = () => {
       this.setState({ toggle_formRelator: !this.state.toggle_formRelator });
       };
-
       // Permite alternar la visibilidad del formulario de actualización de datos
       SwitchToggleFormEdit = () => {
       this.setState({ toggle_formEdit: false });
@@ -243,10 +236,30 @@ class ListadoRelator extends Component {
           }
         )
           .then((response) => response.json())
-          .then(() => {
+          .then((response) => {
             this.setState({loadedData : true})
             this.setState({changed : false}) //Reestablece el estado inicial del booleano
-
+            const MySwal = withReactContent(Swal);
+            this.loadData();
+            if(response === "success"){
+              MySwal.fire({
+                title: "Se ha actualizado el registro",
+                icon: "success",
+                position: "top-right",
+                timer: 2500,
+                toast: true,
+                showConfirmButton: false,
+              })
+            }else{
+              MySwal.fire({
+                title: "Se ha producido un error",
+                icon: "error",
+                position: "top-right",
+                timer: 2500,
+                toast: true,
+                showConfirmButton: false,
+              })
+            }
           })
           .catch(console.log());
       }

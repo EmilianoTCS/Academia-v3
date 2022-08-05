@@ -6,6 +6,8 @@ import "../css/Paginador.css";
 import "../css/Botones.css";
 import "../css/Forms.css";
 import { BiShowAlt } from "react-icons/bi";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 import '../css/Tables.css';
 class ListadoClientes extends Component {
@@ -38,8 +40,7 @@ class ListadoClientes extends Component {
             this.setState({ loadedData: true, clientes: dataResponse });
           })
           .catch(console.log());
-      }
-
+      };
       // Recolecta los datos del paginador
       loadPaginador() {
         fetch(
@@ -50,8 +51,7 @@ class ListadoClientes extends Component {
             this.setState({ paginador: dataResponse });
           })
           .catch(console.log());
-      }
-
+      };
       // Envía el número seleccionado del paginador a la sentencia SQL para poder cambiar de página
       sendNum = (e) => {
         e.preventDefault();
@@ -73,20 +73,17 @@ class ListadoClientes extends Component {
           })
           .catch(console.log());
       };
-
       // Realiza la carga automática de funciones en el instante que se ingresó a la pantalla
       componentDidMount() {
         this.loadData();
         this.loadPaginador();
-      }
-
+      };
       // Permite alternar la visibilidad del formulario de creación de datos
       SwitchToggleClientes = () => {
         this.setState({
           toggle_formClientes: !this.state.toggle_formClientes,
         });
       };
-
       // Se activa con la función OnChange cambiando el estado inicial de vacío por el ingresado en los inputs
       cambioValor = (e) => {
         const state = this.state;
@@ -97,7 +94,6 @@ class ListadoClientes extends Component {
         this.setState({ clientesEdit: stateEdit });
         
       };
-
       // Envía los datos del formulario de creación a la sentencia SQL
       sendData = (e) =>{
         e.preventDefault();
@@ -116,11 +112,52 @@ class ListadoClientes extends Component {
           .then((dataResponse) => {
             console.log(dataResponse);
             this.loadData();
+            const MySwal = withReactContent(Swal);
+            if(dataResponse === "success"){
+          MySwal.fire({
+            title: "Se ha creado el registro",
+            icon: "success",
+            position: "top-right",
+            timer: 2500,
+            toast: true,
+            showConfirmButton: false,
+          })
+            }else{
+          MySwal.fire({
+            title: "Se ha producido un error",
+            icon: "error",
+            position: "top-right",
+            timer: 2500,
+            toast: true,
+            showConfirmButton: false,
+          })
+            }
     
           })
           .catch(console.log());
+      };
+      // Muestra un mensaje de confirmación para editar
+      alertEdit = (ID) => {
+    const MySwal = withReactContent(Swal)
+    MySwal.fire({
+      title: "¿Deseas editar este colaborador?",
+      icon: 'info',
+      iconColor: "#427eff",
+      dangerMode: true,
+      showConfirmButton: true,
+      confirmButtonText: "Editar",
+      confirmButtonColor: "#427eff",
+      showCancelButton: true,
+      cancelButtonColor: "dark-gray",
+      cancelButtonText: "Cancelar"
+    })
+    .then(response => {
+      if(response.isConfirmed){
+        this.loadDataEdit(ID);
       }
+    })
 
+      };
       // Recolecta los datos de un registro en específico utilizando el ID como referencia
       loadDataEdit(ID) {
         fetch(
@@ -132,8 +169,7 @@ class ListadoClientes extends Component {
             this.setState({toggle_formEdit : true})
           })
           .catch(console.log());
-      }
-
+      };
       // Envía los datos del formulario de actualización a la sentencia SQL
       sendDataClientesEdit = (e) =>{
         e.preventDefault();
@@ -152,15 +188,63 @@ class ListadoClientes extends Component {
             this.setState({loadedData : true})
             console.log(dataResponse);
             this.loadData();
+            const MySwal = withReactContent(Swal);
+            if(dataResponse === "success"){
+              MySwal.fire({
+                title: "Se ha actualizado el registro",
+                icon: "success",
+                position: "top-right",
+                timer: 2500,
+                toast: true,
+                showConfirmButton: false,
+              })
+            }else{
+              MySwal.fire({
+                title: "Se ha producido un error",
+                icon: "error",
+                position: "top-right",
+                timer: 2500,
+                toast: true,
+                showConfirmButton: false,
+              })
+            }
           })
           .catch(console.log());
-      }
-
+      };
       // Permite alternar la visibilidad del formulario de actualización de datos
       SwitchToggleFormEdit = () => {
         this.setState({ toggle_formEdit: false });
       };
-
+      // Muestra un mensaje de confirmación para eliminar
+      alertDelete = (ID) => {
+      const MySwal = withReactContent(Swal)
+      MySwal.fire({
+        title: "¿Deseas eliminar este cliente?",
+        text: "Puedes volver a habilitarlo en la página Administrador",
+        icon: 'warning',
+        iconColor: "#e10b1c",
+        dangerMode: true,
+        showConfirmButton: true,
+        confirmButtonText: "Eliminar",
+        confirmButtonColor: "red",
+        showCancelButton: true,
+        cancelButtonColor: "dark-gray",
+        cancelButtonText: "Cancelar"
+      })
+      .then(response => {
+        if(response.isConfirmed){
+          MySwal.fire({
+            title: "Se ha eliminado el registro",
+            icon: "success",
+            position: "top-right",
+            timer: 2500,
+            toast: true,
+            showConfirmButton: false,
+          })
+          this.deleteData(ID);
+        }
+      })
+      };
       // Función para "eliminar", solamente deshabilita su visibilidad en los registros y puede ser rehabilitada en la página Administrador
       deleteData = (ID) =>{
         console.log(ID);
@@ -172,7 +256,7 @@ class ListadoClientes extends Component {
             this.loadData();
           })
           .catch(console.log());
-     }
+      };
 
     render() { 
         // Definición de constantes referenciando a this.state
@@ -217,12 +301,12 @@ class ListadoClientes extends Component {
                                                 <td>{cliente.cargoReferente}</td>
                                                 <td>{cliente.telefonoReferente}</td>
                                                 <td>
-                                                <button onClick={() => this.loadDataEdit(cliente.ID)} title="Editar cliente"id="btn_edit_cuenta"><BsPencilSquare /></button>
+                                                <button onClick={() => this.alertEdit(cliente.ID)} title="Editar cliente"id="btn_edit_cuenta"><BsPencilSquare /></button>
                                                 <button title="Examinar cliente"id="btn_edit_cuenta"><BiShowAlt /></button>
                                                     <button
                                                     id="btn_delete"
                                                     title="Eliminar cliente"
-                                                    onClick={() => this.deleteData(cliente.ID)}
+                                                    onClick={() => this.alertDelete(cliente.ID)}
                                                     >
                                                     <BsTrash />
                                                     </button>

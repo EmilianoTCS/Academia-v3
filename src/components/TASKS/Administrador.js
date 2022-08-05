@@ -2,8 +2,18 @@ import React, {Component} from "react";
 import Header from "../templates/header";
 import '../css/Administrador.css'
 import ToggleSwitch from "../templates/ToggleSwitch";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 class Administrador extends Component {
-    state = {loadedData: false, cursos: [], isActive: true, ramos : [], relatores: [], colaboradores: [], clientes: [] } 
+    state = {
+        loadedData: false, 
+        cursos: [], 
+        isActive: true, 
+        ramos : [], 
+        relatores: [], 
+        colaboradores: [], 
+    clientes: [] 
+    } 
 
     loadDataCursos() {        
         fetch(
@@ -17,9 +27,8 @@ class Administrador extends Component {
             }   
           })
           .catch(console.log());
-      }
-
-       loadDataRamos() {
+    }
+    loadDataRamos() {
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-adminRamos.php?ramos"
         )
@@ -28,8 +37,8 @@ class Administrador extends Component {
             this.setState({ loadedData: true, ramos: dataResponse });
           })
           .catch(console.log());
-      }
-      loadDataRelator() {
+    }
+    loadDataRelator() {
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-adminRelator.php?relator"
         )
@@ -38,9 +47,8 @@ class Administrador extends Component {
             this.setState({ loadedData: true, relatores: dataResponse });
           })
           .catch(console.log());
-      }
-
-      loadDataColaborador() {
+    }
+    loadDataColaborador() {
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-adminColaborador.php?colaborador"
         )
@@ -49,8 +57,8 @@ class Administrador extends Component {
             this.setState({ loadedData: true, colaboradores: dataResponse });
           })
           .catch(console.log());
-      }
-      loadDataClientes() {
+    }
+    loadDataClientes() {
         fetch(
           "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-adminClientes.php?clientes"
         )
@@ -59,7 +67,7 @@ class Administrador extends Component {
             this.setState({ loadedData: true, clientes: dataResponse });
           })
           .catch(console.log());
-      }
+    }
     componentDidMount(){
         this.loadDataCursos();
         this.loadDataRamos();
@@ -67,7 +75,6 @@ class Administrador extends Component {
         this.loadDataColaborador();
         this.loadDataClientes();
     }
-
     toggleisActiveCursos = (ID) => {
        fetch(
         "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateState.php?updateStateCursos="+ID)
@@ -75,6 +82,26 @@ class Administrador extends Component {
         .then((dataResponse) => {
           console.log(dataResponse);
           this.loadDataCursos();
+          const MySwal = withReactContent(Swal);
+          if(dataResponse === "success"){
+            MySwal.fire({
+              title: "Se ha actualizado el registro",
+              icon: "success",
+              position: "top-right",
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+            })
+          }else{
+            MySwal.fire({
+              title: "Se ha producido un error",
+              icon: "error",
+              position: "top-right",
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+            })
+          }
         })
         .catch(console.log());
     }
@@ -85,9 +112,29 @@ class Administrador extends Component {
          .then((dataResponse) => {
            console.log(dataResponse);
            this.loadDataRamos();
+           const MySwal = withReactContent(Swal);
+          if(dataResponse === "success"){
+            MySwal.fire({
+              title: "Se ha actualizado el registro",
+              icon: "success",
+              position: "top-right",
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+            })
+          }else{
+            MySwal.fire({
+              title: "Se ha producido un error",
+              icon: "error",
+              position: "top-right",
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+            })
+          }
          })
          .catch(console.log());
-     }  
+    }  
      toggleisActiveRelator = (ID) => {
         fetch(
          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStateRelator.php?updateStateRelator="+ID)
@@ -95,9 +142,29 @@ class Administrador extends Component {
          .then((dataResponse) => {
            console.log(dataResponse);
            this.loadDataRelator();
+           const MySwal = withReactContent(Swal);
+          if(dataResponse === "success"){
+            MySwal.fire({
+              title: "Se ha actualizado el registro",
+              icon: "success",
+              position: "top-right",
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+            })
+          }else{
+            MySwal.fire({
+              title: "Se ha producido un error",
+              icon: "error",
+              position: "top-right",
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+            })
+          }
          })
          .catch(console.log());
-     }
+    }
      toggleisActiveColaborador = (ID) => {
         fetch(
          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStateColaborador.php?updateStateColaborador="+ID)
@@ -105,9 +172,29 @@ class Administrador extends Component {
          .then((dataResponse) => {
            console.log(dataResponse);
            this.loadDataColaborador();
+           const MySwal = withReactContent(Swal);
+          if(dataResponse === "success"){
+            MySwal.fire({
+              title: "Se ha actualizado el registro",
+              icon: "success",
+              position: "top-right",
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+            })
+          }else{
+            MySwal.fire({
+              title: "Se ha producido un error",
+              icon: "error",
+              position: "top-right",
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+            })
+          }
          })
          .catch(console.log());
-     }
+    }
      toggleisActiveClientes = (ID) => {
         fetch(
          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStateClientes.php?updateStateClientes="+ID)
@@ -115,23 +202,41 @@ class Administrador extends Component {
          .then((dataResponse) => {
            console.log(dataResponse);
            this.loadDataClientes();
+           const MySwal = withReactContent(Swal);
+          if(dataResponse === "success"){
+            MySwal.fire({
+              title: "Se ha actualizado el registro",
+              icon: "success",
+              position: "top-right",
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+            })
+          }else{
+            MySwal.fire({
+              title: "Se ha producido un error",
+              icon: "error",
+              position: "top-right",
+              timer: 2500,
+              toast: true,
+              showConfirmButton: false,
+            })
+          }
          })
          .catch(console.log());
-     }
+    }
     render() { 
-        const {loadedData, cursos, ramos, relatores, colaboradores, clientes} = this.state;
-
-        if(!loadedData){
-            return(
-                <h1>Loading...</h1>
-            );
+    const {loadedData, cursos, ramos, relatores, colaboradores, clientes} = this.state;
+    if(!loadedData){
+        return(
+        <h1>Loading...</h1>
+        );
         }
         return (
-           <div>
+        <div>
             <Header />
-        <h1 id="subtitulo_pagina">Administrar cursos</h1>
-
-                    <div className="container" id="container-curso">
+            <h1 id="subtitulo_pagina">Administrar cursos</h1>
+            <div className="container" style={{width: "75%"}} id="container-curso">
                             <div className="card" >
                                     <div className="card-body">
                                     <h4 className="card-title">Cursos</h4>
@@ -159,7 +264,6 @@ class Administrador extends Component {
                                     </table>
                                 </div>
                             </div>
-                               
                             <div className="card" >
                                     <div className="card-body">
                                     <h4 className="card-title">Ramos</h4>
@@ -186,8 +290,7 @@ class Administrador extends Component {
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                               
+                            </div>   
                             <div className="card" >
                                     <div className="card-body">
                                     <h4 className="card-title">Relatores</h4>
@@ -276,8 +379,8 @@ class Administrador extends Component {
                                 </div>
                             </div>
                                
-                        </div>            
-              </div>
+            </div>            
+        </div>
         );
     }
 }

@@ -5,9 +5,11 @@ import "../css/Tables.css";
 import "../css/Paginador.css";
 import "../css/Botones.css";
 import { BiShowAlt } from "react-icons/bi";
-
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import "../css/Forms.css";
 import { Link } from "react-router-dom";
+
 class Colaboradores extends Component {
     state = {
     loadedData: false,
@@ -108,9 +110,58 @@ class Colaboradores extends Component {
       .then((dataResponse) => {
         console.log(dataResponse);
         this.loadData();
-
+        const MySwal = withReactContent(Swal);
+        if(dataResponse === "success"){
+          MySwal.fire({
+            title: "Se ha creado el registro",
+            icon: "success",
+            position: "top-right",
+            timer: 2500,
+            toast: true,
+            showConfirmButton: false,
+          })
+        }else{
+          MySwal.fire({
+            title: "Se ha producido un error",
+            icon: "error",
+            position: "top-right",
+            timer: 2500,
+            toast: true,
+            showConfirmButton: false,
+          })
+        }
       })
       .catch(console.log());
+    };
+    // Muestra un mensaje de confirmación para eliminar
+    alertDelete = (ID) => {
+    const MySwal = withReactContent(Swal)
+    MySwal.fire({
+      title: "¿Deseas eliminar este colaborador?",
+      text: "Puedes volver a habilitarlo en la página Administrador",
+      icon: 'warning',
+      iconColor: "#e10b1c",
+      dangerMode: true,
+      showConfirmButton: true,
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "red",
+      showCancelButton: true,
+      cancelButtonColor: "dark-gray",
+      cancelButtonText: "Cancelar"
+    })
+    .then(response => {
+      if(response.isConfirmed){
+        MySwal.fire({
+          title: "Se ha eliminado el registro",
+          icon: "success",
+          position: "top-right",
+          timer: 2500,
+          toast: true,
+          showConfirmButton: false,
+        })
+        this.deleteData(ID);
+      }
+    })
     };
     // Función para "eliminar", solamente deshabilita su visibilidad en los registros y puede ser rehabilitada en la página Administrador
     deleteData = (ID) =>{
@@ -127,6 +178,28 @@ class Colaboradores extends Component {
     // Permite alternar la visibilidad del formulario de actualización de datos
     SwitchToggleFormEdit = () => {
 this.setState({ toggle_formEdit: false });
+    };
+    // Muestra un mensaje de confirmación para editar
+    alertEdit = (ID) => {
+    const MySwal = withReactContent(Swal)
+    MySwal.fire({
+      title: "¿Deseas editar este colaborador?",
+      icon: 'info',
+      iconColor: "#427eff",
+      dangerMode: true,
+      showConfirmButton: true,
+      confirmButtonText: "Editar",
+      confirmButtonColor: "#427eff",
+      showCancelButton: true,
+      cancelButtonColor: "dark-gray",
+      cancelButtonText: "Cancelar"
+    })
+    .then(response => {
+      if(response.isConfirmed){
+        this.loadDataEdit(ID);
+      }
+    })
+
     };
     // Recolecta los datos de un registro en específico utilizando el ID como referencia
     loadDataEdit(ID) {
@@ -157,7 +230,27 @@ this.setState({ toggle_formEdit: false });
       .then((dataResponse) => {
       this.setState({loadedData : true})
       this.setState({changed : false})
-      console.log(dataResponse);
+      this.loadData();
+      const MySwal = withReactContent(Swal);
+            if(dataResponse === "success"){
+              MySwal.fire({
+                title: "Se ha actualizado el registro",
+                icon: "success",
+                position: "top-right",
+                timer: 2500,
+                toast: true,
+                showConfirmButton: false,
+              })
+            }else{
+              MySwal.fire({
+                title: "Se ha producido un error",
+                icon: "error",
+                position: "top-right",
+                timer: 2500,
+                toast: true,
+                showConfirmButton: false,
+              })
+            }
       })
       .catch(console.log());
     };  
@@ -189,7 +282,6 @@ this.setState({ toggle_formEdit: false });
                 <th>usuario</th>
                 <th>Área</th>
                 <th>codigoCuenta</th>
-                <th>Subgerencia</th>
                 <th>Correo</th>
               </tr>
             </thead>
@@ -201,15 +293,14 @@ this.setState({ toggle_formEdit: false });
                   <td>{colaborador.usuario}</td>
                   <td>{colaborador.area}</td>
                   <td>{colaborador.codigoCuenta}</td>
-                  <td>{colaborador.subgerencia}</td>
                   <td>{colaborador.correo}</td>
                   <td>
-                  <button onClick={() => this.loadDataEdit(colaborador.ID)} title="Editar colaborador" id="btn_edit_cuenta"><BsPencilSquare /></button>
+                  <button onClick={() => this.alertEdit(colaborador.ID)} title="Editar colaborador" id="btn_edit_cuenta"><BsPencilSquare /></button>
                   <button title="Examinar colaborador"id="btn_edit_cuenta"><Link style={{textDecoration: 'none', color: "black"}} to={"/InfoColaboradores/"+colaborador.usuario}><BiShowAlt /></Link></button>
                     <button
                     title="Eliminar colaborador"
                       id="btn_delete"
-                      onClick={() => this.deleteData(colaborador.ID)}
+                      onClick={() => this.alertDelete(colaborador.ID)}
                     >
                       <BsTrash />
                     </button>

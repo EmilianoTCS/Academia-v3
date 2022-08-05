@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Header from "../templates/header";
 import "../css/Prerequisitos.css";
-
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import ToggleSwitch from "../templates/ToggleSwitch";
 
 class Prerequisitos extends Component {
@@ -81,7 +82,6 @@ class Prerequisitos extends Component {
     console.log("Sending data..");
     const { CursoaConsultar, PrerequisitoAInsertar } = this.state;
     var datosEnviar = {
-      
       CursoaConsultar: CursoaConsultar,
       PrerequisitoAInsertar: PrerequisitoAInsertar,
     };
@@ -97,6 +97,26 @@ class Prerequisitos extends Component {
       .then((dataResponse) => {
         console.log(dataResponse);
         this.loadPrerequisitos(CursoaConsultar);
+        const MySwal = withReactContent(Swal);
+        if(dataResponse === "success"){
+          MySwal.fire({
+            title: "Se ha insertado el registro",
+            icon: "success",
+            position: "top-right",
+            timer: 2500,
+            toast: true,
+            showConfirmButton: false,
+          })
+        }else{
+          MySwal.fire({
+            title: "Se ha producido un error",
+            icon: "error",
+            position: "top-right",
+            timer: 2500,
+            toast: true,
+            showConfirmButton: false,
+          })
+        }
       })
       .catch(console.log());
   };
@@ -112,8 +132,7 @@ class Prerequisitos extends Component {
       <div className="container">
         <Header></Header>
         <h1 id="subtitulo_pagina">Administración de pre requisitos</h1>
-
-        <div id="container-prerequisitos">
+        <div id="container-prerequisitos" >
           <div className="card">
             <div className="card-body">
               <h4 className="card-title">Añadir requisitos</h4>

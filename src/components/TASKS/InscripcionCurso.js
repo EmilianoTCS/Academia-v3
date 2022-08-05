@@ -1,23 +1,17 @@
 import React, {Component} from "react";
 import Header from "../templates/header";
 import '../css/Forms.css';
+import Select from 'react-select';
 class InscripcionCurso extends Component {
     state = {  
         idCuenta : "",
-        usuario: "",
+        usuario: [],
         idCurso: "",
         porcentaje_aprobacion: "0",
         codigoCuenta: "null",
         codigoCurso: "null",
-        styles: "",
-        success: false,
-        error: false,
-        warning: false
-
     } 
-
-
-
+    // Detecta cambios de los valores ingresados en el input
     cambioValor = (e) => {
         this.setState({
             warning: false
@@ -25,10 +19,10 @@ class InscripcionCurso extends Component {
         const state = this.state;
         state[e.target.name] = e.target.value;
         this.setState({ state });
-      };    
-    
-
-      sendData = (e) =>{
+        this.test(this.state.usuario);
+    };    
+    // Envía el número seleccionado del paginador a la sentencia SQL para poder cambiar de página
+    sendData = (e) =>{
        e.preventDefault();
         console.log("Sending data..");
         const {idCuenta,usuario,idCurso,porcentaje_aprobacion,codigoCuenta, codigoCurso} = this.state
@@ -59,61 +53,40 @@ class InscripcionCurso extends Component {
           })
           .catch(console.log());
       
-      }
-
-
-
-
-      SwitchToggleError = () => {
-        this.setState({
-            error: !this.state.error
-        });
-      };
-      SwitchToggleWarning = () => {
-        this.setState({
-            warning: !this.state.warning
-        });
-      };
-      SwitchToggleSuccess = () => {
-        this.setState({
-            success: !this.state.success
-        });
-      };
-
+    }
+    //Recoleta SOLAMENTE LOS NOMBRES de los usuarios - Se utiliza para cargar información en los SELECT  
+    loadListadoUsuarios(){
+    fetch(
+      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/ListadoUsuarios.php?listadoUsuarios"
+    )
+    .then((response) => response.json())
+    .then((dataResponse) => {
+      this.setState({usuario : dataResponse})
+      
+    })
+    .catch(console.log())
+    }
+    //test
+    test = (usuario) => {
+        console.log(usuario);
+    }
+    componentDidMount(){
+        this.loadListadoUsuarios();
+    }
 
     render() { 
-        const error = this.state.error;
-        const warning = this.state.warning;
-        const success = this.state.success
-        const styles_error = {transition: "transition: all 300ms ease",display: "block",borderRadius: "5px", width: "100%", color: "#970101", fontWeight: "700",backgroundColor: "#FFD3D3", border: "1px solid #970101", padding: "20px"}
-        const styles_btnClose_error = {backgroundColor: "#F5A0A0", float:"right",border: "solid 1px #970101",borderRadius: "100%",padding: "0 7px 0 7px", fontWeight: "700", color: "white"}
+        const usuario= this.state.usuario.map((label => (
+            {label: label.usuario,
+             value: label.ID,
+             name: "usuario"
+            })))
+      
         
-        
-        const styles_success = {transition: "transition: all 300ms ease",display: "block", borderRadius: "5px", width: "100%", color: "#316C2B ", fontWeight: "700",backgroundColor: "#D4FFD0", border: "1px solid #316C2B", padding: "20px"}
-        const styles_btnClose_success = {backgroundColor: "#A7EDA0" , float:"right",border: "solid 1px #316C2B",borderRadius: "100%",padding: "0 7px 0 7px", fontWeight: "700", color: "#316C2B"}
-        
-        const styles_warning = {transition: "transition: all 300ms ease",display: "block", borderRadius: "5px", width: "100%", color: "#87782d", fontWeight: "700",backgroundColor: "#fff4ba", border: "1px solid #316C2B", padding: "20px"}
-        const styles_btnClose_warning = {backgroundColor: "#fce779" , float:"right",border: "solid 1px #87782d",borderRadius: "100%",padding: "0 7px 0 7px", fontWeight: "700", color: "#87782d"}
         return (
             <div className="container-fluid">
             <Header/>
             <div id="form_container" className="card">
 
-            <div style= {error ?  styles_error : {display: "none"} } id="error" role="alert">
-            No cumples las condiciones para inscribirte en este curso.
-            <button style={styles_btnClose_error} onClick={this.SwitchToggleError}>X</button>
-            </div>
-
-            <div style= {warning ?  styles_warning : {display: "none"} } id="error" role="alert">
-            Completa los datos antes de continuar.
-            <button style={styles_btnClose_warning} onClick={this.SwitchToggleWarning}>X</button>
-            </div>
-
-            <div style={success ? styles_success : {display: "none"} }role="alert" id="success">
-            Inscripción Exitosa.
-            <button style={styles_btnClose_success} onClick={this.SwitchToggleSuccess}>X</button>
-            
-            </div>
                 <div className="card-header">
                 <h4>Inscripción de cursos</h4>
                 </div>
@@ -131,11 +104,10 @@ class InscripcionCurso extends Component {
                                     <option value={"5"}>Transbank</option>
 
                                 </select>
+                                
                                 <br />
-
                                 <label htmlFor="input_idUsuario">Escriba su usuario</label>
-                                <input type="text"
-                                className="form-control" name="usuario" onChange={this.cambioValor} id="usuario" aria-describedby="helpId" placeholder=""/>
+                                <Select options={usuario} />
 
                                 <br />
 
@@ -164,7 +136,7 @@ class InscripcionCurso extends Component {
                                 <input type="hidden" value="0" className="form-control" name="porcentaje_aprobacion" id="porcentaje_aprobacion"/>                                
                                 <input type="hidden" value="null" className="form-control" name="codigoCurso" id="codigoCurso"/>
                                 <input type="hidden" value="null" className="form-control" name="codigoCuenta" id="codigoCuenta"/>
-                                <button type="submit" disabled={warning} className="btn btn-primary">Submit</button>
+                                <button type="submit" className="btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>

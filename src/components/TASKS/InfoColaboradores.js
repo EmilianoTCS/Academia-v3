@@ -5,7 +5,6 @@ import "../css/Tables.css";
 import "../css/Paginador.css";
 import "../css/Botones.css";
 import "../css/Forms.css";
-import { Link } from "react-router-dom";
 
 class InfoColaboradores extends Component {
     state = {
@@ -50,11 +49,12 @@ class InfoColaboradores extends Component {
                     <thead className="thead-inverse">
                       <tr>
                         <th>ID</th>
-                        <th>usuario</th>
-                        <th>codigoRamo</th>
-                        <th>idCurso</th>
-                        <th>Porcentaje de Aprobación</th>
+                        <th>Usuario</th>
+                        <th>Nombre del curso</th>
+                        <th>% de aprobación</th>
+                        <th>% de asistencia</th>
                         <th>Estado</th>
+                        <th>Operaciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -62,8 +62,8 @@ class InfoColaboradores extends Component {
                         <tr key={colaborador.ID}>
                           <td>{colaborador.ID}</td>
                           <td>{colaborador.usuario}</td>
-                          <td>{colaborador.codigoRamo}</td>
-                          <td><Link to={"/InfoCursos/"+colaborador.idCurso}>{colaborador.idCurso}</Link></td>
+                          <td>{colaborador.nombreRamo}</td>
+                          <td>{colaborador.aprobacion}</td>
                           <td>{colaborador.aprobacion}</td>
                           <td>{colaborador.estado}</td>                                
                           <td>
