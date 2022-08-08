@@ -126,38 +126,38 @@ class ListadoCursos extends Component {
         var datosEnviar = {codigoCuenta: codigoCuenta, codigoRamo: codigoRamo, 
         nombreCurso:nombreCurso, area:area, hh_academicas:hh_academicas, pre_requisito: pre_requisito, relator: relator}
         console.log(datosEnviar);
-        fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarRamo.php?insertarRamo",{
-            method: "POST",
-            body: JSON.stringify(datosEnviar)
-          }
-        )
-          .then((response) => response.json())
-          .then((dataResponse) => {
-            console.log(dataResponse);
-            this.loadData();
-            const MySwal = withReactContent(Swal);
-            if(dataResponse === "success"){
-              MySwal.fire({
-                title: "Se ha actualizado el registro",
-                icon: "success",
-                position: "top-right",
-                timer: 2500,
-                toast: true,
-                showConfirmButton: false,
-              })
-            }else{
-              MySwal.fire({
-                title: "Se ha producido un error",
-                icon: "error",
-                position: "top-right",
-                timer: 2500,
-                toast: true,
-                showConfirmButton: false,
-              })
-            }
-          })
-          .catch(console.log());
+        // fetch(
+        //   "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarRamo.php?insertarRamo",{
+        //     method: "POST",
+        //     body: JSON.stringify(datosEnviar)
+        //   }
+        // )
+        //   .then((response) => response.json())
+        //   .then((dataResponse) => {
+        //     console.log(dataResponse);
+        //     this.loadData();
+        //     const MySwal = withReactContent(Swal);
+        //     if(dataResponse === "success"){
+        //       MySwal.fire({
+        //         title: "Se ha actualizado el registro",
+        //         icon: "success",
+        //         position: "top-right",
+        //         timer: 2500,
+        //         toast: true,
+        //         showConfirmButton: false,
+        //       })
+        //     }else{
+        //       MySwal.fire({
+        //         title: "Se ha producido un error",
+        //         icon: "error",
+        //         position: "top-right",
+        //         timer: 2500,
+        //         toast: true,
+        //         showConfirmButton: false,
+        //       })
+        //     }
+        //   })
+        //   .catch(console.log());
   }
   // Envía los datos para insertar un nuevo curso
   sendDataCurso = (e) =>{
@@ -232,6 +232,7 @@ class ListadoCursos extends Component {
   cambioValorSelect= (e) =>{
           const state = this.state;
           state[e.name] = e.value
+          console.log(state[e.name]);
           this.setState({state});
   }
   // Muestra un mensaje de confirmación para eliminar
@@ -277,15 +278,16 @@ class ListadoCursos extends Component {
       .catch(console.log());
   }
   // Muestra un mensaje de confirmación para editar
-  alertEdit = (ID) => {
+  alertEdit = (e) => {
+          e.preventDefault();
           const MySwal = withReactContent(Swal)
           MySwal.fire({
-            title: "¿Deseas editar este curso?",
+            title: "¿Guardar cambios?",
             icon: 'info',
             iconColor: "#427eff",
             dangerMode: true,
             showConfirmButton: true,
-            confirmButtonText: "Editar",
+            confirmButtonText: "Guardar",
             confirmButtonColor: "#427eff",
             showCancelButton: true,
             cancelButtonColor: "dark-gray",
@@ -293,7 +295,7 @@ class ListadoCursos extends Component {
           })
           .then(response => {
             if(response.isConfirmed){
-              this.loadDataEdit(ID);
+              this.sendDataCursoEdit(e);
             }
           })
   
@@ -419,7 +421,7 @@ class ListadoCursos extends Component {
                                   <td>{curso.fin}</td>
                                   <td>{curso.estado}</td>
                                   <td>
-                                    <button title="Editar curso" id="btn_edit_cuenta" onClick={() => this.alertEdit(curso.ID)} >
+                                    <button title="Editar curso" id="btn_edit_cuenta" onClick={() => this.loadDataEdit(curso.ID)} >
                                     <BsPencilSquare />
                                     </button>
                                     <button title="Examinar curso" id="btn_edit_cuenta"><Link style={{color: "black"}} to={"/InfoCursos/"+curso.codigoCurso}><BiShowAlt /></Link></button>
@@ -524,7 +526,7 @@ class ListadoCursos extends Component {
             <div id="form_registrarCurso" className={toggle_formEdit ? "active" : "form_registrarCurso"}>    
           <div className="btn_close" onClick={this.SwitchToggleEdit}><BsX /></div>
             <h3>Actualización de cursos</h3>
-            <form id="form_agregarCurso" onSubmit={this.sendDataCursoEdit}>
+            <form id="form_agregarCurso" onSubmit={this.alertEdit}>
               <input type="hidden" value={cursosEdit.IDEdit}></input>
               <div>
                 <label htmlFor="input_idCuenta_Curso">ID de la Cuenta: </label>
@@ -556,7 +558,7 @@ class ListadoCursos extends Component {
                 </select>
               </div>
 
-              <div class="md-form md-outline input-with-post-icon datepicker">
+              <div className="md-form md-outline input-with-post-icon datepicker">
                 <label htmlFor="input_fechaInicio">Fecha Inicio: </label>
                 <input 
                 type="date" 
@@ -568,7 +570,7 @@ class ListadoCursos extends Component {
                 />
               </div>
 
-              <div class="md-form md-outline input-with-post-icon datepicker">
+              <div className="md-form md-outline input-with-post-icon datepicker">
                 <label htmlFor="input_fechaInicio">Fecha Fin: </label>
                 <input 
                 type="date" 
@@ -677,7 +679,6 @@ class ListadoCursos extends Component {
                 options={listadoPrerequisitos}
                 onChange={this.cambioValorSelect}
                 name="pre_requisito"
-                isMulti= {true}
                 />
               </div>           
             <div>

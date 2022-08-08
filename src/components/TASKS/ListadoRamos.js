@@ -284,15 +284,16 @@ class ListadoRamos extends Component {
           .catch(console.log());
       }
       // Muestra un mensaje de confirmación para editar
-      alertEdit = (ID) => {
+      alertEdit = (e) => {
+        e.preventDefault();
               const MySwal = withReactContent(Swal)
               MySwal.fire({
-                title: "¿Deseas editar este ramo?",
+                title: "¿Guardar cambios?",
                 icon: 'info',
                 iconColor: "#427eff",
                 dangerMode: true,
                 showConfirmButton: true,
-                confirmButtonText: "Editar",
+                confirmButtonText: "Guardar",
                 confirmButtonColor: "#427eff",
                 showCancelButton: true,
                 cancelButtonColor: "dark-gray",
@@ -300,7 +301,7 @@ class ListadoRamos extends Component {
               })
               .then(response => {
                 if(response.isConfirmed){
-                  this.loadDataEdit(ID);
+                  this.sendDataRamoEdit(e);
                 }
               })
       
@@ -340,7 +341,7 @@ class ListadoRamos extends Component {
           const MySwal = withReactContent(Swal);
           if(dataResponse === "success"){
             MySwal.fire({
-              title: "Se ha creado el registro",
+              title: "Se ha actualizado el registro",
               icon: "success",
               position: "top-right",
               timer: 2500,
@@ -423,7 +424,7 @@ class ListadoRamos extends Component {
                                     <td>{ramo.nombre}</td>
                                     <td>{ramo.area}</td>
                                     <td>
-                                    <button onClick={() => this.alertEdit(ramo.ID)} title="Editar ramo" id="btn_edit_cuenta"><BsPencilSquare /></button>
+                                    <button onClick={() => this.loadDataEdit(ramo.ID)} title="Editar ramo" id="btn_edit_cuenta"><BsPencilSquare /></button>
                                     <button title="Eliminar ramo" id="btn_delete" onClick={()=> this.alertDelete(ramo.ID)}><BsTrash/></button>
                                     </td>
                                 </tr>
@@ -535,7 +536,7 @@ class ListadoRamos extends Component {
             <BsX />
           </div>
             <h3>Actualización de ramos</h3>
-            <form id="form_agregarRamo" onSubmit={this.sendDataRamoEdit}>
+            <form id="form_agregarRamo" onSubmit={this.alertEdit}>
                 <div>
                 <label htmlFor="input_idRamo">Codigo del Ramo: </label>
                 <input

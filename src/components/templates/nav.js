@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import user_logo from '../img/User_logo.png';
 import "../css/sidebar.css";
-import {BsListNested} from "react-icons/bs";
 import {Link, Redirect } from "react-router-dom";
 
 
@@ -9,25 +8,23 @@ import {Link, Redirect } from "react-router-dom";
 class Navigator extends Component {
   constructor(props){
     super(props);
-    this.state = { toggleSidebar: false, toggleAcademia : false, toggleColaboradores: false, isLogged: true } 
+    this.state = { 
+      toggleAcademia : false, 
+      toggleColaboradores: false,
+      isLogged: true,
+      toggleAsistencias: false } 
     
   };
 
-
-
-  userName = this.props.userName;
-    SwitchToggleSidebar = () =>{
-        this.setState({toggleSidebar: !this.state.toggleSidebar})
-    }
     SwitchToggleAcademia = () =>{
         this.setState({toggleAcademia: !this.state.toggleAcademia})
-
     }
     SwitchToggleColaboradores = () =>{
       this.setState({toggleColaboradores: !this.state.toggleColaboradores})
-
-  }
-
+     } 
+     SwitchToggleAsistencias = () =>{
+      this.setState({toggleAsistencias: !this.state.toggleAsistencias})
+     }
     logout() {
       console.log("Session is closing..");
       fetch(
@@ -42,15 +39,16 @@ class Navigator extends Component {
         .catch(console.log());
     }
     render() { 
-        const toggleSidebar = this.state.toggleSidebar;
         const toggleAcademia = this.state.toggleAcademia;
         const toggleColaboradores = this.state.toggleColaboradores;
+        const toggleAsistencias = this.state.toggleAsistencias;
         const isLogged = this.state.isLogged;
+        const isActive = this.props.isActive;
 
         if(isLogged){
         return (
         <div className="container-fluid">
-        <section id="sidebar" className={toggleSidebar ? "active" : "sidebar"}>
+        <section id="sidebar" className={isActive ? "active" : "sidebar"}>
           <ul >
             <li><img id="User_logo" src={user_logo} alt="User Logo"/></li>
             <h4>{this.userName}</h4>
@@ -67,7 +65,11 @@ class Navigator extends Component {
                 <li><Link to={"/Prerequisitos"}>Prerequisitos</Link></li>
               </ul>
             </li>
-            <li>CAPITAL HUMANO</li>
+            <li id="li_Asistencias" onClick={this.SwitchToggleAsistencias}>ASISTENCIAS
+              <ul id="Asistencias" className={toggleAsistencias ? "active" : " Asistencias "} >
+              <li><Link to={"/Asistencias"}>Listado de Asistencias</Link></li>
+              </ul>
+            </li>
             <li id="li_Colaboradores" onClick={this.SwitchToggleColaboradores}>COLABORADORES
                 <ul id="Colaboradores" className={toggleColaboradores ? "active" : " Colaboradores "} >
                     <li><Link to={"/Colaboradores"}>Listado de Colaboradores</Link></li>
@@ -76,13 +78,11 @@ class Navigator extends Component {
             </li>
             <Link id="logout" to={"/login"}>Logout</Link>
           </ul>
-        </section>
-        <button id="toggle-btn" onClick={this.SwitchToggleSidebar}>
-          <span><BsListNested/></span>
-        </button>        
+        </section>       
         
       
-      </div>);}else{
+      </div>);
+      }else{
         return(
         <Redirect to={"/login"}></Redirect>
         

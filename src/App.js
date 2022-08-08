@@ -13,6 +13,7 @@ import Administrador from "./components/TASKS/Administrador";
 import ListadoClientes from "./components/TASKS/ListadoClientes";
 import InscripcionCurso from "./components/TASKS/InscripcionCurso";
 import Prerequisitos from "./components/TASKS/Prerequisitos";
+import ListadoAsistencias from "./components/TASKS/ListadoAsistencias";
 function App() {
   
   return (
@@ -31,6 +32,7 @@ function App() {
       <Route path="/Clientes" component={ListadoClientes}></Route>
       <Route path="/InscripcionCurso" component={InscripcionCurso}></Route>
       <Route path="/Prerequisitos" component={Prerequisitos}></Route>
+      <Route path="/Asistencias" component={ListadoAsistencias}></Route>
     </Router>
   );
   

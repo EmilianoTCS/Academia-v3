@@ -3,14 +3,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300&family=Roboto+Slab:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
-
+  
 #header {
-    margin-left:10%;
+    margin-top:1%;
     
   }
   
   #logoTsoft {
-    margin-left: 10px;
+    margin-left: 1%;
     width: 150px;
     height: auto;
     max-width: 150;
