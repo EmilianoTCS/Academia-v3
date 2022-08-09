@@ -21,8 +21,7 @@ class ListadoRelator extends Component {
       toggle_formEdit: false, //Booleano para la visibilidad del formulario
       relatoresEdit: [],  //Array donde serán almacenados los registros del JSON que vienen del backend
       IDEdit: "", // {Strings vacíos donde se introducen los valores del input para la edición de datos
-      nombreEdit: "",
-      areaEdit: "", // }
+      nombreEdit: "",// }
       listadoRamos : [], //Se utiliza en el formulario de inserción de cursos
       changed: false, //Booleano que valida la edición de los datos
   } 
@@ -48,6 +47,7 @@ class ListadoRelator extends Component {
           })
           .catch(console.log());
       }
+
       // Recolecta los datos del paginador
       loadPaginador() {
         fetch(
@@ -185,15 +185,16 @@ class ListadoRelator extends Component {
       }
 
       //Muestra un mensaje de confirmación para editar
-      alertEdit = (ID) => {
+      alertEdit = (e) => {
+        e.preventDefault();
         const MySwal = withReactContent(Swal)
         MySwal.fire({
-          title: "¿Deseas editar este relator?",
+          title: "¿Guardar cambios?",
           icon: 'info',
           iconColor: "#427eff",
           dangerMode: true,
           showConfirmButton: true,
-          confirmButtonText: "Editar",
+          confirmButtonText: "Guardar",
           confirmButtonColor: "#427eff",
           showCancelButton: true,
           cancelButtonColor: "dark-gray",
@@ -201,7 +202,7 @@ class ListadoRelator extends Component {
         })
         .then(response => {
           if(response.isConfirmed){
-            this.loadDataEdit(ID);
+            this.sendDataRelatorEdit(e);
           }
         })
 
@@ -300,12 +301,12 @@ class ListadoRelator extends Component {
                                 <tr>
                                     <td>{relator.ID}</td>
                                     <td>{relator.nombre}</td>
-                                    <td>{relator.area}</td>
+                                    <td>{relator.nombreArea}</td>
                                     <td>{relator.codigoCuenta}</td>
                                     <td>{relator.codigoRamo}</td>
                                     <td>{relator.nombreRamo}</td>
                                     <td>
-                                    <button onClick={() => this.alertEdit(relator.ID)} title="Editar relator" id="btn_edit_cuenta"><BsPencilSquare/></button>
+                                    <button onClick={() => this.loadDataEdit(relator.ID)} title="Editar relator" id="btn_edit_cuenta"><BsPencilSquare/></button>
                                     <button onClick={() => this.alertDelete(relator.ID)} title="Eliminar relator" id="btn_delete"><BsTrash/></button>
 
                                     </td>
@@ -353,14 +354,10 @@ class ListadoRelator extends Component {
               <div id="form_registrarOrador" className={ toggle_formEdit ? "active" : "form_registrarOrador"}>
                         <div className="btn_close" onClick={this.SwitchToggleFormEdit}>&times;</div>
                         <h3 id="registrar">Actualización de relatores</h3>
-                        <form id="form_agregarOrador" onSubmit={this.sendDataRelatorEdit} >
+                        <form id="form_agregarOrador" onSubmit={this.alertEdit} >
                           <div>
                               <label htmlFor="input_relator">Nombre: </label>
                               <input type="text" onChange={this.cambioValor} name="nombreEdit" id="input_relator"  value={relatoresEdit.nombreEdit}/>
-                          </div>
-                          <div>
-                              <label htmlFor="input_areaRamo">Área: </label>
-                              <input type="text" name="areaEdit" onChange={this.cambioValor} id="input_areaRamo" placeholder="Ejemplo: Automatización"value={relatoresEdit.areaEdit}/>
                           </div>
                           <div id="button_container">
                               <input type="submit"  id="btn_registrar" value="Actualizar"/>

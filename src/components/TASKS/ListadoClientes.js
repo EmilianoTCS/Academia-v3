@@ -137,15 +137,16 @@ class ListadoClientes extends Component {
           .catch(console.log());
       };
       // Muestra un mensaje de confirmación para editar
-      alertEdit = (ID) => {
+      alertEdit = (e) => {
+        e.preventDefault();
     const MySwal = withReactContent(Swal)
     MySwal.fire({
-      title: "¿Deseas editar este colaborador?",
+      title: "¿Guardar cambios?",
       icon: 'info',
       iconColor: "#427eff",
       dangerMode: true,
       showConfirmButton: true,
-      confirmButtonText: "Editar",
+      confirmButtonText: "Guardar",
       confirmButtonColor: "#427eff",
       showCancelButton: true,
       cancelButtonColor: "dark-gray",
@@ -153,7 +154,7 @@ class ListadoClientes extends Component {
     })
     .then(response => {
       if(response.isConfirmed){
-        this.loadDataEdit(ID);
+        this.sendDataClientesEdit(e);
       }
     })
 
@@ -301,7 +302,7 @@ class ListadoClientes extends Component {
                                                 <td>{cliente.cargoReferente}</td>
                                                 <td>{cliente.telefonoReferente}</td>
                                                 <td>
-                                                <button onClick={() => this.alertEdit(cliente.ID)} title="Editar cliente"id="btn_edit_cuenta"><BsPencilSquare /></button>
+                                                <button onClick={() => this.loadDataEdit(cliente.ID)} title="Editar cliente"id="btn_edit_cuenta"><BsPencilSquare /></button>
                                                 <button title="Examinar cliente"id="btn_edit_cuenta"><BiShowAlt /></button>
                                                     <button
                                                     id="btn_delete"
@@ -406,7 +407,7 @@ class ListadoClientes extends Component {
                 <div id="form_registrarClientes" className={toggle_formEdit ? "active" : "form_registrarClientes"}>
             <div className="btn_close" onClick={this.SwitchToggleFormEdit}>&times;</div>
                     <h3>Actualización de clientes</h3>
-                <form id="form_agregarCliente" onSubmit={this.sendDataClientesEdit}>
+                <form id="form_agregarCliente" onSubmit={this.alertEdit}>
 
                         <div>
                         <label htmlFor="input_tipo_cliente">Tipo de cliente: </label>

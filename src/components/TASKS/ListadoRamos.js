@@ -422,7 +422,7 @@ class ListadoRamos extends Component {
                                     <td>{ramo.hh_academicas}</td>
                                     <td>{ramo.pre_requisito}</td>
                                     <td>{ramo.nombre}</td>
-                                    <td>{ramo.area}</td>
+                                    <td>{ramo.nombreArea}</td>
                                     <td>
                                     <button onClick={() => this.loadDataEdit(ramo.ID)} title="Editar ramo" id="btn_edit_cuenta"><BsPencilSquare /></button>
                                     <button title="Eliminar ramo" id="btn_delete" onClick={()=> this.alertDelete(ramo.ID)}><BsTrash/></button>

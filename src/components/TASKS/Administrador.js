@@ -299,7 +299,6 @@ class Administrador extends Component {
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Nombre</th>
-                                                <th>Área</th>
                                                 <th>Fecha de modificación</th>
                                                 <th id="th_switch">Habilitar o Deshabilitar</th>
                                             </tr>
@@ -309,7 +308,6 @@ class Administrador extends Component {
                                                 <tr key={relator.ID}>
                                                     <td>{relator.ID}</td>
                                                     <td>{relator.nombre}</td>
-                                                    <td>{relator.area}</td>
                                                     <td>{relator.date}</td>
                                                     <td onChange={() => this.toggleisActiveRelator(relator.ID)}><ToggleSwitch isActive={relator.isActive}/></td>
                                                 </tr>
@@ -322,7 +320,7 @@ class Administrador extends Component {
                                     <div className="card-body">
                                     <h4 className="card-title">Colaboradores</h4>
                                     <table id="tabla-cursos" className="table table-striped table-inverse tale-responsive">
-                                        <thead  style={{position: "sticky", top: "0"}} className="thead-inverse dark">
+                                        <thead className="thead-inverse dark">
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Nombre</th>

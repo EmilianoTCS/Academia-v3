@@ -180,15 +180,16 @@ class Colaboradores extends Component {
 this.setState({ toggle_formEdit: false });
     };
     // Muestra un mensaje de confirmación para editar
-    alertEdit = (ID) => {
+    alertEdit = (e) => {
+      e.preventDefault();
     const MySwal = withReactContent(Swal)
     MySwal.fire({
-      title: "¿Deseas editar este colaborador?",
+      title: "¿Guardar cambios?",
       icon: 'info',
       iconColor: "#427eff",
       dangerMode: true,
       showConfirmButton: true,
-      confirmButtonText: "Editar",
+      confirmButtonText: "Guardar",
       confirmButtonColor: "#427eff",
       showCancelButton: true,
       cancelButtonColor: "dark-gray",
@@ -196,7 +197,7 @@ this.setState({ toggle_formEdit: false });
     })
     .then(response => {
       if(response.isConfirmed){
-        this.loadDataEdit(ID);
+        this.sendDataColaboradoresEdit(e);
       }
     })
 
@@ -279,9 +280,9 @@ this.setState({ toggle_formEdit: false });
               <tr>
                 <th>ID</th>
                 <th>Nombre Completo</th>
-                <th>usuario</th>
+                <th>Usuario</th>
                 <th>Área</th>
-                <th>codigoCuenta</th>
+                <th>CodigoCuenta</th>
                 <th>Correo</th>
               </tr>
             </thead>
@@ -295,7 +296,7 @@ this.setState({ toggle_formEdit: false });
                   <td>{colaborador.codigoCuenta}</td>
                   <td>{colaborador.correo}</td>
                   <td>
-                  <button onClick={() => this.alertEdit(colaborador.ID)} title="Editar colaborador" id="btn_edit_cuenta"><BsPencilSquare /></button>
+                  <button onClick={() => this.loadDataEdit(colaborador.ID)} title="Editar colaborador" id="btn_edit_cuenta"><BsPencilSquare /></button>
                   <button title="Examinar colaborador"id="btn_edit_cuenta"><Link style={{textDecoration: 'none', color: "black"}} to={"/InfoColaboradores/"+colaborador.usuario}><BiShowAlt /></Link></button>
                     <button
                     title="Eliminar colaborador"
@@ -473,19 +474,6 @@ this.setState({ toggle_formEdit: false });
                 onChange={this.cambioValor}
                 id="input_areaColaborador"
                 placeholder="Seguridad"
-              />
-            </div>
-            <div>
-              <label htmlFor="input_subgerenciaColaborador">
-                Subgerencia:{" "}
-              </label>
-              <input
-                type="text"
-                value={colaboradoresEdit.subgerencia}
-                name="subgerencia"
-                onChange={this.cambioValor}
-                id="input_subgerenciaColaborador"
-                placeholder="Infraestructura y producción TI"
               />
             </div>
             <div>

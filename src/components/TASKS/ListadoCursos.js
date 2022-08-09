@@ -26,7 +26,7 @@ class ListadoCursos extends Component {
     area: "",
     nombreCurso : "",
     hh_academicas: "",
-    pre_requisito: "",
+    pre_requisito: [],
     relator: "",
     fechaFin: "",
     fechaInicio: "",
@@ -126,38 +126,38 @@ class ListadoCursos extends Component {
         var datosEnviar = {codigoCuenta: codigoCuenta, codigoRamo: codigoRamo, 
         nombreCurso:nombreCurso, area:area, hh_academicas:hh_academicas, pre_requisito: pre_requisito, relator: relator}
         console.log(datosEnviar);
-        // fetch(
-        //   "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarRamo.php?insertarRamo",{
-        //     method: "POST",
-        //     body: JSON.stringify(datosEnviar)
-        //   }
-        // )
-        //   .then((response) => response.json())
-        //   .then((dataResponse) => {
-        //     console.log(dataResponse);
-        //     this.loadData();
-        //     const MySwal = withReactContent(Swal);
-        //     if(dataResponse === "success"){
-        //       MySwal.fire({
-        //         title: "Se ha actualizado el registro",
-        //         icon: "success",
-        //         position: "top-right",
-        //         timer: 2500,
-        //         toast: true,
-        //         showConfirmButton: false,
-        //       })
-        //     }else{
-        //       MySwal.fire({
-        //         title: "Se ha producido un error",
-        //         icon: "error",
-        //         position: "top-right",
-        //         timer: 2500,
-        //         toast: true,
-        //         showConfirmButton: false,
-        //       })
-        //     }
-        //   })
-        //   .catch(console.log());
+        fetch(
+          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarRamo.php?insertarRamo",{
+            method: "POST",
+            body: JSON.stringify(datosEnviar)
+          }
+        )
+          .then((response) => response.json())
+          .then((dataResponse) => {
+            console.log(dataResponse);
+            this.loadData();
+            const MySwal = withReactContent(Swal);
+            if(dataResponse === "success"){
+              MySwal.fire({
+                title: "Se ha actualizado el registro",
+                icon: "success",
+                position: "top-right",
+                timer: 2500,
+                toast: true,
+                showConfirmButton: false,
+              })
+            }else{
+              MySwal.fire({
+                title: "Se ha producido un error",
+                icon: "error",
+                position: "top-right",
+                timer: 2500,
+                toast: true,
+                showConfirmButton: false,
+              })
+            }
+          })
+          .catch(console.log());
   }
   // Envía los datos para insertar un nuevo curso
   sendDataCurso = (e) =>{
