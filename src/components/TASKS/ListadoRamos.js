@@ -49,7 +49,7 @@ class ListadoRamos extends Component {
       // Recoleta SOLAMENTE LOS NOMBRES de los ramos - Se utiliza para cargar información en los SELECT  
       loadListadoRamos(){
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/ListadoNombreRamos.php?listadoRamos"
+          "http://20.168.67.13/TASKS/auxiliar/ListadoNombreRamos.php?listadoRamos"
         )
         .then((response) => response.json())
         .then((dataResponse) => {
@@ -60,7 +60,7 @@ class ListadoRamos extends Component {
       // Recoleta SOLAMENTE LOS NOMBRES de los relatores - Se utiliza para cargar información en los SELECT  
       loadListadoRelatores(){
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/ListadoRelatores.php?listadoRelatores"
+          "http://20.168.67.13/TASKS/auxiliar/ListadoRelatores.php?listadoRelatores"
         )
         .then((response) => response.json())
         .then((dataResponse) => {
@@ -71,7 +71,7 @@ class ListadoRamos extends Component {
       // Recolecta SOLAMENTE LOS NOMBRES de las cuentas - Se utiliza para cargar información en los SELECT  
       loadListadoCuentas(){
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/ListadoCuentas.php?listadoCuentas"
+          "http://20.168.67.13/TASKS/auxiliar/ListadoCuentas.php?listadoCuentas"
         )
         .then((response) => response.json())
         .then((dataResponse) => {
@@ -82,7 +82,7 @@ class ListadoRamos extends Component {
       // Recolecta los datos del registro de ramos
       loadData() {
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listCursos.php"
+          "http://20.168.67.13/TASKS/coe-listCursos.php"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -93,7 +93,7 @@ class ListadoRamos extends Component {
       // Recolecta los datos del paginador
       loadPaginador() {
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/paginador/botones_Cursos.php"
+          "http://20.168.67.13/paginador/botones_Cursos.php"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -110,7 +110,7 @@ class ListadoRamos extends Component {
         var sendNum = {num_boton : num_boton}
     
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listCursos.php?pagina",
+          "http://20.168.67.13/TASKS/coe-listCursos.php?pagina",
           {
             method: "POST",
             body: JSON.stringify(sendNum),
@@ -133,7 +133,7 @@ class ListadoRamos extends Component {
         nombreCurso:nombreCurso, area:area, hh_academicas:hh_academicas, pre_requisito: pre_requisito, relator: relator}
         console.log(datosEnviar);
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarRamo.php?insertarRamo",{
+          "http://20.168.67.13/TASKS/coe-insertarRamo.php?insertarRamo",{
             method: "POST",
             body: JSON.stringify(datosEnviar)
           }
@@ -173,7 +173,7 @@ class ListadoRamos extends Component {
         var datosEnviar = {codigoCuenta: codigoCuenta, codigoRamo: codigoRamo, fechaInicio:fechaInicio, fechaFin:fechaFin, horaInicio: horaInicio, horaFin: horaFin}
         console.log(datosEnviar);
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarCurso.php?insertarCurso",{
+          "http://20.168.67.13/TASKS/coe-insertarCurso.php?insertarCurso",{
             method: "POST",
             body: JSON.stringify(datosEnviar)
           }
@@ -275,7 +275,7 @@ class ListadoRamos extends Component {
       deleteData = (ID) =>{
         console.log(ID);
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStateRamos.php?updateStateRamos="+ID)
+          "http://20.168.67.13/TASKS/coe-updateStateRamos.php?updateStateRamos="+ID)
          .then((response) => response.json())
           .then((dataResponse) => {
             console.log(dataResponse);
@@ -309,7 +309,7 @@ class ListadoRamos extends Component {
       // Carga los datos del curso a editar
       loadDataEdit(ID) {
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-selectCursos.php?ID="+ID
+          "http://20.168.67.13/TASKS/coe-selectCursos.php?ID="+ID
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -328,7 +328,7 @@ class ListadoRamos extends Component {
       console.log(datosEnviar
         );
       fetch(
-        "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editRamo.php?editarRamo",{
+        "http://20.168.67.13/TASKS/coe-editRamo.php?editarRamo",{
           method: "POST",
           body: JSON.stringify(datosEnviar)
         }

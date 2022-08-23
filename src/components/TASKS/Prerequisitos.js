@@ -13,11 +13,10 @@ class Prerequisitos extends Component {
     CursoaConsultar: "",
     prerequisitos: []
   };
-
   // Carga el listado de cursos
   loadidCursos() {
     fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/idCurso.php?idCurso"
+      "http://20.168.67.13/TASKS/auxiliar/idCurso.php?idCurso"
     )
       .then((response) => response.json())
       .then((dataResponse) => {
@@ -25,11 +24,10 @@ class Prerequisitos extends Component {
       })
       .catch(console.log());
   }
-
   // Carga el listado de cursos EXCEPTUANDO el seleccionado antes
   loadidCursosInsert = (ID) =>{
     fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/idCursoInsert.php?idCurso="+ID
+      "http://20.168.67.13/TASKS/auxiliar/idCursoInsert.php?idCurso="+ID
     )
       .then((response) => response.json())
       .then((dataResponse) => {
@@ -47,7 +45,7 @@ class Prerequisitos extends Component {
   // Carga el listado de pre requisitos para el curso seleccionado
   loadPrerequisitos = (ID) => {
     fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/prerequisitos.php?ID="+ID
+      "http://20.168.67.13/TASKS/auxiliar/prerequisitos.php?ID="+ID
     )
       .then((response) => response.json())
       .then((dataResponse) => {
@@ -59,7 +57,7 @@ class Prerequisitos extends Component {
   // Permite habilitar o deshabilitar un pre requisito
   toggleisActivePrerequisito = (ID) => {
     fetch(
-     "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStatePrerequisito.php?updateStatePrerequisito="+ID)
+     "http://20.168.67.13/TASKS/coe-updateStatePrerequisito.php?updateStatePrerequisito="+ID)
     .then((response) => response.json())
      .then(() => {
        this.loadPrerequisitos(this.state.CursoaConsultar)
@@ -87,7 +85,7 @@ class Prerequisitos extends Component {
     };
     console.log(datosEnviar);
     fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarPrerequisito.php?insertarPrerequisito",
+      "http://20.168.67.13/TASKS/coe-insertarPrerequisito.php?insertarPrerequisito",
       {
         method: "POST",
         body: JSON.stringify(datosEnviar),

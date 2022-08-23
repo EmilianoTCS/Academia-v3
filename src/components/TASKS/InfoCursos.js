@@ -23,7 +23,7 @@ class InfoCursos extends Component {
     loadData() {
         const codigoCurso = this.props.match.params.codigoCurso
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-list_infoidCurso.php?codigoCurso="+codigoCurso
+          "http://20.168.67.13/TASKS/coe-list_infoidCurso.php?codigoCurso="+codigoCurso
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -35,10 +35,9 @@ class InfoCursos extends Component {
         this.loadData();
         this.loadPaginador();
     }
-     
     loadPaginador() {
       fetch(
-        "http://localhost/App_v2/AcademiaFormación_V2/paginador/botones_infoCursos.php"
+        "http://20.168.67.13/paginador/botones_infoCursos.php"
       )
         .then((response) => response.json())
         .then((dataResponse) => {
@@ -47,8 +46,6 @@ class InfoCursos extends Component {
         })
         .catch(console.log());
     }
-
-
     sendNum = (e) => {
       e.preventDefault();
       console.log("Sending data..");
@@ -69,9 +66,6 @@ class InfoCursos extends Component {
         })
         .catch(console.log());
     };
-
-
-
     render() { 
         const { loadedData, cursos, paginador } = this.state;
     

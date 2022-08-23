@@ -4,6 +4,7 @@ import '../css/Administrador.css'
 import ToggleSwitch from "../templates/ToggleSwitch";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { SpinnerDotted } from 'spinners-react';
 class Administrador extends Component {
     state = {
         loadedData: false, 
@@ -17,7 +18,7 @@ class Administrador extends Component {
 
     loadDataCursos() {        
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-adminCursos.php?cursos"
+          "http://20.168.67.13/TASKS/coe-adminCursos.php?cursos"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -30,7 +31,7 @@ class Administrador extends Component {
     }
     loadDataRamos() {
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-adminRamos.php?ramos"
+          "http://20.168.67.13/TASKS/coe-adminRamos.php?ramos"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -40,7 +41,7 @@ class Administrador extends Component {
     }
     loadDataRelator() {
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-adminRelator.php?relator"
+          "http://20.168.67.13/TASKS/coe-adminRelator.php?relator"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -50,7 +51,7 @@ class Administrador extends Component {
     }
     loadDataColaborador() {
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-adminColaborador.php?colaborador"
+          "http://20.168.67.13/TASKS/coe-adminColaborador.php?colaborador"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -60,7 +61,7 @@ class Administrador extends Component {
     }
     loadDataClientes() {
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-adminClientes.php?clientes"
+          "http://20.168.67.13/TASKS/coe-adminClientes.php?clientes"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -77,7 +78,7 @@ class Administrador extends Component {
     }
     toggleisActiveCursos = (ID) => {
        fetch(
-        "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateState.php?updateStateCursos="+ID)
+        "http://20.168.67.13/TASKS/coe-updateState.php?updateStateCursos="+ID)
        .then((response) => response.json())
         .then((dataResponse) => {
           console.log(dataResponse);
@@ -107,7 +108,7 @@ class Administrador extends Component {
     }
     toggleisActiveRamos = (ID) => {
         fetch(
-         "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStateRamos.php?updateStateRamos="+ID)
+         "http://20.168.67.13/TASKS/coe-updateStateRamos.php?updateStateRamos="+ID)
         .then((response) => response.json())
          .then((dataResponse) => {
            console.log(dataResponse);
@@ -137,7 +138,7 @@ class Administrador extends Component {
     }  
      toggleisActiveRelator = (ID) => {
         fetch(
-         "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStateRelator.php?updateStateRelator="+ID)
+         "http://20.168.67.13/TASKS/coe-updateStateRelator.php?updateStateRelator="+ID)
         .then((response) => response.json())
          .then((dataResponse) => {
            console.log(dataResponse);
@@ -167,7 +168,7 @@ class Administrador extends Component {
     }
      toggleisActiveColaborador = (ID) => {
         fetch(
-         "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStateColaborador.php?updateStateColaborador="+ID)
+         "http://20.168.67.13/TASKS/coe-updateStateColaborador.php?updateStateColaborador="+ID)
         .then((response) => response.json())
          .then((dataResponse) => {
            console.log(dataResponse);
@@ -197,7 +198,7 @@ class Administrador extends Component {
     }
      toggleisActiveClientes = (ID) => {
         fetch(
-         "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStateClientes.php?updateStateClientes="+ID)
+         "http://20.168.67.13/TASKS/coe-updateStateClientes.php?updateStateClientes="+ID)
         .then((response) => response.json())
          .then((dataResponse) => {
            console.log(dataResponse);
@@ -229,7 +230,7 @@ class Administrador extends Component {
     const {loadedData, cursos, ramos, relatores, colaboradores, clientes} = this.state;
     if(!loadedData){
         return(
-        <h1>Loading...</h1>
+          <SpinnerDotted size={74} thickness={105} speed={96} color="rgba(172, 57, 59, 1)" />
         );
         }
         return (

@@ -30,7 +30,7 @@ class Colaboradores extends Component {
     // Recolecta los datos del registro de clientes
     loadData() {
     fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listColaboradores.php"
+      "http://20.168.67.13/TASKS/coe-listColaboradores.php"
     )
       .then((response) => response.json())
       .then((dataResponse) => {
@@ -41,7 +41,7 @@ class Colaboradores extends Component {
     // Recolecta los datos del paginador
     loadPaginador() {
     fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/paginador/botones_Colaboradores.php"
+      "http://20.168.67.13/paginador/botones_Colaboradores.php"
     )
       .then((response) => response.json())
       .then((dataResponse) => {
@@ -58,7 +58,7 @@ class Colaboradores extends Component {
     var sendNum = { num_boton: num_boton };
 
     fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listColaboradores.php?pagina",
+      "http://20.168.67.13/TASKS/coe-listColaboradores.php?pagina",
       {
         method: "POST",
         body: JSON.stringify(sendNum),
@@ -101,7 +101,7 @@ class Colaboradores extends Component {
     var datosEnviar = {codigoCuenta: codigoCuenta, nombre_completo: nombre_completo, 
     usuario:usuario, area:area, subgerencia: subgerencia, correo: correo}
     fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarColaborador.php?insertarColaborador",{
+      "http://20.168.67.13/TASKS/coe-insertarColaborador.php?insertarColaborador",{
         method: "POST",
         body: JSON.stringify(datosEnviar)
       }
@@ -167,7 +167,7 @@ class Colaboradores extends Component {
     deleteData = (ID) =>{
     console.log(ID);
     fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-deleteColaborador.php?delete="+ID)
+      "http://20.168.67.13/TASKS/coe-deleteColaborador.php?delete="+ID)
      .then((response) => response.json())
       .then((dataResponse) => {
         console.log(dataResponse);
@@ -205,7 +205,7 @@ this.setState({ toggle_formEdit: false });
     // Recolecta los datos de un registro en específico utilizando el ID como referencia
     loadDataEdit(ID) {
   fetch(
-  "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-selectColaborador.php?ID="+ID )
+  "http://20.168.67.13/TASKS/coe-selectColaborador.php?ID="+ID )
    .then((response) => response.json())
    .then((dataResponse) => {
     this.setState({ loadedData: true, colaboradoresEdit: dataResponse[0]});
@@ -223,7 +223,7 @@ this.setState({ toggle_formEdit: false });
 
       console.log(datosEnviar);
       fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editColaborador.php?editarColaborador",{
+      "http://20.168.67.13/TASKS/coe-editColaborador.php?editarColaborador",{
       method: "POST",
       body: JSON.stringify(datosEnviar)
       })

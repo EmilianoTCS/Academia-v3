@@ -33,7 +33,7 @@ class ListadoClientes extends Component {
       // Recolecta los datos del registro de clientes
       loadData() {
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listClientes.php"
+          "http://20.168.67.13/TASKS/coe-listClientes.php"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -44,7 +44,7 @@ class ListadoClientes extends Component {
       // Recolecta los datos del paginador
       loadPaginador() {
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/paginador/botones_Clientes.php"
+          "http://20.168.67.13/paginador/botones_Clientes.php"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -61,7 +61,7 @@ class ListadoClientes extends Component {
         var sendNum = { num_boton: num_boton };
     
         fetch(
-            "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-listClientes.php?pagina",
+            "http://20.168.67.13/TASKS/coe-listClientes.php?pagina",
           {
             method: "POST",
             body: JSON.stringify(sendNum),
@@ -103,7 +103,7 @@ class ListadoClientes extends Component {
         var datosEnviar = {tipo_cliente: tipo_cliente, nombreCliente: nombreCliente, 
             referente:referente, correoReferente:correoReferente, cargoReferente: cargoReferente, telefonoReferente: telefonoReferente, isActive:isActive}
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-insertarCliente.php?insertarCliente",{
+          "http://20.168.67.13/TASKS/coe-insertarCliente.php?insertarCliente",{
             method: "POST",
             body: JSON.stringify(datosEnviar)
           }
@@ -162,7 +162,7 @@ class ListadoClientes extends Component {
       // Recolecta los datos de un registro en específico utilizando el ID como referencia
       loadDataEdit(ID) {
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-selectClientes.php?ID="+ID
+          "http://20.168.67.13/TASKS/coe-selectClientes.php?ID="+ID
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -179,7 +179,7 @@ class ListadoClientes extends Component {
           var datosEnviar = {ID: ID, tipo_cliente : tipo_cliente, nombreCliente: nombreCliente, referente: referente, correoReferente: correoReferente, cargoReferente: cargoReferente, telefonoReferente: telefonoReferente}
           console.log(datosEnviar);
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-editClientes.php?editarCliente",{
+          "http://20.168.67.13/TASKS/coe-editClientes.php?editarCliente",{
             method: "POST",
             body: JSON.stringify(datosEnviar)
           }
@@ -250,7 +250,7 @@ class ListadoClientes extends Component {
       deleteData = (ID) =>{
         console.log(ID);
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-updateStateClientes.php?updateStateClientes="+ID)
+          "http://20.168.67.13/TASKS/coe-updateStateClientes.php?updateStateClientes="+ID)
          .then((response) => response.json())
           .then((dataResponse) => {
             console.log(dataResponse);

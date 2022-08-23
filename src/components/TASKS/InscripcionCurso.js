@@ -27,11 +27,8 @@ class InscripcionCurso extends Component {
         console.log("Sending data..");
         const {idCuenta,usuario,idCurso,porcentaje_aprobacion,codigoCuenta, codigoCurso} = this.state
         var datosEnviar = {idCuenta: idCuenta, usuario: usuario, idCurso:idCurso, porcentaje_aprobacion:porcentaje_aprobacion, codigoCuenta: codigoCuenta, codigoCurso: codigoCurso}
-
-       
-
         fetch(
-          "http://localhost/App_v2/AcademiaFormación_V2/TASKS/coe-inscripcionCurso.php?inscripcionCurso",{
+          "http://20.168.67.13/TASKS/coe-inscripcionCurso.php?inscripcionCurso",{
             method: "POST",
             body: JSON.stringify(datosEnviar)
           }
@@ -57,7 +54,7 @@ class InscripcionCurso extends Component {
     //Recoleta SOLAMENTE LOS NOMBRES de los usuarios - Se utiliza para cargar información en los SELECT  
     loadListadoUsuarios(){
     fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/auxiliar/ListadoUsuarios.php?listadoUsuarios"
+      "http://20.168.67.13/TASKS/auxiliar/ListadoUsuarios.php?listadoUsuarios"
     )
     .then((response) => response.json())
     .then((dataResponse) => {
@@ -66,10 +63,7 @@ class InscripcionCurso extends Component {
     })
     .catch(console.log())
     }
-    //test
-    test = (usuario) => {
-        console.log(usuario);
-    }
+
     componentDidMount(){
         this.loadListadoUsuarios();
     }
@@ -81,7 +75,6 @@ class InscripcionCurso extends Component {
              name: "usuario"
             })))
       
-        
         return (
             <div className="container-fluid">
             <Header/>

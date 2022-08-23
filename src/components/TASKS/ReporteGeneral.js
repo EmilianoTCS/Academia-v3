@@ -9,7 +9,7 @@ class ReporteGeneral extends Component {
 
   loadData() {
     fetch(
-      "http://localhost/App_v2/AcademiaFormación_V2/TASKS/Cards-General.php"
+      "http://20.168.67.13/TASKS/Cards-General.php"
     )
       .then((response) => response.json())
       .then((dataResponse) => {
