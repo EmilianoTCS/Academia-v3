@@ -2,8 +2,10 @@ import React, {Component} from "react";
 import Header from "../templates/header";
 import '../css/Forms.css';
 import Select from 'react-select';
+import { SpinnerDotted } from 'spinners-react';
 class InscripcionCurso extends Component {
     state = {  
+        loadedData: false,
         idCuenta : "",
         usuario: [],
         idCurso: "",
@@ -58,7 +60,7 @@ class InscripcionCurso extends Component {
     )
     .then((response) => response.json())
     .then((dataResponse) => {
-      this.setState({usuario : dataResponse})
+      this.setState({usuario : dataResponse, loadedData: true})
       
     })
     .catch(console.log())
@@ -69,12 +71,19 @@ class InscripcionCurso extends Component {
     }
 
     render() { 
+        const loadedData = this.state.loadedData
         const usuario= this.state.usuario.map((label => (
             {label: label.usuario,
              value: label.ID,
              name: "usuario"
             })))
-      
+        const styleLoading = {position: "absolute", top: "50%", left: "50%", margin: "-25px 0 0 -25px" }
+
+        if(!loadedData){
+                return(
+                  <SpinnerDotted style={styleLoading} size={74} thickness={105} speed={96} color="rgba(172, 57, 59, 1)" />
+                  );
+            }
         return (
             <div className="container-fluid">
             <Header/>

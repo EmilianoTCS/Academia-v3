@@ -5,6 +5,7 @@ import "../css/Tables.css";
 import "../css/Paginador.css";
 import "../css/Botones.css";
 import "../css/Forms.css";
+import { SpinnerDotted } from 'spinners-react';
 
 class InfoColaboradores extends Component {
     state = {
@@ -17,7 +18,8 @@ class InfoColaboradores extends Component {
         nombre_completo: "",
         area: "",
         subgerencia: "",
-        correo: ""}
+        correo: "",
+        }
 
     loadData() {
         const usuario = this.props.match.params.usuario
@@ -36,11 +38,12 @@ class InfoColaboradores extends Component {
      
     render() { 
         const { loadedData, colaboradores, paginador } = this.state;
-        
+        const styleLoading = {position: "absolute", top: "50%", left: "50%", margin: "-25px 0 0 -25px" }
+
         if(!loadedData){
             return(
-                <h1>Loading...</h1>
-            );
+              <SpinnerDotted style={styleLoading} size={74} thickness={105} speed={96} color="rgba(172, 57, 59, 1)" />
+              );
         }
         return (
             <div>

@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import "../css/Forms.css";
 import { Link } from "react-router-dom";
-
+import { SpinnerDotted } from 'spinners-react';
 class Colaboradores extends Component {
     state = {
     loadedData: false,
@@ -264,9 +264,15 @@ this.setState({ toggle_formEdit: false });
     const { codigoCuenta, nombre_completo, usuario, area, subgerencia, correo } = this.state;
     const toggle_formEdit = this.state.toggle_formEdit
     const colaboradoresEdit = this.state.colaboradoresEdit
+    const styleLoading = {position: "absolute", top: "50%", left: "50%", margin: "-25px 0 0 -25px" }
 
     if (!loadedData) {
-      return <div>Loading data...</div>;
+      return (
+      <div style={{margin: "auto"}}>
+      <SpinnerDotted style={styleLoading} size={74} thickness={105} speed={96} color="rgba(172, 57, 59, 1)" />
+      </div>
+      
+      );
     }
     return (
       <div className="container-fluid">

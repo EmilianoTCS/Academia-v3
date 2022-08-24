@@ -228,9 +228,11 @@ class Administrador extends Component {
     }
     render() { 
     const {loadedData, cursos, ramos, relatores, colaboradores, clientes} = this.state;
+    const styleLoading = {position: "absolute", top: "50%", left: "50%", margin: "-25px 0 0 -25px" }
+
     if(!loadedData){
         return(
-          <SpinnerDotted size={74} thickness={105} speed={96} color="rgba(172, 57, 59, 1)" />
+        <SpinnerDotted style={styleLoading} size={74} thickness={105} speed={96} color="rgba(172, 57, 59, 1)" />
         );
         }
         return (

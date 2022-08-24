@@ -6,7 +6,7 @@ import '../css/Botones.css';
 import '../css/Forms.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-
+import { SpinnerDotted } from 'spinners-react';
 class ListadoRelator extends Component {
 
     // Declaración de variables iniciales
@@ -270,10 +270,13 @@ class ListadoRelator extends Component {
         const toggle_formEdit = this.state.toggle_formEdit;
         const {relator, area} = this.state;
         const relatoresEdit = this.state.relatoresEdit;
+        const styleLoading = {position: "absolute", top: "50%", left: "50%", margin: "-25px 0 0 -25px" }
 
 
     if (!loadedData) {
-      return <div>Loading data...</div>;
+      return (
+        <SpinnerDotted style={styleLoading} size={74} thickness={105} speed={96} color="rgba(172, 57, 59, 1)" />
+        );
     }
         return (
             <div className="container-fluid">

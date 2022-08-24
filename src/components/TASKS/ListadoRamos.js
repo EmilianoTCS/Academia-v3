@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import Select from 'react-select';
-
+import { SpinnerDotted } from 'spinners-react';
 
 class ListadoRamos extends Component {
     state = { 
@@ -390,9 +390,12 @@ class ListadoRamos extends Component {
                value: label.ID,
                name : "codigoCuenta"
         })))
+        const styleLoading = {position: "absolute", top: "50%", left: "50%", margin: "-25px 0 0 -25px" }
 
     if (!loadedData) {
-      return <div>Loading data...</div>;
+      return (
+      <SpinnerDotted style={styleLoading} size={74} thickness={105} speed={96} color="rgba(172, 57, 59, 1)" />
+      );
     }
         return (
             <div className="container-fluid">

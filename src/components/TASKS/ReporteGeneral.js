@@ -4,6 +4,7 @@ import "../css/Cards.css"
 import "../css/Charts.css"
 import BarChart from "../Charts/Bar"
 import PieChart from "../Charts/Pie"
+import { SpinnerDotted } from 'spinners-react';
 class ReporteGeneral extends Component {
   state = { cards: [] };
 
@@ -23,16 +24,19 @@ class ReporteGeneral extends Component {
   }
   render() {
     const { loadedData, cards } = this.state;
+
+    const styleLoading = {position: "absolute", top: "50%", left: "50%", margin: "-25px 0 0 -25px" }
  
     if (!loadedData) {
-      return <div>Loading data...</div>;
+      return (
+        <SpinnerDotted style={styleLoading} size={74} thickness={105} speed={96} color="rgba(172, 57, 59, 1)" />
+        );
     }
 
     return (
       <div className="container-fluid">
         <Header />
         <h1 id="subtitulo_pagina">Reporte General de cursos</h1>
-
       {/* CONTENEDOR DE CARTAS */}
         <div id="container_cards">
             {cards.map((card) =>

@@ -8,7 +8,7 @@ import "../css/Forms.css";
 import { BiShowAlt } from "react-icons/bi";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-
+import { SpinnerDotted } from 'spinners-react';
 import '../css/Tables.css';
 class ListadoClientes extends Component {
     state = { 
@@ -265,11 +265,13 @@ class ListadoClientes extends Component {
         const {tipo_cliente,nombreCliente,referente,correoReferente,cargoReferente, telefonoReferente} = this.state
         const toggle_formEdit = this.state.toggle_formEdit
         const clientesEdit = this.state.clientesEdit
+        const styleLoading = {position: "absolute", top: "50%", left: "50%", margin: "-25px 0 0 -25px" }
+
         if(!loadedData){
             return(
-                <div>
-                    <h1>Loading..</h1>
-                </div>
+              <div style={{margin: "auto"}}>
+              <SpinnerDotted style={styleLoading} size={74} thickness={105} speed={96} color="rgba(172, 57, 59, 1)" />
+              </div>
             )
         }
         return ( 

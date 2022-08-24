@@ -7,12 +7,12 @@ import {
   } from 'chart.js';
 
   import { Pie } from 'react-chartjs-2';
-
+  import { SpinnerDotted } from 'spinners-react';
   ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 class PieChart extends Component {
-  state = { cards: [] };
+  state = { cards: [], loadedData: false };
 
   loadData() {
     fetch(
@@ -29,7 +29,7 @@ class PieChart extends Component {
     this.loadData();
   }
   render() {
-
+    const styleLoading = {position: "absolute", top: "50%", left: "50%", margin: "-25px 0 0 -25px" }
     const etiquetas = ['Finalizado', 'En curso', 'Pendiente'];
     const { loadedData, cards } = this.state;
     var data = {
@@ -63,9 +63,11 @@ class PieChart extends Component {
         },
       };
 
-    if (!loadedData) {
-      return <div>Loading data...</div>;
-    }
+      if(!loadedData){
+        return(
+          <SpinnerDotted style={styleLoading} size={74} thickness={105} speed={96} color="rgba(172, 57, 59, 1)" />
+          );
+    } 
 
     return (
       <div>
