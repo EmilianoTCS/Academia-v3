@@ -24,7 +24,7 @@ class InfoColaboradores extends Component {
     loadData() {
         const usuario = this.props.match.params.usuario
         fetch(
-          "http://20.168.67.13/TASKS/coe-list_infoUsuarios.php?usuario="+usuario
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-list_infoUsuarios.php?usuario="+usuario
         )
           .then((response) => response.json())
           .then((dataResponse) => {

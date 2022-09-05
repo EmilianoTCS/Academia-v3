@@ -38,7 +38,7 @@ class InfoCursos extends Component {
     }
     loadPaginador() {
       fetch(
-        "http://20.168.67.13/paginador/botones_infoCursos.php"
+        "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/paginador/botones_infoCursos.php"
       )
         .then((response) => response.json())
         .then((dataResponse) => {

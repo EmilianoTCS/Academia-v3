@@ -72,6 +72,7 @@ class Navigator extends Component {
             </li>
             <li id="li_Colaboradores" onClick={this.SwitchToggleColaboradores}>COLABORADORES
                 <ul id="Colaboradores" className={toggleColaboradores ? "active" : " Colaboradores "} >
+                    <li><Link to={"/HomeColaboradores"}>Inicio</Link></li>
                     <li><Link to={"/Colaboradores"}>Listado de Colaboradores</Link></li>
                     <li><Link to={"/InscripcionCurso"}>Inscribirse a un curso</Link></li>
                 </ul>

@@ -1,0 +1,36 @@
+#cardContainer{
+    width: calc(100% - 200px);
+    margin-left: 200px;
+    margin-top: 5%;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+}
+#cardContainer .card-title{
+    text-align: center;
+}
+#containerAutomation{
+    background-color: #f2f2f2;
+    border: none;
+}
+#subCardsContainer{
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+}
+#subcards{
+    margin: 1%;
+    font-family: "Roboto Slab", serif;
+
+}
+#progressHex{
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: #f2f2f2;
+
+}
+.hexagono{
+    width: 90%;
+}

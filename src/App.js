@@ -14,6 +14,7 @@ import ListadoClientes from "./components/TASKS/ListadoClientes";
 import InscripcionCurso from "./components/TASKS/InscripcionCurso";
 import Prerequisitos from "./components/TASKS/Prerequisitos";
 import ListadoAsistencias from "./components/TASKS/ListadoAsistencias";
+import HomeColaboradores from "./components/TASKS/HomeColaboradores";
 function App() {
   
   return (
@@ -33,7 +34,9 @@ function App() {
       <Route path="/InscripcionCurso" component={InscripcionCurso}></Route>
       <Route path="/Prerequisitos" component={Prerequisitos}></Route>
       <Route path="/Asistencias" component={ListadoAsistencias}></Route>
+      <Route path="/HomeColaboradores" component={HomeColaboradores}></Route>
     </Router>
+
   );
   
 }

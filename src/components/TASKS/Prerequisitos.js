@@ -17,7 +17,7 @@ class Prerequisitos extends Component {
   // Carga el listado de cursos
   loadidCursos() {
     fetch(
-      "http://20.168.67.13/TASKS/auxiliar/idCurso.php?idCurso"
+      "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/auxiliar/idCurso.php?idCurso"
     )
       .then((response) => response.json())
       .then((dataResponse) => {
@@ -28,7 +28,7 @@ class Prerequisitos extends Component {
   // Carga el listado de cursos EXCEPTUANDO el seleccionado antes
   loadidCursosInsert = (ID) =>{
     fetch(
-      "http://20.168.67.13/TASKS/auxiliar/idCursoInsert.php?idCurso="+ID
+      "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/auxiliar/idCursoInsert.php?idCurso="+ID
     )
       .then((response) => response.json())
       .then((dataResponse) => {
@@ -46,7 +46,7 @@ class Prerequisitos extends Component {
   // Carga el listado de pre requisitos para el curso seleccionado
   loadPrerequisitos = (ID) => {
     fetch(
-      "http://20.168.67.13/TASKS/auxiliar/prerequisitos.php?ID="+ID
+      "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/auxiliar/prerequisitos.php?ID="+ID
     )
       .then((response) => response.json())
       .then((dataResponse) => {
@@ -58,7 +58,7 @@ class Prerequisitos extends Component {
   // Permite habilitar o deshabilitar un pre requisito
   toggleisActivePrerequisito = (ID) => {
     fetch(
-     "http://20.168.67.13/TASKS/coe-updateStatePrerequisito.php?updateStatePrerequisito="+ID)
+     "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-updateStatePrerequisito.php?updateStatePrerequisito="+ID)
     .then((response) => response.json())
      .then(() => {
        this.loadPrerequisitos(this.state.CursoaConsultar)
@@ -86,7 +86,7 @@ class Prerequisitos extends Component {
     };
     console.log(datosEnviar);
     fetch(
-      "http://20.168.67.13/TASKS/coe-insertarPrerequisito.php?insertarPrerequisito",
+      "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-insertarPrerequisito.php?insertarPrerequisito",
       {
         method: "POST",
         body: JSON.stringify(datosEnviar),

@@ -18,7 +18,7 @@ class Administrador extends Component {
 
     loadDataCursos() {        
         fetch(
-          "http://20.168.67.13/TASKS/coe-adminCursos.php?cursos"
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-adminCursos.php?cursos"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -31,7 +31,7 @@ class Administrador extends Component {
     }
     loadDataRamos() {
         fetch(
-          "http://20.168.67.13/TASKS/coe-adminRamos.php?ramos"
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-adminRamos.php?ramos"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -41,7 +41,7 @@ class Administrador extends Component {
     }
     loadDataRelator() {
         fetch(
-          "http://20.168.67.13/TASKS/coe-adminRelator.php?relator"
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-adminRelator.php?relator"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -51,7 +51,7 @@ class Administrador extends Component {
     }
     loadDataColaborador() {
         fetch(
-          "http://20.168.67.13/TASKS/coe-adminColaborador.php?colaborador"
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/coe-adminColaborador.php?colaborador"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -61,7 +61,7 @@ class Administrador extends Component {
     }
     loadDataClientes() {
         fetch(
-          "http://20.168.67.13/TASKS/coe-adminClientes.php?clientes"
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-adminClientes.php?clientes"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -78,7 +78,7 @@ class Administrador extends Component {
     }
     toggleisActiveCursos = (ID) => {
        fetch(
-        "http://20.168.67.13/TASKS/coe-updateState.php?updateStateCursos="+ID)
+        "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-updateState.php?updateStateCursos="+ID)
        .then((response) => response.json())
         .then((dataResponse) => {
           console.log(dataResponse);
@@ -108,7 +108,7 @@ class Administrador extends Component {
     }
     toggleisActiveRamos = (ID) => {
         fetch(
-         "http://20.168.67.13/TASKS/coe-updateStateRamos.php?updateStateRamos="+ID)
+         "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-updateStateRamos.php?updateStateRamos="+ID)
         .then((response) => response.json())
          .then((dataResponse) => {
            console.log(dataResponse);
@@ -138,7 +138,7 @@ class Administrador extends Component {
     }  
      toggleisActiveRelator = (ID) => {
         fetch(
-         "http://20.168.67.13/TASKS/coe-updateStateRelator.php?updateStateRelator="+ID)
+         "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-updateStateRelator.php?updateStateRelator="+ID)
         .then((response) => response.json())
          .then((dataResponse) => {
            console.log(dataResponse);
@@ -168,7 +168,7 @@ class Administrador extends Component {
     }
      toggleisActiveColaborador = (ID) => {
         fetch(
-         "http://20.168.67.13/TASKS/coe-updateStateColaborador.php?updateStateColaborador="+ID)
+         "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-updateStateColaborador.php?updateStateColaborador="+ID)
         .then((response) => response.json())
          .then((dataResponse) => {
            console.log(dataResponse);
@@ -198,7 +198,7 @@ class Administrador extends Component {
     }
      toggleisActiveClientes = (ID) => {
         fetch(
-         "http://20.168.67.13/TASKS/coe-updateStateClientes.php?updateStateClientes="+ID)
+         "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-updateStateClientes.php?updateStateClientes="+ID)
         .then((response) => response.json())
          .then((dataResponse) => {
            console.log(dataResponse);

@@ -30,7 +30,7 @@ class InscripcionCurso extends Component {
         const {idCuenta,usuario,idCurso,porcentaje_aprobacion,codigoCuenta, codigoCurso} = this.state
         var datosEnviar = {idCuenta: idCuenta, usuario: usuario, idCurso:idCurso, porcentaje_aprobacion:porcentaje_aprobacion, codigoCuenta: codigoCuenta, codigoCurso: codigoCurso}
         fetch(
-          "http://20.168.67.13/TASKS/coe-inscripcionCurso.php?inscripcionCurso",{
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-inscripcionCurso.php?inscripcionCurso",{
             method: "POST",
             body: JSON.stringify(datosEnviar)
           }
@@ -56,7 +56,7 @@ class InscripcionCurso extends Component {
     //Recoleta SOLAMENTE LOS NOMBRES de los usuarios - Se utiliza para cargar información en los SELECT  
     loadListadoUsuarios(){
     fetch(
-      "http://20.168.67.13/TASKS/auxiliar/ListadoUsuarios.php?listadoUsuarios"
+      "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/auxiliar/ListadoUsuarios.php?listadoUsuarios"
     )
     .then((response) => response.json())
     .then((dataResponse) => {

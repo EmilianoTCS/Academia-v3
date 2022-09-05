@@ -28,7 +28,7 @@ class ListadoRelator extends Component {
       //Recoleta SOLAMENTE LOS NOMBRES de los ramos - Se utiliza para cargar información en los SELECT  
       loadListadoRamos(){
         fetch(
-          "http://20.168.67.13/TASKS/auxiliar/ListadoNombreRamos.php?listadoRamos"
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/auxiliar/ListadoNombreRamos.php?listadoRamos"
         )
         .then((response) => response.json())
         .then((dataResponse) => {
@@ -39,7 +39,7 @@ class ListadoRelator extends Component {
       // Recolecta los datos del registro de relatores
       loadData() {
         fetch(
-          "http://20.168.67.13/TASKS/coe-listOrador.php"
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-listOrador.php"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -50,7 +50,7 @@ class ListadoRelator extends Component {
       // Recolecta los datos del paginador
       loadPaginador() {
         fetch(
-          "http://20.168.67.13/paginador/botones_Relator.php"
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/paginador/botones_Relator.php"
         )
           .then((response) => response.json())
           .then((dataResponse) => {
@@ -66,7 +66,7 @@ class ListadoRelator extends Component {
         var sendNum = {num_boton : num_boton}
     
         fetch(
-          "http://20.168.67.13/TASKS/coe-listOrador.php?pagina",
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-listOrador.php?pagina",
           {
             method: "POST",
             body: JSON.stringify(sendNum),
@@ -100,7 +100,7 @@ class ListadoRelator extends Component {
         const {relator, area} = this.state;
         var datosEnviar = {relator:relator, area: area}
         fetch(
-          "http://20.168.67.13/TASKS/coe-insertarRelator.php?insertarRelator",{
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-insertarRelator.php?insertarRelator",{
             method: "POST",
             body: JSON.stringify(datosEnviar)
           }
@@ -174,7 +174,7 @@ class ListadoRelator extends Component {
       deleteData = (ID) =>{
       console.log(ID);
       fetch(
-        "http://20.168.67.13/TASKS/coe-updateStateRelator.php?updateStateRelator="+ID)
+        "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-updateStateRelator.php?updateStateRelator="+ID)
        .then((response) => response.json())
         .then((dataResponse) => {
           console.log(dataResponse);
@@ -208,7 +208,7 @@ class ListadoRelator extends Component {
       // Recolecta los datos de un registro en específico utilizando el ID como referencia, se activa el botón de editar
        loadDataEdit(ID) {
     fetch(
-      "http://20.168.67.13/TASKS/coe-selectRelatores.php?ID="+ID
+      "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-selectRelatores.php?ID="+ID
     )
       .then((response) => response.json())
       .then((dataResponse) => {
@@ -229,7 +229,7 @@ class ListadoRelator extends Component {
         console.log(datosEnviar);
 
         fetch(
-          "http://20.168.67.13/TASKS/coe-editRelatores.php?editarRelatores",{
+          "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-editRelatores.php?editarRelatores",{
             method: "POST",
             body: JSON.stringify(datosEnviar)
           }
