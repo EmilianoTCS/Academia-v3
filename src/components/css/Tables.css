@@ -83,5 +83,8 @@ tr:nth-child(even) {
   margin-left: 220px;
   margin-top: 1%;
   width: 75%;
-  
+}
+#tablaColaboradores{
+  margin-top: 1%;
+  width: 95%;
 }

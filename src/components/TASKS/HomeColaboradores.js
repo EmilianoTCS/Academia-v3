@@ -8,12 +8,17 @@ class HomeColaboradores extends Component {
     isLoaded: false,
   };
 
+  componentDidMount(){
+    this.loadData();
+  }
+
   // Recolecta los datos
   loadData() {
-    fetch("http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-listColaboradores.php")
+    fetch("http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/auxiliar/HomeColaboradores.php")
       .then((response) => response.json())
       .then((dataResponse) => {
-        this.setState({ loadedData: true, colaboradores: dataResponse });
+        this.setState({ loadedData: true, datos: dataResponse });
+        console.log(dataResponse);
       })
       .catch(console.log());
   }
@@ -36,10 +41,16 @@ class HomeColaboradores extends Component {
         filter: "drop-shadow(10px 10px 5px rgb(0 0 0 / 0.4))",
       };
 
+    const datos = this.state.datos;
+
     return (
       <div>
         <Header />
+        <h1 id="subtitulo_pagina">Mi progreso</h1>
+        
         <div id="cardContainer" className="container">
+        {datos.map((dato) => (
+
           <div id="containerAutomation" className="card w-50 m-1">
             <div className="card-body">
               <h4 className="card-title">Automation</h4>
@@ -50,12 +61,12 @@ class HomeColaboradores extends Component {
                       x="50%"
                       y="55%"
                       fill="white"
-                      fontSize="180"
+                      fontSize="150"
                       fontWeight="bold"
                       textAnchor="middle"
                       fontFamily="Roboto Slab, serif"
                     >
-                      80%
+                      {dato.porcentajeTotal + '%'}
                     </text>
                     <text
                       x="50%"
@@ -77,7 +88,7 @@ class HomeColaboradores extends Component {
                 >
                   <div className="card-body">
                     <h4 className="card-title h6">Cursos pendientes</h4>
-                    <p className="card-text display-2">5</p>
+                    <p className="card-text display-2">{dato.totalPendientes}</p>
                   </div>
                 </div>
                 <div
@@ -86,7 +97,7 @@ class HomeColaboradores extends Component {
                 >
                   <div className="card-body">
                     <h4 className="card-title h6">Cursos finalizados</h4>
-                    <p className="card-text display-2">5</p>
+                    <p className="card-text display-2">{dato.totalFinalizados}</p>
                   </div>
                 </div>
                 <div
@@ -95,12 +106,13 @@ class HomeColaboradores extends Component {
                 >
                   <div className="card-body">
                     <h4 className="card-title h6">Promedio general</h4>
-                    <p className="card-text display-2">8</p>
+                    <p className="card-text display-2">{dato.Promedio }</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          ))}
           <div id="containerAutomation" className="card w-50 m-1">
             <div className="card-body">
               <h4 className="card-title">DevOps</h4>

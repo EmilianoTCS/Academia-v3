@@ -63,6 +63,8 @@ class Navigator extends Component {
                 <li><Link to={"/Clientes"}>Clientes</Link></li>
                 <li><Link to={"/Administrador"}>Administrador</Link></li>
                 <li><Link to={"/Prerequisitos"}>Prerequisitos</Link></li>
+                <li><Link to={"/Colaboradores"}>Listado de Colaboradores</Link></li>
+
               </ul>
             </li>
             <li id="li_Asistencias" onClick={this.SwitchToggleAsistencias}>ASISTENCIAS
@@ -73,7 +75,7 @@ class Navigator extends Component {
             <li id="li_Colaboradores" onClick={this.SwitchToggleColaboradores}>COLABORADORES
                 <ul id="Colaboradores" className={toggleColaboradores ? "active" : " Colaboradores "} >
                     <li><Link to={"/HomeColaboradores"}>Inicio</Link></li>
-                    <li><Link to={"/Colaboradores"}>Listado de Colaboradores</Link></li>
+                    <li><Link to={"/MisCursos"}>Mis Cursos</Link></li>
                     <li><Link to={"/InscripcionCurso"}>Inscribirse a un curso</Link></li>
                 </ul>
             </li>

@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/material": "^5.10.3",
+    "@mui/styled-engine-sc": "^5.10.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -20,6 +24,7 @@
     "react-scripts": "^5.0.1",
     "react-select": "^5.4.0",
     "spinners-react": "^1.0.7",
+    "styled-components": "^5.3.5",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.4.24",
     "sweetalert2-react-content": "^5.0.2",

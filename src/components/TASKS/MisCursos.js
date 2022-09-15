@@ -6,8 +6,10 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Header from "../templates/header";
 import "../css/BoxTabs.css";
-import DetalleColaboradores from "../Tabs/DetalleColaboradores";
-import NotasColaboradores from "../Tabs/NotasColaboradores";
+import Automation from "../Tabs/Automation";
+import Certificados from "../Tabs/Certificados";
+import DetalleNotas from "../Tabs/DetalleNotas";
+import DevOps from "../Tabs/DevOps";
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -20,7 +22,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
     >
       {value === index && (
-        <Box sx={{ p: 0 }}>
+        <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -64,21 +66,37 @@ export default function BasicTabs() {
             >
               <Tab
                 style={{ color: "#e10b1c", fontSize: "15pt" }}
-                label="Listado"
+                label="Automation"
                 {...a11yProps(0)}
               />
               <Tab
                 style={{ color: "#e10b1c", fontSize: "15pt" }}
-                label="Notas"
+                label="DevOps"
                 {...a11yProps(1)}
+              />
+              <Tab
+                style={{ color: "#e10b1c", fontSize: "15pt" }}
+                label="Certificados"
+                {...a11yProps(2)}
+              />
+              <Tab
+                style={{ color: "#e10b1c", fontSize: "15pt" }}
+                label="Detalle de notas"
+                {...a11yProps(3)}
               />
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-          <DetalleColaboradores></DetalleColaboradores>
+            <Automation></Automation>
           </TabPanel>
           <TabPanel value={value} index={1}>
-          <NotasColaboradores></NotasColaboradores>
+            <DevOps></DevOps>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Certificados></Certificados>
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <DetalleNotas></DetalleNotas>
           </TabPanel>
         </Box>
       </div>

@@ -1,0 +1,23 @@
+#CardContainer:hover{
+    background-color: rgb(26, 25, 25);
+    transition: all 300ms linear;
+    border-radius: 5%;
+}
+#styleText{
+    font-size: 20pt;
+    padding: 10px;
+    text-align: center;
+    font-family: "Roboto Slab", serif; 
+    color: #e10b1c;
+}
+#styleSubText{
+    font-family: "Roboto Slab", serif;
+    color: black;
+    font-size: 12pt;
+}
+#CardContainer:hover #styleText{
+    color: white;
+}
+#CardContainer:hover #styleSubText{
+    color: white;
+}

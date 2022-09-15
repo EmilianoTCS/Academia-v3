@@ -1,0 +1,21 @@
+#CardsContent{
+    display: flex;
+    flex-direction: row;
+}
+.hexagon{
+    width: 60%;
+    margin: 0;
+}
+#statsContent{
+    margin-left: 10%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+#statsContent h1{
+    font-size: 11pt;
+    font-family: Roboto slab, serif;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+}

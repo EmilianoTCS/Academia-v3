@@ -400,10 +400,8 @@ class ListadoCursos extends Component {
 
         {/* LISTADO DE CURSOS */}
         <div>
-          <div className="row">
           <button id="btn_registrarCliente" onClick={this.SwitchToggleCurso}>Registrar curso</button>
           <button id="btn_registrarCliente" style={{marginLeft : "1%"}} onClick={this.SwitchToggleRamo}>Registrar ramo</button>
-          </div>
            <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
                     <thead className="thead-inverse">
                         <tr>

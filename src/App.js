@@ -15,6 +15,8 @@ import InscripcionCurso from "./components/TASKS/InscripcionCurso";
 import Prerequisitos from "./components/TASKS/Prerequisitos";
 import ListadoAsistencias from "./components/TASKS/ListadoAsistencias";
 import HomeColaboradores from "./components/TASKS/HomeColaboradores";
+import MisCursos from "./components/TASKS/MisCursos";
+import Automation from "./components/Tabs/Automation";
 function App() {
   
   return (
@@ -35,6 +37,10 @@ function App() {
       <Route path="/Prerequisitos" component={Prerequisitos}></Route>
       <Route path="/Asistencias" component={ListadoAsistencias}></Route>
       <Route path="/HomeColaboradores" component={HomeColaboradores}></Route>
+      <Route path="/MisCursos" component={MisCursos}></Route>
+      <Route path="/Automation" component={Automation}></Route>
+
+      
     </Router>
 
   );

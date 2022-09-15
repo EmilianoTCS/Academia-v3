@@ -1,0 +1,5 @@
+.boxTabs{
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    margin-top: 1%;
+}

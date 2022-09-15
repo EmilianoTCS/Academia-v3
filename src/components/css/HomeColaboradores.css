@@ -5,7 +5,7 @@
     align-items: center;
     display: flex;
     flex-direction: row;
-    margin-top: 5%;
+    margin-top: 2%;
 }
 #cardContainer .card-title{
     text-align: center;
@@ -32,5 +32,6 @@
 
 }
 .hexagono{
-    width: 90%;
+    width: 85%;
+    margin-left: 8%;
 }
