@@ -66,24 +66,23 @@ class DetalleColaboradores extends Component {
     }
     // Envía el número seleccionado del paginador a la sentencia SQL para poder cambiar de página
     sendData = (e) => {
-    e.preventDefault();
-    console.log("Sending data..");
-    const num_boton = e.target.value;
+    const num_boton = 1;
+    const idCursosSelected = this.state.idCursosSelected;
+    const usuarioSelected = this.state.usuarioSelected;
     this.setState({ num_boton: num_boton });
-    var sendNum = { num_boton: num_boton };
+    var NotasColaboradores = { num_boton: num_boton, idCursosSelected: idCursosSelected, usuarioSelected: usuarioSelected };
 
     fetch(
-      "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-listColaboradores.php?pagina",
+      "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/auxiliar/NotasColaboradores.php?NotasColaboradores",
       {
         method: "POST",
-        body: JSON.stringify(sendNum),
+        body: JSON.stringify(NotasColaboradores)
       }
     )
       .then((response) => response.json())
       .then((dataResponse) => {
         console.log(dataResponse);
-        console.log(this.state.num_boton);
-        this.setState({ colaboradores: dataResponse });
+        this.setState({ notas: dataResponse });
       })
       .catch(console.log());
     };
@@ -94,20 +93,14 @@ class DetalleColaboradores extends Component {
     this.loadidCursos();
     this.loadListadoUsuarios();
     };
+    // Detecta cambios de los valores ingresados en el input
     cambioValorRSelect = (e) => {
         const state = this.state
         state[e.name] = e.value;
         this.setState({state})
-        console.log(this.state.usuarioSelected)
+        this.sendData(e);
     }; 
-  // Detecta cambios de los valores ingresados en el input
-    cambioValor = (e) =>{
-    const state = this.state;
-    state[e.target.name] = e.target.value;
-    this.setState({state});
-    console.log(this.state.idCursosSelected)
 
-  }
 
 
     
@@ -115,13 +108,18 @@ class DetalleColaboradores extends Component {
 
     
   render() {
-    const { loadedData, notas, paginador, idCursos } = this.state;
+    const { loadedData, notas, paginador } = this.state;
     const styleLoading = {position: "absolute", top: "50%", left: "50%", margin: "-25px 0 0 -25px" }
     const usuario= this.state.usuario.map((label => (
         {label: label.usuario,
-         value: label.ID,
+         value: label.usuario,
          name: "usuarioSelected"
         })))
+        const idCursos= this.state.idCursos.map((label => (
+            {label: label.nombreRamo,
+             value: label.ID,  
+             name: "idCursosSelected"
+            })))
     const colorStyles = {
     control: (styles) =>({...styles,
         backgroundColor:"white",
@@ -185,23 +183,13 @@ class DetalleColaboradores extends Component {
         
       <div style={{paddingLeft: "0", paddingTop: "5px"}}className="container-fluid">
         <div className="row"> 
-              <select
-                className="form-control"
-                      name="idCursosSelected"
-                      id="CursoaConsultar"
-                      onChange={this.cambioValor}
-                      style={{width:"200px", fontSize: "13pt",fontFamily: "Roboto Slab, seriff", marginTop: "1%", marginLeft: "1%", marginRight: "1%", padding: "0"}}
-                    >
-                      <option defaultValue={"Seleccione un curso"}>Seleccione un curso</option>
-                      {idCursos.map((idCurso) => (
-                        <option
-                          key={idCurso.ID}
-                          value={idCurso.ID}
-                        >
-                          {idCurso.codigoRamo + " -- " + idCurso.nombreRamo}
-                        </option>
-                      ))}
-              </select>            
+              <Select
+              options={idCursos}
+              styles={colorStyles}
+              onChange={this.cambioValorRSelect}
+              placeholder= "Selecciona un curso"
+              />
+
               <Select
               options={usuario}
               styles={colorStyles}
@@ -251,7 +239,7 @@ class DetalleColaboradores extends Component {
             {paginador.map((pagina) => (
               <li>
                 <button
-                  onClick={this.sendNum}
+                  onClick={this.sendData}
                   name="paginas"
                   value={pagina.paginas}
                 >

@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import Header from "../templates/header";
 import { SpinnerDotted } from 'spinners-react';
-import { Link } from "react-router-dom";
-import { BsPencilSquare, BsX, BsTrash } from "react-icons/bs";
-import { BiShowAlt } from "react-icons/bi";
+// import { Link } from "react-router-dom";
+// import { BsPencilSquare, BsX, BsTrash } from "react-icons/bs";
+// import { BiShowAlt } from "react-icons/bi";
 
 class ListadoAsistencias extends Component {
     state = {
