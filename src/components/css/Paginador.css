@@ -1,11 +1,10 @@
 #paginador {
     display: flex;
     width: min-content;
-    padding: 10px 10px 10px 0;
+    padding: 0px 10px 10px 0;
     flex-direction: row;
     list-style: none;
     justify-content: flex-start;
-    position: fixed;
     margin-top: 1%;
   }
   #paginador li {

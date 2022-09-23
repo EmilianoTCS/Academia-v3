@@ -10,7 +10,8 @@ class ListadoAsistencias extends Component {
         asistencias: [],
         idCursos: [],
         loadedData: false,
-        CursoaConsultar: ""
+        CursoaConsultar: "",
+        fechasAsistencia: []
       } 
     
     // Carga las funciones de forma automática
@@ -33,27 +34,44 @@ class ListadoAsistencias extends Component {
 
 
     // Recolecta los datos del registro de asistencias dependiendo del curso seleccionado.
-    loadData = (ID) => {
-        console.log(ID);
+    loadData = (CursoaConsultar) => {
     fetch(
-    "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-listAsistencias.php?ID="+ID
+    "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/coe-listAsistencias.php?ID="+CursoaConsultar
     )
     .then((response) => response.json())
     .then((dataResponse) => {
+    console.log(dataResponse)
+
     this.setState({ loadedData: true, asistencias: dataResponse });
     })
     .catch(console.log());
+    };
+
+    // Recolecta los datos del registro de asistencias dependiendo del curso seleccionado.
+    loadDataFechas = (CursoaConsultar) => {
+      fetch(
+      "http://localhost/App_v2/AcademiaFormaci%C3%B3n_V2/TASKS/auxiliar/fechasAsistencia.php?ID="+CursoaConsultar
+      )
+      .then((response) => response.json())
+      .then((dataResponse) => {
+      console.log(dataResponse)
+
+      this.setState({fechasAsistencia: dataResponse });
+      })
+      .catch(console.log());
     };
 
     cambioValor = (e) => {
         const state = this.state;
         state[e.target.name] = e.target.value;
         this.setState({ state });
+        console.log(this.state.CursoaConsultar)
         this.loadData(this.state.CursoaConsultar)
+        this.loadDataFechas(this.state.CursoaConsultar)
       };
 
     render() { 
-        const {loadedData, idCursos, asistencias} = this.state;
+        const {loadedData, idCursos, asistencias, fechasAsistencia} = this.state;
         const styleLoading = {position: "absolute", top: "50%", left: "50%", margin: "-25px 0 0 -25px" }
 
         if (!loadedData) {
@@ -89,19 +107,26 @@ class ListadoAsistencias extends Component {
             </div>
             <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
                     <thead className="thead-inverse">
-                        {asistencias.map((asistencia) => (
-                        <tr key={asistencia.ID}>
-                            <th>{asistencia.fechas}</th>
-                      </tr>
+                    <tr >
+                        <th>Usuario</th>
+                        {fechasAsistencia.map((fechasAsistencia) => (
+                        <th key={fechasAsistencia.ID}>
+                          {fechasAsistencia.fechas}</th>
                       ))}
+                      </tr>
                         </thead>
                         <tbody>
+                          <tr>
                               {asistencias.map((asistencia) => (
                                 <tr key={asistencia.ID}>
                                   <td>{asistencia.usuario}</td>
                                   <td>{asistencia.valor}</td>
                                 </tr>
                               ))}
+                              {asistencias.map((asistencia) => (
+                                  <td>{asistencia.valor}</td>
+                              ))}
+                              </tr>
                          </tbody>
                 </table>
         </div>
