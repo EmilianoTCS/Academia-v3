@@ -40,7 +40,6 @@ class ListadoAsistencias extends Component {
     )
     .then((response) => response.json())
     .then((dataResponse) => {
-    console.log(dataResponse)
 
     this.setState({ loadedData: true, asistencias: dataResponse });
     })
@@ -54,7 +53,6 @@ class ListadoAsistencias extends Component {
       )
       .then((response) => response.json())
       .then((dataResponse) => {
-      console.log(dataResponse)
 
       this.setState({fechasAsistencia: dataResponse });
       })
@@ -65,7 +63,6 @@ class ListadoAsistencias extends Component {
         const state = this.state;
         state[e.target.name] = e.target.value;
         this.setState({ state });
-        console.log(this.state.CursoaConsultar)
         this.loadData(this.state.CursoaConsultar)
         this.loadDataFechas(this.state.CursoaConsultar)
       };
@@ -73,6 +70,9 @@ class ListadoAsistencias extends Component {
     render() { 
         const {loadedData, idCursos, asistencias, fechasAsistencia} = this.state;
         const styleLoading = {position: "absolute", top: "50%", left: "50%", margin: "-25px 0 0 -25px" }
+        const setFechas = new Set();
+        const setUsuarios = new Set();
+        const setValor = new Set();
 
         if (!loadedData) {
             return (
@@ -106,27 +106,35 @@ class ListadoAsistencias extends Component {
               </select>                  
             </div>
             <table id="tablaClientes" className="table table-striped table-inverse table-responsive">
+                      {asistencias.map((item) => {
+                        setFechas.add(item.atributo)
+                      })}
+                      {asistencias.map((item) => {
+                        setUsuarios.add(item.usuario)
+                      })}
+                      {asistencias.map((item) => {
+                        setValor.add(item.valor)
+                      })}
                     <thead className="thead-inverse">
                     <tr >
                         <th>Usuario</th>
-                        {fechasAsistencia.map((fechasAsistencia) => (
-                        <th key={fechasAsistencia.ID}>
-                          {fechasAsistencia.fechas}</th>
+                        {Array.from(setFechas).map((element) => (
+                        <th>
+                          {element}</th>
                       ))}
                       </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                              {asistencias.map((asistencia) => (
-                                <tr key={asistencia.ID}>
-                                  <td>{asistencia.usuario}</td>
-                                  <td>{asistencia.valor}</td>
-                                </tr>
-                              ))}
-                              {asistencias.map((asistencia) => (
-                                  <td>{asistencia.valor}</td>
-                              ))}
-                              </tr>
+
+                                {Array.from(setUsuarios).map((element) => (
+                                  <tr>
+                                   <td>{element}</td>
+                                      {asistencias.map((element) => (
+                                          <td>{element.valor}</td>                                  
+                                      ))}                                
+                                  </tr>
+                                ))}
+                                
                          </tbody>
                 </table>
         </div>
