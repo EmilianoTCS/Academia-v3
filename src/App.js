@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Login from "./components/login";
 import ListadoCursos from "./components/TASKS/ListadoCursos";
 import ListadoRamos from "./components/TASKS/ListadoRamos";
@@ -17,11 +17,12 @@ import ListadoAsistencias from "./components/TASKS/ListadoAsistencias";
 import HomeColaboradores from "./components/TASKS/HomeColaboradores";
 import MisCursos from "./components/TASKS/MisCursos";
 import Automation from "./components/Tabs/Automation";
+import HomePage from "./components/homePage";
+
 function App() {
-  
   return (
     <Router>
-      <Route path="/home" component={ReporteGeneral}></Route>
+      <Route path="/home" component={HomePage}></Route>
       <Route exact path="/" component={ReporteGeneral}></Route>
       <Route path={"/login"} component={Login}></Route>
       <Route path="/Cursos" component={ListadoCursos}></Route>
@@ -29,7 +30,10 @@ function App() {
       <Route path="/Relator" component={ListadoRelator}></Route>
       <Route path="/reporteGeneral" component={ReporteGeneral}></Route>
       <Route path="/Colaboradores" component={ListadoColaboradores}></Route>
-      <Route path="/InfoColaboradores/:usuario" component={InfoColaboradores}></Route>
+      <Route
+        path="/InfoColaboradores/:usuario"
+        component={InfoColaboradores}
+      ></Route>
       <Route path="/InfoCursos/:codigoCurso" component={InfoCursos}></Route>
       <Route path="/Administrador" component={Administrador}></Route>
       <Route path="/Clientes" component={ListadoClientes}></Route>
@@ -39,12 +43,8 @@ function App() {
       <Route path="/HomeColaboradores" component={HomeColaboradores}></Route>
       <Route path="/MisCursos" component={MisCursos}></Route>
       <Route path="/Automation" component={Automation}></Route>
-
-      
     </Router>
-
   );
-  
 }
 
 export default App;

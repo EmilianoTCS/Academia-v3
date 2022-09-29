@@ -1,35 +1,79 @@
-import React, {Component} from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import Header from "./templates/header";
-import './css/Modulos.css'
-class HomePage extends Component {
-    render() { 
-        return (
-        <div>
-             <Header></Header>
-            <div id="container_mods">
-                <div className="cartas">
-                    <div className="cuerpo-carta">
-                        <h4 className="titulo-carta">Navegador</h4>
-                        <p className="texto-carta"><Link style={{ textDecoration: 'none', color: 'white' }}to={"/reporteGeneral"}>Reporte General</Link></p>
-                        <p className="texto-carta"><Link style={{ textDecoration: 'none', color: 'white' }}to={"/Cursos"}>Cursos</Link></p>
-                        <p className="texto-carta"><Link style={{ textDecoration: 'none', color: 'white' }}to={"/Ramos"}>Ramos</Link></p>
-                        <p className="texto-carta"><Link style={{ textDecoration: 'none', color: 'white' }}to={"/Relator"}>Relator</Link></p>
-                    </div>
-                </div>
-                <div className="cartas">
-                    <div className="cuerpo-carta">
-                        <h4 className="titulo-carta">Temarios</h4>
-                        <p className="texto-carta"><a style={{ textDecoration: 'none', color: 'white' }}href="https://github.com/EmilianoTCS/Academia-v3/raw/master/Temarios/Temario%20Capacitaci%C3%B3n%20Jira%202.1%20(1)%20(1).pdf">JIRA</a></p>
-                        <p className="texto-carta"><a style={{ textDecoration: 'none', color: 'white' }}href="https://github.com/EmilianoTCS/Academia-v3/raw/master/Temarios/Temario%20Capacitaci%C3%B3n%20GIT.pdf">GIT</a></p>
-                    </div>
-                </div>
+import getData from "./services/getData";
+import BarChart from "./Charts/Barv2";
+import "./css/Cards.css";
+import "./css/Charts.css";
+import PieChart from "./Charts/Pie";
+export default function HomePage() {
+  const [cards, setCards] = useState([""]);
+  const url = "TASKS/Cards-General.php";
 
+  function obtenerDatos() {
+    getData(url).then((cards) => setCards(cards));
+  }
 
+  useEffect(function () {
+    obtenerDatos();
+  }, []);
+
+  return (
+    <div>
+      <Header></Header>
+      <div id="container_cards">
+        {cards.map((singleCard) => (
+          <>
+            <div id="coe_carta">
+              <div className="card-header">Cursos</div>
+              <div className="card-body">
+                <h2 className="card-title">{singleCard.totalCursos}</h2>
+                <p className="singleCard-text">Total</p>
+              </div>
             </div>
-        </div> 
-          );
-    }
+            <div id="coe_carta">
+              <div className="card-header">Colaboradores</div>
+              <div className="card-body">
+                <h2 className="card-title">{singleCard.totalColaboradores}</h2>
+                <p className="card-text">Total</p>
+              </div>
+            </div>
+            <div id="coe_carta">
+              <div className="card-header">Cursos</div>
+              <div className="card-body">
+                <h2 className="card-title">{singleCard.totalFinalizados}</h2>
+                <p className="card-text">Finalizados</p>
+              </div>
+            </div>
+            <div id="coe_carta">
+              <div className="card-header">Porcentaje</div>
+              <div className="card-body">
+                <h2 className="card-title">
+                  {singleCard.porcentajeFinalizados}
+                </h2>
+                <p className="card-text">Finalizados</p>
+              </div>
+            </div>
+            <div id="coe_carta">
+              <div className="card-header">Cursos</div>
+              <div className="card-body">
+                <h2 className="card-title">{singleCard.totalActivos}</h2>
+                <p className="card-text">Activos</p>
+              </div>
+            </div>
+            <div id="coe_carta">
+              <div className="card-header">Cursos</div>
+              <div className="card-body">
+                <h2 className="card-title">{singleCard.totalPendientes}</h2>
+                <p className="card-text">Pendientes</p>
+              </div>
+            </div>
+          </>
+        ))}
+      </div>
+      <div id="chartsContainer">
+        <BarChart />
+        <PieChart />
+      </div>
+    </div>
+  );
 }
- 
-export default HomePage;

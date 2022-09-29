@@ -2,7 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300&family=Roboto+Slab:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-
+*{
+  max-width: 1600px;
+}
 #container_cards {
     margin-left: 200px;
     width: calc(100% - 300px);
