@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.57b6955d.css",
+    "main.js": "/static/js/main.c532c81d.js",
+    "static/media/LOGO-Tsoft-Alpha-FullColor.png": "/static/media/LOGO-Tsoft-Alpha-FullColor.7b4f1e7fb8ac1fc33e7a.png",
+    "static/media/Recurso-3.png": "/static/media/Recurso-3.7bc12a764c5b8cdfb1fa.png",
+    "static/media/logo coe.png": "/static/media/logo coe.db5ec4c5dd7eea7791be.png",
+    "index.html": "/index.html",
+    "main.57b6955d.css.map": "/static/css/main.57b6955d.css.map",
+    "main.c532c81d.js.map": "/static/js/main.c532c81d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.57b6955d.css",
+    "static/js/main.c532c81d.js"
+  ]
+}
